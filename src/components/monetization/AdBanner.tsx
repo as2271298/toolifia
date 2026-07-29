@@ -10,9 +10,9 @@ interface AdBannerProps {
   format?: "auto" | "rectangle" | "horizontal" | "native";
 }
 
-// New Smartlink URL for toolifia.netlify.app
+// New Smartlink URL for toolifia.vercel.app
 export const SMARTLINK_URL =
-  "https://www.effectivecpmnetwork.com/cu972w1cj9?key=42a75d1de63698aba33a6e468e704153";
+  "https://www.effectivecpmnetwork.com/d51gzcmx?key=80aaee205e409e2d9f27954f0633be82805";
 
 export function AdBanner({ slot, className = "", format = "auto" }: AdBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,7 +31,7 @@ export function AdBanner({ slot, className = "", format = "auto" }: AdBannerProp
     script.async = true;
     script.setAttribute("data-cfasync", "false");
     script.src =
-      "https://pl30550455.effectivecpmnetwork.com/3f7e58550002f6a8e7b893eb22e6a1df/invoke.js";
+      "https://pl30549938.effectivecpmnetwork.com/00cf79882490a2b5dc99ed1e056650aa/invoke.js";
 
     if (containerRef.current) {
       containerRef.current.appendChild(script);
@@ -67,9 +67,9 @@ export function AdBanner({ slot, className = "", format = "auto" }: AdBannerProp
         </a>
       </div>
 
-      {/* New Native Banner Ad Container for toolifia.netlify.app */}
+      {/* New Native Banner Ad Container for toolifia.vercel.app */}
       <div ref={containerRef} className="w-full flex justify-center items-center min-h-[90px]">
-        <div id="container-3f7e58550002f6a8e7b893eb22e6a1df" className="w-full"></div>
+        <div id="container-00cf79882490a2b5dc99ed1e056650aa" className="w-full"></div>
       </div>
     </div>
   );

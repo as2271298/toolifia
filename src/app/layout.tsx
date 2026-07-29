@@ -52,14 +52,15 @@ export default function RootLayout({
         <Script
           src="https://quge5.com/88/tag.min.js"
           strategy="afterInteractive"
-          data-zone="264116"
+          data-zone="264982"
+          async
           data-cfasync="false"
         />
 
-        {/* Popunder script for toolifia.netlify.app */}
+        {/* Popunder script for toolifia.vercel.app */}
         <Script
-          src="https://pl30550454.effectivecpmnetwork.com/36/16/50/36165061d6f2846611502f633be82805.js"
-          strategy="beforeInteractive"
+          src="https://pl30549937.effectivecpmnetwork.com/de/c0/f0/dec0f0d1f5c6bb531bdc77c26daeb45c.js"
+          strategy="lazyOnload"
         />
       </head>
       <body className="min-h-screen flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-brand-500 selection:text-white font-sans">
@@ -67,9 +68,9 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
 
-        {/* Social Bar script for toolifia.netlify.app right before closing </body> */}
+        {/* Social Bar script for toolifia.vercel.app right before closing </body> */}
         <Script
-          src="https://pl30550456.effectivecpmnetwork.com/16/7d/ba/167dba2d2aa34a8d1319898cf8926703.js"
+          src="https://pl30549940.effectivecpmnetwork.com/c2/b9/7a/c2b97a6f7a2f3d0dfd5d888ca701bdfd.js"
           strategy="lazyOnload"
         />
       </body>
