@@ -8,7 +8,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 3600; // revalidate every hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = siteConfig.url;
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes("localhost")
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : "https://toolifia.vercel.app";
 
   // ── Static pages ──────────────────────────────────────────────────────────
   const staticRoutes: MetadataRoute.Sitemap = [
