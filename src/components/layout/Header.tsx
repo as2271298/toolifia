@@ -7,6 +7,7 @@ import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
 import { SearchBar } from "../common/SearchBar";
 import { Logo } from "../common/Logo";
+import { TrustpilotBadge } from "../trustpilot/TrustpilotBadge";
 import { Grid, Menu, ChevronDown, Lock } from "lucide-react";
 
 export function Header() {
@@ -38,6 +39,7 @@ export function Header() {
 
         {/* Right Navigation */}
         <div className="flex items-center gap-4">
+          <TrustpilotBadge variant="header" />
           <Link
             href="/blog"
             className="hidden sm:inline-flex text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"

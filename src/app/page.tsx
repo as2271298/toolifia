@@ -8,6 +8,7 @@ import { CategoryCard } from "@/components/common/CategoryCard";
 import { FAQAccordion } from "@/components/common/FAQAccordion";
 import { NewsletterForm } from "@/components/common/NewsletterForm";
 import { AdBanner } from "@/components/monetization/AdBanner";
+import { TrustpilotBadge } from "@/components/trustpilot/TrustpilotBadge";
 import {
   Sparkles,
   Flame,
@@ -82,6 +83,11 @@ export default function HomePage() {
             <div className="flex items-center gap-1.5">
               <Zap className="w-4 h-4 text-amber-500" /> Instant Browser Execution
             </div>
+          </div>
+
+          {/* Trustpilot Partner Badge */}
+          <div className="pt-2 flex justify-center">
+            <TrustpilotBadge variant="hero" />
           </div>
         </div>
       </section>

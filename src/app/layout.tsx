@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TrustpilotBadge } from "@/components/trustpilot/TrustpilotBadge";
 import { constructMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site.config";
@@ -75,6 +76,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <TrustpilotBadge variant="floating" />
 
         {/* Social Bar script for toolifia.vercel.app right before closing </body> */}
         <Script
