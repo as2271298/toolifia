@@ -57,6 +57,9 @@ export function constructMetadata({
       images: [image],
       creator: siteConfig.twitterHandle,
     },
+    verification: {
+      google: "googlece21faa3a4ad7aa8",
+    },
     robots: {
       index: !noIndex,
       follow: !noIndex,
