@@ -35,8 +35,8 @@ export const siteConfig: SiteConfig = {
   tagline: "World-Class Free AI & SEO Web Utilities",
   description:
     "Over 300+ free online tools for AI text humanization, SEO optimization, PDF converting, developer formatting, calculations, generators, and image utilities.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://toolifia.com",
-  ogImage: "https://toolifia.com/og-default.png",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://toolifia.vercel.app",
+  ogImage: "https://toolifia.vercel.app/og-default.png",
   creator: "Toolifia Inc.",
   twitterHandle: "@toolifia",
   links: {
