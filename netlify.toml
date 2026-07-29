@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+  OPENROUTER_MODEL = "openrouter/auto"
+  OPENROUTER_FALLBACK_MODEL = "mistralai/mistral-7b-instruct:free"
+  NEXT_PUBLIC_SITE_URL = "https://toolifia.netlify.app"
+  NODE_ENV = "production"
+  NEXT_TELEMETRY_DISABLED = "1"
