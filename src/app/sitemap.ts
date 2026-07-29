@@ -4,8 +4,7 @@ import { TOOLS } from "@/config/tools.registry";
 import { CATEGORIES } from "@/config/categories.registry";
 import { db } from "@/lib/db";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 3600; // revalidate every hour
+export const revalidate = 86400; // static pre-render with 24h ISR cache
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes("localhost")
