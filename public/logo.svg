@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+  <defs>
+    <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="70%" stop-color="#f1f5f9" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Logo Emblem Container -->
+  <g transform="translate(60, 50)">
+    <rect width="300" height="300" rx="80" fill="url(#logoBg)" />
+    <rect x="10" y="10" width="280" height="280" rx="70" fill="#020617" />
+    <path d="M150 60v180" stroke="#ffffff" stroke-width="30" stroke-linecap="round" />
+    <path d="M70 60h160" stroke="#ffffff" stroke-width="30" stroke-linecap="round" />
+    <polygon points="220,130 236,146 220,162 204,146" fill="#818cf8" />
+    <polygon points="80,180 92,192 80,204 68,192" fill="#a7f3d0" />
+  </g>
+
+  <!-- Brand Name Typography -->
+  <text x="400" y="240" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="140" fill="url(#textGrad)" letter-spacing="-3">Toolifia</text>
+  <text x="960" y="150" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="45" fill="#6366f1" letter-spacing="4">.AI</text>
+</svg>
