@@ -136,6 +136,27 @@ export function Footer() {
           </div>
         </div>
 
+        {/* TrustBox widget - Review Collector */}
+        <div className="my-6 flex justify-center w-full">
+          <div
+            className="trustpilot-widget"
+            data-locale="en-US"
+            data-template-id="56278e9abfbbba0bdcd568bc"
+            data-businessunit-id="6a69cf20aef288bb4acc52af"
+            data-style-height="52px"
+            data-style-width="100%"
+            data-token="06235af7-3cc5-45b1-8dd8-efbd75f2bc61"
+          >
+            <a
+              href="https://www.trustpilot.com/review/toolifia.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Trustpilot
+            </a>
+          </div>
+        </div>
+
         {/* Bottom copyright */}
         <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
