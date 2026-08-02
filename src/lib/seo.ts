@@ -8,39 +8,43 @@ export function constructMetadata({
   image = siteConfig.ogImage,
   canonicalUrl,
   noIndex = false,
+  keywords,
 }: {
   title?: string;
   description?: string;
   image?: string;
   canonicalUrl?: string;
   noIndex?: boolean;
+  keywords?: string;
 } = {}): Metadata {
+  const defaultKeywords = [
+    "free online tools",
+    "ai humanizer free",
+    "ai detector free",
+    "toolify alternative",
+    "toolify ai alternative",
+    "free ai tools no signup",
+    "seo tools free",
+    "meta tag generator",
+    "keyword density checker",
+    "json formatter",
+    "word counter free",
+    "pdf converter online",
+    "text tools online",
+    "developer tools free",
+    "free calculator online",
+    "unit converter free",
+    "ai text humanizer",
+    "bypass ai detection",
+    "free prompt generator",
+    "schema markup generator",
+    "online tools no account",
+  ];
+
   return {
     title,
     description,
-    keywords: [
-      "free online tools",
-      "ai humanizer free",
-      "ai detector free",
-      "toolify alternative",
-      "toolify ai alternative",
-      "free ai tools no signup",
-      "seo tools free",
-      "meta tag generator",
-      "keyword density checker",
-      "json formatter",
-      "word counter free",
-      "pdf converter online",
-      "text tools online",
-      "developer tools free",
-      "free calculator online",
-      "unit converter free",
-      "ai text humanizer",
-      "bypass ai detection",
-      "free prompt generator",
-      "schema markup generator",
-      "online tools no account",
-    ],
+    keywords: keywords ? keywords.split(",").map(k => k.trim()) : defaultKeywords,
     authors: [{ name: siteConfig.creator }],
     creator: siteConfig.creator,
     publisher: siteConfig.name,

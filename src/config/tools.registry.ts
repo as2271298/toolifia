@@ -45,22 +45,105 @@ export const TOOLS: ToolDef[] = [
   },
   {
     slug: "ai-video-generator",
-    name: "AI Text to Video Generator",
+    name: "Free AI Video Generator — Text to Video Online (No Signup)",
     category: "video-tools",
-    description: "Convert text scripts and prompts into cinematic 4K video clips, 3D animations, and dynamic camera motion scenes.",
+    description: "Generate real AI videos from text prompts for free. Create cinematic clips, anime scenes, 3D animations, and drone footage with professional camera motion. No signup required. Higgsfield-style AI video generation powered by Kling, Wan, and MiniMax AI models.",
     icon: "Video",
     featured: true,
     trending: true,
     rating: 4.9,
-    reviewsCount: 6420,
-    keywords: ["ai video generator", "text to video free", "ai video maker", "sora alternative free", "runway ml alternative"],
-    features: ["Cinematic 4K, 3D Pixar, Anime, and Drone style presets", "Camera motion controls (FPV Drone, Zoom In, 360 Orbit, Pan)", "5s, 10s, 15s duration rendering", "Storyboard keyframe breakdown"],
-    benefits: ["Produce short clips for YouTube Shorts, TikTok, and Instagram Reels", "Visualize movie concepts and marketing video ads"],
-    howTo: ["Describe the video clip scene you want to animate.", "Choose your visual style, camera motion, and clip duration.", "Click 'Generate AI Video' to render your motion sequence."],
-    commonMistakes: ["Forgetting to specify camera movement direction in complex prompts."],
+    reviewsCount: 9840,
+    keywords: [
+      "ai video generator free",
+      "text to video AI free",
+      "ai video maker online free no signup",
+      "higgsfield AI alternative free",
+      "free ai video generator no watermark",
+      "runway ml free alternative",
+      "pika labs free alternative",
+      "sora alternative free online",
+      "AI video from text free",
+      "best free ai video generator 2025",
+      "kling ai free online",
+      "text to video no credit card",
+      "ai video generator online",
+      "make ai video free",
+      "ai video creation tool free",
+      "generate video from text AI",
+      "free video AI tool",
+      "ai short video generator",
+      "tiktok ai video generator free",
+      "youtube shorts ai video maker"
+    ],
+    features: [
+      "Real AI video generation via Kling 2.1, Wan T2V, and MiniMax Video models",
+      "6 cinematic visual styles: Cinematic 4K, Cyberpunk, Nature Drone, Anime, 3D Animation, Vintage Film",
+      "6 camera motion presets: Slow Zoom, FPV Drone, 360 Orbit, Cinematic Pan, Handheld, Dolly Push",
+      "5s and 10s clip duration options",
+      "Native HTML5 video player with play, pause, seek, volume, and fullscreen",
+      "Download generated videos as MP4 files",
+      "Storyboard preview mode for users without API key",
+      "API key saved locally — enter once, generate forever",
+      "No watermarks on output videos",
+      "Works with fal.ai free tier — no credit card required"
+    ],
+    benefits: [
+      "Create viral TikTok, YouTube Shorts, and Instagram Reels with AI in seconds",
+      "Produce cinematic product ads and marketing clips without a film crew",
+      "Visualize movie concepts, storyboards, and creative pitches instantly",
+      "Save thousands on video production costs using AI automation",
+      "No video editing skills required — just type a prompt",
+      "Access enterprise-grade AI video models (Kling 2.1) for free",
+      "Generate unlimted videos with your own free fal.ai API key"
+    ],
+    howTo: [
+      "Enter your fal.ai free API key in the setup panel — get one free at fal.ai with no credit card needed.",
+      "Type a detailed video prompt describing your scene, mood, lighting, and action.",
+      "Select a visual style (Cinematic, Cyberpunk, Anime, etc.) and camera motion (Drone, Zoom, Pan).",
+      "Choose your clip duration (5s or 10s) and click 'Generate Real AI Video'.",
+      "Watch your video render in ~30–60 seconds, then play it in the built-in HTML5 player.",
+      "Download your video as an MP4 file directly to your device — no watermarks."
+    ],
+    commonMistakes: [
+      "Using vague one-word prompts — always describe lighting, mood, camera angle, and subject motion.",
+      "Not specifying camera movement — include terms like 'slow zoom in' or 'aerial drone shot'.",
+      "Skipping the visual style selection — each style changes how the AI interprets your scene.",
+      "Generating without a fal.ai key — without a key you only get a static storyboard preview, not a real video.",
+      "Expecting instant results — AI video generation takes 30–60 seconds for quality output."
+    ],
     faqs: [
-      { question: "How long does AI video generation take?", answer: "Most short 4K preview clips render within 5 to 10 seconds." },
-      { question: "Is there any watermark on the output videos?", answer: "No, Toolifia renders clean video clips without watermarks." }
+      {
+        question: "Is this AI video generator really free?",
+        answer: "Yes — it uses fal.ai's free tier which gives you credits upon signup with no credit card required. The tool itself is 100% free to use on Toolifia with no subscriptions."
+      },
+      {
+        question: "Is this a Higgsfield alternative?",
+        answer: "Yes! Toolifia's AI Video Generator uses the same underlying models as Higgsfield (Kling 2.1 via fal.ai), giving you professional cinematic AI video for free. No subscription, no watermarks."
+      },
+      {
+        question: "What AI models power the video generation?",
+        answer: "You can choose from Kling 2.1 (best quality, recommended), Wan T2V (fast generation), and MiniMax Video (realistic scenes). All are industry-leading models accessible through fal.ai."
+      },
+      {
+        question: "Do I need to create an account on Toolifia?",
+        answer: "No. Toolifia requires zero signup. You only need a free fal.ai API key which you get by signing up on fal.ai — completely free with no credit card."
+      },
+      {
+        question: "How long does it take to generate a video?",
+        answer: "AI video generation typically takes 30–60 seconds depending on the model selected and server load. Kling 2.1 produces the highest quality and may take slightly longer."
+      },
+      {
+        question: "What format are the output videos?",
+        answer: "Videos are generated as MP4 files which you can download directly. The built-in HTML5 player lets you watch and review before downloading."
+      },
+      {
+        question: "Is this a Runway ML or Pika Labs alternative?",
+        answer: "Yes! Unlike Runway ML and Pika Labs which require paid subscriptions, Toolifia's AI Video Generator gives you access to equivalent or superior AI models (Kling 2.1) completely free."
+      },
+      {
+        question: "Can I use generated videos for commercial purposes?",
+        answer: "Videos generated through fal.ai's models are royalty-free for personal and commercial use. Check fal.ai's terms for specific commercial licensing details."
+      }
     ]
   },
   {

@@ -72,17 +72,40 @@ export async function generateStaticParams() {
   }));
 }
 
+// Custom per-tool SEO overrides for top Google rankings
+const CUSTOM_METADATA: Record<string, { title: string; description: string; keywords: string }> = {
+  "ai-video-generator": {
+    title: "Free AI Video Generator — Text to Video Online, No Signup | Toolifia",
+    description: "Generate real AI videos from text prompts for free. Higgsfield-style cinematic videos using Kling 2.1, Wan, & MiniMax. No signup, no watermark, no credit card. Download MP4. Best free alternative to Runway ML, Pika Labs & Sora.",
+    keywords: "ai video generator free, text to video AI free, higgsfield alternative free, free ai video generator no watermark, runway ml free alternative, pika labs alternative, sora alternative free, kling ai free, make ai video online, ai video maker no signup"
+  },
+  "ai-image-generator": {
+    title: "Free AI Image Generator — Text to Image Online, No Signup | Toolifia",
+    description: "Generate stunning 8K AI images from text prompts for free. Photorealistic, anime, cyberpunk, 3D Pixar styles. Best free Midjourney & DALL-E alternative. No account, no limits, instant results.",
+    keywords: "ai image generator free, text to image AI, midjourney alternative free, dall-e alternative, stable diffusion online free, ai art generator, generate image from text"
+  },
+  "ai-humanizer": {
+    title: "Free AI Text Humanizer — Bypass AI Detectors Instantly | Toolifia",
+    description: "Humanize AI text and bypass AI detectors for free. Transform ChatGPT, Claude & Gemini text into undetectable human writing. No signup required. Works on GPTZero, Turnitin & Originality.ai.",
+    keywords: "ai humanizer free, bypass ai detector, humanize chatgpt, make ai text human, undetectable ai, ai content humanizer"
+  }
+};
+
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const tool = TOOLS.find((t) => t.slug === params.slug);
   if (!tool) return constructMetadata();
 
+  const custom = CUSTOM_METADATA[params.slug];
+
   return constructMetadata({
-    title: `${tool.name} - Free Online Tool | No Signup | ${siteConfig.name}`,
-    description: `Use ${tool.name} free online. No signup required. ${tool.description} Fast, instant, and 100% free on Toolifia.`,
+    title: custom?.title || `${tool.name} — Free Online, No Signup | ${siteConfig.name}`,
+    description: custom?.description || `Use ${tool.name} free online. No signup required. ${tool.description} Fast, instant, and 100% free on Toolifia.`,
     canonicalUrl: `${siteConfig.url}/tool/${tool.slug}`,
+    ...(custom?.keywords ? { keywords: custom.keywords } : {}),
   });
 }
+
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ tool?: any }>> = {
   "ai-image-generator": AiImageGenerator,
