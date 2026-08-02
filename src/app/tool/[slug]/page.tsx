@@ -16,6 +16,8 @@ import { CoverLetterGenerator } from "@/components/tools/ai/CoverLetterGenerator
 import { GrammarChecker } from "@/components/tools/ai/GrammarChecker";
 import { BlogIntroGenerator } from "@/components/tools/ai/BlogIntroGenerator";
 import { SocialBioWriter } from "@/components/tools/ai/SocialBioWriter";
+import { AiImageGenerator } from "@/components/tools/ai/AiImageGenerator";
+import { AiVideoGenerator } from "@/components/tools/ai/AiVideoGenerator";
 
 // SEO Suite
 import { MetaTagGenerator } from "@/components/tools/seo/MetaTagGenerator";
@@ -83,6 +85,8 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 }
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType<{ tool?: any }>> = {
+  "ai-image-generator": AiImageGenerator,
+  "ai-video-generator": AiVideoGenerator,
   "ai-humanizer": AiHumanizer,
   "ai-detector": AiDetector,
   "prompt-generator": PromptGenerator,

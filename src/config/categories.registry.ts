@@ -267,9 +267,9 @@ export const CATEGORIES: CategoryDef[] = [
   {
     slug: "video-tools",
     name: "Video Tools",
-    description: "Thumbnail downloaders, resolution estimators, and video helpers.",
+    description: "AI video generation, cinematic motion clips, thumbnail downloaders, and video script writing.",
     icon: "Video",
-    featured: false,
+    featured: true,
     color: "from-red-600 to-rose-700",
   },
   {

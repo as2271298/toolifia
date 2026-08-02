@@ -24,6 +24,46 @@ export interface ToolDef {
 export const TOOLS: ToolDef[] = [
   // ── AI TOOLS ─────────────────────────────────────────────────────────────
   {
+    slug: "ai-image-generator",
+    name: "AI Text to Image Generator",
+    category: "ai-tools",
+    description: "Generate 8K photorealistic images, 3D renders, anime artwork, and cyberpunk scenes from text prompts.",
+    icon: "Image",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 8940,
+    keywords: ["ai image generator", "free text to image", "ai picture maker", "midjourney alternative free", "stable diffusion online"],
+    features: ["6 Art styles (Photorealistic, Anime, Cyberpunk, 3D Pixar, Digital Art, Cinematic)", "Multi-aspect ratio support (1:1, 16:9, 9:16)", "HD 8K resolution export", "Unlimited free image generations"],
+    benefits: ["Create custom blog & social media visual assets", "Generate art concepts without design skills", "Download high-res artwork instantly"],
+    howTo: ["Type a descriptive prompt of the scene you want to create.", "Select your preferred art style and aspect ratio.", "Click 'Generate AI Image' to render your artwork."],
+    commonMistakes: ["Using vague single-word prompts without specifying lighting or mood."],
+    faqs: [
+      { question: "Is the AI Image Generator free to use?", answer: "Yes, Toolifia provides 100% free image generation without daily credits or account registration." },
+      { question: "Can I use generated images commercially?", answer: "Yes, AI-generated images are royalty-free for personal and commercial projects." }
+    ]
+  },
+  {
+    slug: "ai-video-generator",
+    name: "AI Text to Video Generator",
+    category: "video-tools",
+    description: "Convert text scripts and prompts into cinematic 4K video clips, 3D animations, and dynamic camera motion scenes.",
+    icon: "Video",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 6420,
+    keywords: ["ai video generator", "text to video free", "ai video maker", "sora alternative free", "runway ml alternative"],
+    features: ["Cinematic 4K, 3D Pixar, Anime, and Drone style presets", "Camera motion controls (FPV Drone, Zoom In, 360 Orbit, Pan)", "5s, 10s, 15s duration rendering", "Storyboard keyframe breakdown"],
+    benefits: ["Produce short clips for YouTube Shorts, TikTok, and Instagram Reels", "Visualize movie concepts and marketing video ads"],
+    howTo: ["Describe the video clip scene you want to animate.", "Choose your visual style, camera motion, and clip duration.", "Click 'Generate AI Video' to render your motion sequence."],
+    commonMistakes: ["Forgetting to specify camera movement direction in complex prompts."],
+    faqs: [
+      { question: "How long does AI video generation take?", answer: "Most short 4K preview clips render within 5 to 10 seconds." },
+      { question: "Is there any watermark on the output videos?", answer: "No, Toolifia renders clean video clips without watermarks." }
+    ]
+  },
+  {
     slug: "ai-humanizer",
     name: "AI Text Humanizer",
     category: "ai-tools",
