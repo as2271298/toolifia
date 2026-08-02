@@ -9,10 +9,10 @@ import { BlogSearchList, SerializedBlogPost } from "@/components/blog/BlogSearch
 export const revalidate = 60; // Revalidate blog page every 60 seconds
 
 export const metadata = constructMetadata({
-  title: `Blog & Technical SEO Knowledge Hub | ${siteConfig.name}`,
-  description:
-    "In-depth guides on technical SEO, JSON-LD structured data schemas, AI humanizer techniques, and developer tool optimization.",
+  title: "Free AI Tools Blog — Guides, Tutorials & SEO Tips | Toolifia",
+  description: "Guides on AI video generation, AI text humanization, technical SEO, JSON-LD schema, and developer tools. Learn how to use free online tools effectively — no signup needed.",
   canonicalUrl: `${siteConfig.url}/blog`,
+  keywords: "ai tools guide, free ai tools tutorial, ai video generator guide, higgsfield alternative guide, ai humanizer guide, technical seo guide, json-ld schema tutorial",
 });
 
 export default async function BlogIndexPage() {
@@ -72,10 +72,10 @@ export default async function BlogIndexPage() {
           <BookOpen className="w-4 h-4" /> Editorial & Knowledge Hub
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-          SEO & Web Development Insights
+          Free AI Tools — Guides, Reviews & Tutorials
         </h1>
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-          Expert guides on technical SEO optimization, structured data schemas, AI content humanization, and developer utilities.
+          In-depth guides on AI video generation, AI text humanization, technical SEO, and free online tools. Updated weekly by the Toolifia team.
         </p>
       </div>
 
