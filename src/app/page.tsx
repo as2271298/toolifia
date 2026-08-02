@@ -23,6 +23,11 @@ import {
   Users,
   Award,
   Video,
+  Play,
+  Wand2,
+  Lock,
+  Cpu,
+  Layers,
 } from "lucide-react";
 import { constructMetadata } from "@/lib/seo";
 
@@ -56,56 +61,65 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="space-y-16 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Hero Section */}
-      <section className="relative text-center py-16 sm:py-24 rounded-3xl bg-gradient-to-b from-brand-500/5 via-indigo-500/5 to-transparent border border-slate-200/50 dark:border-slate-800/50 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="space-y-16 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
+      {/* Background Animated Glowing Orbs */}
+      <div className="absolute top-10 left-1/4 -translate-x-1/2 w-96 h-96 bg-brand-500/15 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-40 right-1/4 translate-x-1/2 w-[30rem] h-[30rem] bg-purple-500/15 rounded-full blur-[140px] pointer-events-none animate-float-delayed" />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 dark:bg-brand-400/10 text-brand-600 dark:text-brand-400 text-xs font-extrabold uppercase tracking-wider border border-brand-500/20">
-            <Sparkles className="w-4 h-4" /> 🔥 10M+ Monthly Runs · Best Toolify Alternative 2025
+      {/* Hero Section */}
+      <section className="relative text-center py-16 sm:py-24 rounded-3xl bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-950/80 border border-slate-800/80 shadow-2xl backdrop-blur-xl overflow-hidden">
+        {/* Decorative Grid overlay */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
+        
+        {/* Glow accent top bar */}
+        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-7">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-500/20 via-purple-500/20 to-pink-500/20 text-brand-400 text-xs font-extrabold uppercase tracking-wider border border-brand-500/30 shadow-lg">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
+            <Sparkles className="w-4 h-4 text-brand-400" /> 10M+ Monthly Runs · #1 Toolify Alternative 2025
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
             300+ Free AI Tools —
             <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
               Actually Working In Your Browser
             </span>
           </h1>
 
-          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            AI Video Generator, AI Humanizer, AI Detector, SEO tools, calculators, converters — all 100% free, no account needed. The best <strong>Toolify alternative</strong> with tools that actually run on-site.
+          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            AI Video Generator, AI Humanizer, AI Detector, SEO tools, calculators, converters — all 100% free, no account needed. The best <strong className="text-brand-400">Toolify alternative</strong> with tools that actually run on-site.
           </p>
 
-          <div className="flex justify-center pt-2">
+          <div className="flex justify-center pt-2 max-w-2xl mx-auto">
             <SearchBar placeholder="Search 300+ free tools (e.g. AI Humanizer, Meta Tag Generator)..." />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
+          <div className="flex flex-wrap justify-center gap-4 pt-3">
             <Link
               href="/tool/ai-video-generator"
-              className="px-6 py-3 rounded-2xl bg-gradient-to-r from-rose-600 to-purple-600 text-white font-bold text-sm shadow-lg flex items-center gap-2 hover:opacity-90 transition-all"
+              className="px-7 py-4 rounded-2xl bg-gradient-to-r from-rose-600 via-purple-600 to-indigo-600 text-white font-extrabold text-sm shadow-xl shadow-rose-500/20 flex items-center gap-2.5 hover:opacity-95 hover:scale-105 transition-all duration-300 border border-rose-500/30"
             >
               <Video className="w-4 h-4" /> Try AI Video Generator Free
             </Link>
             <Link
               href="/tools"
-              className="px-6 py-3 rounded-2xl bg-slate-900 dark:bg-slate-800 border border-slate-700 text-white font-bold text-sm flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-slate-700 transition-all"
+              className="px-7 py-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-white font-extrabold text-sm flex items-center gap-2.5 hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Browse All 300+ Tools →
             </Link>
           </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-semibold text-slate-500 pt-4">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" /> 100% Free & Unlimited
+          <div className="flex flex-wrap justify-center items-center gap-6 text-xs font-bold text-slate-400 pt-4">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 100% Free & Unlimited
             </div>
-            <div className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-brand-500" /> No Account Required
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-brand-400" /> No Account Required
             </div>
-            <div className="flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-amber-500" /> Instant Browser Execution
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-amber-400" /> Instant Browser Execution
             </div>
           </div>
 
@@ -119,28 +133,29 @@ export default function HomePage() {
       <AdBanner slot="headerBanner" />
 
       {/* New AI Generators Showcase Banner */}
-      <section className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-purple-900/60 via-indigo-900/60 to-slate-900 border border-purple-500/30 text-white space-y-6 shadow-xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <section className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-purple-950/80 via-indigo-950/80 to-slate-950 border border-purple-500/30 text-white space-y-6 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-purple-400">
-              <Sparkles className="w-4 h-4 text-purple-400" /> New Interactive Generators
+            <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">
+              <Sparkles className="w-4 h-4 text-purple-400" /> New Interactive AI Generators
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
               Create AI Images & Videos Free
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
               Generate 8K photorealistic artwork, 3D renders, and cinematic 4K video motion clips directly in your browser.
             </p>
           </div>
           <Link
             href="/tools"
-            className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-md transition-all shrink-0"
+            className="px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs shadow-lg transition-all shrink-0 hover:scale-105"
           >
             View All 133+ Tools &rarr;
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
           {TOOLS.filter((t) =>
             ["ai-image-generator", "ai-video-generator", "ai-humanizer", "ai-detector"].includes(t.slug)
           ).map((tool) => (
@@ -153,10 +168,10 @@ export default function HomePage() {
       <section className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-2 text-amber-500 text-xs font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-amber-500 text-xs font-extrabold uppercase tracking-wider">
               <Flame className="w-4 h-4 fill-amber-500" /> High Usage Tools
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-1">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
               Trending Online Utilities
             </h2>
           </div>
@@ -210,7 +225,7 @@ export default function HomePage() {
               <span className="text-emerald-400 font-bold">98% Human Score</span>
             </div>
             <p className="leading-relaxed text-slate-200">
-              "We engineered our platform around modularity and speed. By structuring content cleanly, your readers stay engaged while your search engine rankings improve organically."
+              &quot;We engineered our platform around modularity and speed. By structuring content cleanly, your readers stay engaged while your search engine rankings improve organically.&quot;
             </p>
           </div>
         </div>
@@ -236,19 +251,19 @@ export default function HomePage() {
 
       {/* Platform Statistics Counter */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+        <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center shadow-lg hover:scale-105 transition-transform duration-300">
           <div className="text-3xl sm:text-4xl font-black text-brand-600 dark:text-brand-400">300+</div>
           <div className="text-xs font-bold uppercase text-slate-400 mt-1">Working Tools</div>
         </div>
-        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+        <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center shadow-lg hover:scale-105 transition-transform duration-300">
           <div className="text-3xl sm:text-4xl font-black text-slate-800 dark:text-slate-200">10M+</div>
           <div className="text-xs font-bold uppercase text-slate-400 mt-1">Monthly Runs</div>
         </div>
-        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+        <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center shadow-lg hover:scale-105 transition-transform duration-300">
           <div className="text-3xl sm:text-4xl font-black text-emerald-500">100%</div>
           <div className="text-xs font-bold uppercase text-slate-400 mt-1">Free Forever</div>
         </div>
-        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+        <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center shadow-lg hover:scale-105 transition-transform duration-300">
           <div className="text-3xl sm:text-4xl font-black text-amber-500">4.9/5</div>
           <div className="text-xs font-bold uppercase text-slate-400 mt-1">User Rating</div>
         </div>
@@ -260,7 +275,7 @@ export default function HomePage() {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
             <CheckCircle2 className="w-4 h-4" /> Why Toolifia Beats the Competition
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             The Only AI Tools Platform Where Tools <em>Actually Work</em>
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
@@ -268,17 +283,17 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg">
+        <div className="overflow-x-auto rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl bg-slate-900/50 backdrop-blur-md">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-                <th className="text-left p-4 font-bold text-slate-700 dark:text-slate-300">Feature</th>
-                <th className="text-center p-4 font-bold text-brand-600 dark:text-brand-400">Toolifia ✅</th>
-                <th className="text-center p-4 font-bold text-slate-400">Toolify ❌</th>
-                <th className="text-center p-4 font-bold text-slate-400">Futurepedia ❌</th>
+              <tr className="bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                <th className="text-left p-4 font-extrabold text-slate-700 dark:text-slate-300">Feature</th>
+                <th className="text-center p-4 font-black text-brand-600 dark:text-brand-400 bg-brand-500/10 border-x border-brand-500/20">Toolifia ✅</th>
+                <th className="text-center p-4 font-extrabold text-slate-400">Toolify ❌</th>
+                <th className="text-center p-4 font-extrabold text-slate-400">Futurepedia ❌</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
               {[
                 ["Tools run on-site", "✅ Always", "❌ Redirects only", "❌ Redirects only"],
                 ["No account required", "✅ Zero signup", "⚠️ Varies", "⚠️ Varies"],
@@ -289,9 +304,9 @@ export default function HomePage() {
                 ["Dark mode", "✅ Full support", "❌ Partial", "✅ Yes"],
                 ["REST API access", "✅ Every tool", "❌ None", "❌ None"],
               ].map(([feature, us, toolify, futurepedia], i) => (
-                <tr key={i} className="bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
-                  <td className="p-4 font-medium text-slate-700 dark:text-slate-300">{feature}</td>
-                  <td className="p-4 text-center font-semibold text-emerald-600 dark:text-emerald-400">{us}</td>
+                <tr key={i} className="hover:bg-slate-800/50 transition-colors">
+                  <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{feature}</td>
+                  <td className="p-4 text-center font-black text-emerald-600 dark:text-emerald-400 bg-brand-500/5 border-x border-brand-500/20">{us}</td>
                   <td className="p-4 text-center text-slate-500">{toolify}</td>
                   <td className="p-4 text-center text-slate-500">{futurepedia}</td>
                 </tr>
@@ -306,9 +321,9 @@ export default function HomePage() {
             { icon: "🔑", title: "Zero Signup", desc: "Use all 300+ tools with no account, no email, no credit card — ever." },
             { icon: "🎬", title: "Real AI Videos", desc: "Generate actual MP4 videos with Kling 2.1 — the same model as Higgsfield and Runway." },
           ].map((item, i) => (
-            <div key={i} className="p-6 rounded-2xl bg-gradient-to-br from-brand-500/5 to-indigo-500/5 border border-brand-500/20 space-y-3">
+            <div key={i} className="p-6 rounded-3xl bg-gradient-to-br from-brand-500/10 via-purple-500/5 to-indigo-500/10 border border-brand-500/20 space-y-3 shadow-md hover:scale-105 transition-transform duration-300">
               <div className="text-3xl">{item.icon}</div>
-              <h3 className="font-bold text-slate-900 dark:text-white">{item.title}</h3>
+              <h3 className="font-extrabold text-slate-900 dark:text-white">{item.title}</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400">{item.desc}</p>
             </div>
           ))}
