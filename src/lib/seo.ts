@@ -39,6 +39,16 @@ export function constructMetadata({
     "free prompt generator",
     "schema markup generator",
     "online tools no account",
+    "ai tools directory",
+    "best ai tools 2025",
+    "free ai tools no account",
+    "text to video ai free",
+    "ai video generator free",
+    "higgsfield alternative",
+    "kling ai free",
+    "toolify alternative free",
+    "futurepedia alternative",
+    "there's an ai for that alternative",
   ];
 
   return {

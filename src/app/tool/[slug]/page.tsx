@@ -88,6 +88,46 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     title: "Free AI Text Humanizer — Bypass AI Detectors Instantly | Toolifia",
     description: "Humanize AI text and bypass AI detectors for free. Transform ChatGPT, Claude & Gemini text into undetectable human writing. No signup required. Works on GPTZero, Turnitin & Originality.ai.",
     keywords: "ai humanizer free, bypass ai detector, humanize chatgpt, make ai text human, undetectable ai, ai content humanizer"
+  },
+  "ai-detector": {
+    title: "Free AI Content Detector — Detect ChatGPT & AI Writing Instantly | Toolifia",
+    description: "Detect AI-generated content for free. Check if text was written by ChatGPT, Claude, or Gemini. Works with GPTZero, Turnitin & Originality.ai detection methods. No signup required.",
+    keywords: "ai content detector free, detect chatgpt writing, ai detector no signup, chatgpt detector, ai writing detector, gptzero alternative free"
+  },
+  "json-formatter": {
+    title: "Free JSON Formatter & Validator Online — Pretty Print JSON | Toolifia",
+    description: "Format, validate, and pretty-print JSON online for free. Instant JSON formatter with syntax highlighting, error detection, and minification. No account required.",
+    keywords: "json formatter online free, json validator, pretty print json, json beautifier, format json online, json minifier"
+  },
+  "meta-tag-generator": {
+    title: "Free Meta Tag Generator — SEO Title & Description Builder | Toolifia",
+    description: "Generate perfect HTML meta tags for SEO instantly. Preview how your page looks in Google SERP. Build title tags, meta descriptions, Open Graph & Twitter Cards free.",
+    keywords: "meta tag generator free, seo meta tags, title tag generator, meta description generator, open graph generator, twitter card generator"
+  },
+  "password-generator": {
+    title: "Free Random Password Generator — Strong & Secure Passwords | Toolifia",
+    description: "Generate strong, secure random passwords instantly. Customize length, include symbols, numbers, uppercase. 100% free, generated locally in your browser — never stored.",
+    keywords: "password generator free, random password generator, strong password generator, secure password maker, online password generator"
+  },
+  "bmi-calculator": {
+    title: "Free BMI Calculator Online — Body Mass Index Calculator | Toolifia",
+    description: "Calculate your BMI (Body Mass Index) instantly for free. Supports metric (kg/cm) and imperial (lb/in) units. Instant results with weight category classification.",
+    keywords: "bmi calculator free, body mass index calculator, bmi calculator online, calculate bmi, bmi checker"
+  },
+  "word-counter": {
+    title: "Free Word Counter Online — Character, Sentence & Reading Time Counter | Toolifia",
+    description: "Count words, characters, sentences, paragraphs, and estimated reading time instantly for free. No account required. Works offline in your browser.",
+    keywords: "word counter online free, character counter, word count tool, sentence counter, reading time calculator"
+  },
+  "qr-generator": {
+    title: "Free QR Code Generator Online — Download PNG & SVG | Toolifia",
+    description: "Generate QR codes for URLs, text, email, and phone numbers instantly for free. Download as PNG or SVG. No account or signup required.",
+    keywords: "qr code generator free, qr code maker online, free qr code, generate qr code, qr code creator"
+  },
+  "uuid-generator": {
+    title: "Free UUID / GUID Generator Online — v4 UUID Bulk Generator | Toolifia",
+    description: "Generate UUID v4 identifiers instantly for free. Bulk generate multiple UUIDs, copy to clipboard. No account required. Used by developers for database IDs.",
+    keywords: "uuid generator free, guid generator online, uuid v4 generator, random uuid, bulk uuid generator"
   }
 };
 
