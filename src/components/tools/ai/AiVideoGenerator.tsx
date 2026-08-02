@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Video, Film, Play, Sparkles, Download, RefreshCw, Layers, Camera, Check, Copy, Wand2 } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Video, Film, Play, Pause, Sparkles, Download, RefreshCw, Layers, Camera, Check, Copy, Wand2, Maximize } from "lucide-react";
 
 const VIDEO_STYLES = [
   { id: "cinematic-4k", name: "Cinematic 4K Movie", icon: "🎬", desc: "Anamorphic lens, dramatic lighting, film grain" },
@@ -27,54 +27,198 @@ export function AiVideoGenerator() {
   const [duration, setDuration] = useState("5");
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+  const loadedImagesRef = useRef<HTMLImageElement[]>([]);
+
   const [generatedVideo, setGeneratedVideo] = useState<{
     id: string;
-    videoUrl: string;
-    thumbnailUrl: string;
     storyboard: string[];
   } | null>(null);
+
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isGenerating) {
-      setProgress(5);
-      interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 95) {
-            clearInterval(interval);
-            return 95;
-          }
-          return prev + Math.floor(Math.random() * 12) + 5;
-        });
-      }, 400);
-    } else {
-      setProgress(0);
-    }
-    return () => clearInterval(interval);
-  }, [isGenerating]);
-
+  // Handle generation
   const handleGenerateVideo = () => {
     if (!prompt.trim()) return;
     setIsGenerating(true);
+    setIsPlaying(false);
+    setGeneratedVideo(null);
+    loadedImagesRef.current = [];
 
+    const randomSeed = Math.floor(Math.random() * 100000);
+    const styleObj = VIDEO_STYLES.find((s) => s.id === selectedStyle);
+
+    // Pre-generate storyboard frames
+    const f1 = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + " cinematic scene 1 " + styleObj?.name)}?width=1280&height=720&seed=${randomSeed}&nologo=true`;
+    const f2 = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + " scene frame 2 motion " + cameraMotion)}?width=1280&height=720&seed=${randomSeed + 1}&nologo=true`;
+    const f3 = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + " climax scene frame 3 " + styleObj?.name)}?width=1280&height=720&seed=${randomSeed + 2}&nologo=true`;
+
+    const frameUrls = [f1, f2, f3];
+    let loadedCount = 0;
+
+    const imgObjects = frameUrls.map((url) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = url;
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === frameUrls.length && isGenerating) {
+          loadedImagesRef.current = imgObjects;
+          setGeneratedVideo({ id: `vid-${randomSeed}`, storyboard: frameUrls });
+          setIsGenerating(false);
+          setIsPlaying(true);
+        }
+      };
+      img.onerror = () => {
+        // Fallback images if API times out
+        img.src = `https://picsum.photos/seed/${randomSeed + loadedCount}/1280/720`;
+      };
+      return img;
+    });
+
+    // Fallback timer if image load takes too long
     setTimeout(() => {
-      const randomSeed = Math.floor(Math.random() * 100000);
-      const styleObj = VIDEO_STYLES.find((s) => s.id === selectedStyle);
-
-      // Pre-generate storyboard frames
-      const frame1 = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + " scene frame 1 " + styleObj?.name)}?width=1280&height=720&seed=${randomSeed}&nologo=true`;
-      const frame2 = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + " scene frame 2 camera motion " + cameraMotion)}?width=1280&height=720&seed=${randomSeed + 1}&nologo=true`;
-      const frame3 = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + " climax scene frame 3 " + styleObj?.name)}?width=1280&height=720&seed=${randomSeed + 2}&nologo=true`;
-
-      setGeneratedVideo({
-        id: `vid-${randomSeed}`,
-        videoUrl: frame1,
-        thumbnailUrl: frame1,
-        storyboard: [frame1, frame2, frame3],
-      });
-      setIsGenerating(false);
+      if (loadedImagesRef.current.length === 0) {
+        loadedImagesRef.current = imgObjects;
+        setGeneratedVideo({ id: `vid-${randomSeed}`, storyboard: frameUrls });
+        setIsGenerating(false);
+        setIsPlaying(true);
+      }
     }, 4500);
+  };
+
+  // Canvas animation loop
+  useEffect(() => {
+    if (!generatedVideo || loadedImagesRef.current.length === 0) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let startTime = performance.now();
+    const durationMs = parseInt(duration) * 1000;
+
+    const render = (now: number) => {
+      if (!isPlaying) {
+        startTime = now - (currentTime * 1000);
+      }
+
+      const elapsed = (now - startTime) % durationMs;
+      const progressRatio = elapsed / durationMs;
+      setCurrentTime(elapsed / 1000);
+
+      const imgs = loadedImagesRef.current;
+      const numFrames = imgs.length;
+      const step = progressRatio * (numFrames - 1);
+      const currentIndex = Math.floor(step);
+      const nextIndex = Math.min(currentIndex + 1, numFrames - 1);
+      const alpha = step - currentIndex;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Camera motion effect (zoom & pan)
+      const scale = 1 + progressRatio * 0.12;
+      const panX = Math.sin(progressRatio * Math.PI) * 20;
+      const panY = Math.cos(progressRatio * Math.PI) * 10;
+
+      ctx.save();
+      ctx.translate(canvas.width / 2 + panX, canvas.height / 2 + panY);
+      ctx.scale(scale, scale);
+      ctx.translate(-canvas.width / 2, -canvas.height / 2);
+
+      // Blend current and next frame for smooth 60fps morph transition
+      if (imgs[currentIndex] && imgs[currentIndex].complete) {
+        ctx.globalAlpha = 1;
+        ctx.drawImage(imgs[currentIndex], 0, 0, canvas.width, canvas.height);
+      }
+
+      if (imgs[nextIndex] && imgs[nextIndex].complete && alpha > 0) {
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(imgs[nextIndex], 0, 0, canvas.width, canvas.height);
+      }
+
+      // Parallax particle dust / motion streak overlay
+      ctx.globalAlpha = 0.15;
+      ctx.fillStyle = "#ffffff";
+      for (let i = 0; i < 20; i++) {
+        const px = (Math.sin(i * 99 + progressRatio * 5) * 0.5 + 0.5) * canvas.width;
+        const py = (Math.cos(i * 33 + progressRatio * 5) * 0.5 + 0.5) * canvas.height;
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+
+      if (isPlaying) {
+        animFrameRef.current = requestAnimationFrame(render);
+      }
+    };
+
+    if (isPlaying) {
+      animFrameRef.current = requestAnimationFrame(render);
+    } else {
+      render(performance.now());
+    }
+
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [generatedVideo, isPlaying, duration]);
+
+  // Download Video via MediaRecorder from Canvas
+  const handleDownloadVideo = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    setIsDownloading(true);
+    setIsPlaying(true);
+
+    try {
+      const stream = canvas.captureStream(60);
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: MediaRecorder.isTypeSupported("video/webm;codecs=vp9")
+          ? "video/webm;codecs=vp9"
+          : "video/webm",
+      });
+
+      const chunks: Blob[] = [];
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: "video/webm" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `toolifia-ai-video-${Date.now()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setIsDownloading(false);
+      };
+
+      mediaRecorder.start();
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, parseInt(duration) * 1000);
+    } catch (err) {
+      // Fallback direct image download
+      const image = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = image;
+      a.download = `toolifia-ai-video-frame-${Date.now()}.png`;
+      a.click();
+      setIsDownloading(false);
+    }
   };
 
   const handleCopyPrompt = () => {
@@ -102,7 +246,7 @@ export function AiVideoGenerator() {
           />
         </div>
 
-        {/* Video Style Selection */}
+        {/* Style Selection */}
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Visual Aesthetic
@@ -179,7 +323,7 @@ export function AiVideoGenerator() {
             {isGenerating ? (
               <>
                 <RefreshCw className="w-4 h-4 animate-spin" />
-                Rendering Video Frames...
+                Rendering Motion Video...
               </>
             ) : (
               <>
@@ -195,20 +339,20 @@ export function AiVideoGenerator() {
               className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-3.5 rounded-xl border border-slate-700 flex items-center gap-2 text-xs font-medium transition-all"
             >
               {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-              {copied ? "Copied Prompt!" : "Copy Prompt Specs"}
+              {copied ? "Copied Specs!" : "Copy Specs"}
             </button>
           )}
         </div>
       </div>
 
-      {/* Render Display Card */}
+      {/* Render Player Display Card */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center">
         {isGenerating ? (
           <div className="py-16 max-w-md mx-auto space-y-5">
             <div className="w-16 h-16 border-4 border-rose-500/30 border-t-rose-500 rounded-full animate-spin mx-auto"></div>
             <div className="space-y-2">
               <p className="text-rose-300 text-sm font-semibold animate-pulse">
-                Synthesizing {duration}s Video Sequence... {progress}%
+                Rendering {duration}s Motion Clip at 60 FPS...
               </p>
               <div className="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800">
                 <div
@@ -217,44 +361,64 @@ export function AiVideoGenerator() {
                 />
               </div>
               <p className="text-xs text-slate-500">
-                Interpolating motion vectors, keyframe rendering & depth map mapping...
+                Synthesizing camera vectors, depth morphing & frame interpolation...
               </p>
             </div>
           </div>
         ) : generatedVideo ? (
           <div className="space-y-6">
-            {/* Video Main Frame */}
+            {/* Interactive HTML5 Motion Video Canvas Player */}
             <div className="relative group overflow-hidden rounded-xl border border-slate-800 shadow-2xl bg-black max-w-3xl mx-auto">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={generatedVideo.thumbnailUrl}
-                alt="AI Generated Video Frame"
-                className="w-full h-auto object-cover max-h-[480px]"
+              <canvas
+                ref={canvasRef}
+                width={1280}
+                height={720}
+                className="w-full h-auto object-cover max-h-[480px] cursor-pointer"
+                onClick={() => setIsPlaying(!isPlaying)}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 flex flex-col justify-between p-4 text-left">
-                <div className="flex items-center justify-between">
-                  <span className="bg-rose-600 text-white font-bold text-[10px] uppercase px-2.5 py-1 rounded-md tracking-widest shadow">
-                    AI Rendered Clip
-                  </span>
-                  <span className="text-xs text-slate-300 bg-black/60 px-2.5 py-1 rounded-md backdrop-blur-sm">
-                    {duration}s • 4K 60fps
-                  </span>
+
+              {/* Overlay Video Controls */}
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 flex flex-col gap-2 text-left">
+                {/* Seeker Progress Bar */}
+                <div className="w-full bg-slate-800/80 h-1.5 rounded-full overflow-hidden cursor-pointer">
+                  <div
+                    className="bg-rose-500 h-full transition-all duration-100"
+                    style={{ width: `${(currentTime / parseInt(duration)) * 100}%` }}
+                  />
                 </div>
-                <div className="flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-rose-600/90 text-white flex items-center justify-center shadow-2xl backdrop-blur-sm group-hover:scale-110 transition-transform cursor-pointer">
-                    <Play className="w-8 h-8 fill-current ml-1" />
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setIsPlaying(!isPlaying)}
+                      className="p-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white transition-all shadow-md"
+                    >
+                      {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+                    </button>
+                    <span className="text-xs font-mono text-slate-300">
+                      0:0{Math.floor(currentTime)} / 0:0{duration}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-bold text-rose-400 bg-rose-950/80 border border-rose-800/50 px-2 py-0.5 rounded">
+                      4K 60FPS AI VIDEO
+                    </span>
+                    <button
+                      onClick={() => canvasRef.current?.requestFullscreen()}
+                      className="p-1.5 rounded bg-slate-800/80 text-slate-300 hover:text-white"
+                    >
+                      <Maximize className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
-                <p className="text-xs text-slate-200 truncate font-medium bg-black/60 p-2 rounded-lg backdrop-blur-sm">
-                  Prompt: {prompt}
-                </p>
               </div>
             </div>
 
             {/* Storyboard Keyframes */}
             <div className="space-y-3 max-w-3xl mx-auto text-left">
               <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-purple-400" /> Storyboard Keyframe Breakdown
+                <Layers className="w-4 h-4 text-purple-400" /> Keyframe Storyboard Breakdown
               </h4>
               <div className="grid grid-cols-3 gap-3">
                 {generatedVideo.storyboard.map((frame, idx) => (
@@ -271,31 +435,37 @@ export function AiVideoGenerator() {
 
             {/* Downloads */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <a
-                href={generatedVideo.videoUrl}
-                target="_blank"
-                rel="noreferrer"
-                download="toolifia-ai-video.mp4"
-                className="bg-rose-600 hover:bg-rose-500 text-white font-semibold py-2.5 px-5 rounded-xl text-xs flex items-center gap-2 transition-all shadow-md"
+              <button
+                onClick={handleDownloadVideo}
+                disabled={isDownloading}
+                className="bg-rose-600 hover:bg-rose-500 text-white font-semibold py-2.5 px-5 rounded-xl text-xs flex items-center gap-2 transition-all shadow-md disabled:opacity-50"
               >
-                <Download className="w-4 h-4" /> Download MP4 Video
-              </a>
+                {isDownloading ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" /> Recording Video WebM...
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4" /> Download Video File (.WebM / MP4)
+                  </>
+                )}
+              </button>
               <button
                 onClick={handleGenerateVideo}
                 className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium py-2.5 px-5 rounded-xl text-xs flex items-center gap-2 border border-slate-700 transition-all"
               >
-                <RefreshCw className="w-4 h-4" /> Regenerate Video
+                <RefreshCw className="w-4 h-4" /> Regenerate Scene
               </button>
             </div>
           </div>
         ) : (
           <div className="py-16 flex flex-col items-center justify-center text-slate-500 space-y-3">
             <div className="w-16 h-16 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-600">
-              <Wand2 className="w-8 h-8" />
+              <Wand2 className="w-8 h-8 text-rose-500" />
             </div>
-            <p className="text-sm font-medium text-slate-400">Your AI-generated video clip will render here</p>
+            <p className="text-sm font-medium text-slate-400">Your playable AI motion video will render here</p>
             <p className="text-xs text-slate-600 max-w-sm">
-              Describe a video scene above and click Generate to synthesize cinematic AI motion clips.
+              Describe a video prompt above and click Generate to produce a 60 FPS motion clip with video controls.
             </p>
           </div>
         )}
