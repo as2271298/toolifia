@@ -100,6 +100,37 @@ export default function HomePage() {
 
       <AdBanner slot="headerBanner" />
 
+      {/* New AI Generators Showcase Banner */}
+      <section className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-purple-900/60 via-indigo-900/60 to-slate-900 border border-purple-500/30 text-white space-y-6 shadow-xl">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-purple-400">
+              <Sparkles className="w-4 h-4 text-purple-400" /> New Interactive Generators
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Create AI Images & Videos Free
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300">
+              Generate 8K photorealistic artwork, 3D renders, and cinematic 4K video motion clips directly in your browser.
+            </p>
+          </div>
+          <Link
+            href="/tools"
+            className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-md transition-all shrink-0"
+          >
+            View All 133+ Tools &rarr;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {TOOLS.filter((t) =>
+            ["ai-image-generator", "ai-video-generator", "ai-humanizer", "ai-detector"].includes(t.slug)
+          ).map((tool) => (
+            <ToolCard key={tool.slug} tool={tool} />
+          ))}
+        </div>
+      </section>
+
       {/* Trending Tools Grid */}
       <section className="space-y-6">
         <div className="flex items-center justify-between">

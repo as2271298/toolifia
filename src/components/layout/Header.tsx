@@ -31,6 +31,13 @@ export function Header() {
             <span>Categories</span>
             <ChevronDown className={`w-3.5 h-3.5 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
           </button>
+
+          <Link
+            href="/tools"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-brand-600 dark:text-brand-400 bg-brand-500/10 dark:bg-brand-400/10 hover:bg-brand-500/20 transition-colors"
+          >
+            <span>All Tools (133+)</span>
+          </Link>
         </div>
 
         {/* Quick Search */}
