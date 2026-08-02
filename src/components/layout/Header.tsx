@@ -8,6 +8,7 @@ import { MobileMenu } from "./MobileMenu";
 import { SearchBar } from "../common/SearchBar";
 import { Logo } from "../common/Logo";
 import { TrustpilotBadge } from "../trustpilot/TrustpilotBadge";
+import { ProductHuntBadge } from "../producthunt/ProductHuntBadge";
 import { Grid, Menu, ChevronDown, Lock } from "lucide-react";
 
 export function Header() {
@@ -38,7 +39,8 @@ export function Header() {
         </div>
 
         {/* Right Navigation */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <ProductHuntBadge variant="header" />
           <TrustpilotBadge variant="header" />
           <Link
             href="/blog"

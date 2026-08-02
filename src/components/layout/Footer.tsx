@@ -3,6 +3,7 @@ import { siteConfig } from "@/config/site.config";
 import { CATEGORIES } from "@/config/categories.registry";
 import { Logo } from "../common/Logo";
 import { TrustpilotBadge } from "../trustpilot/TrustpilotBadge";
+import { ProductHuntBadge } from "../producthunt/ProductHuntBadge";
 import { Github, Twitter, Linkedin, Heart, ShieldCheck } from "lucide-react";
 
 export function Footer() {
@@ -137,8 +138,11 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Trustpilot Partner Banner */}
-        <TrustpilotBadge variant="footer" />
+        {/* Trust & Review Banners */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+          <ProductHuntBadge variant="footer" className="my-0" />
+          <TrustpilotBadge variant="footer" className="my-0" />
+        </div>
 
         {/* TrustBox widget - Review Collector */}
         <div className="my-4 flex justify-center w-full">
