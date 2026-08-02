@@ -22,12 +22,14 @@ import {
   Star,
   Users,
   Award,
+  Video,
 } from "lucide-react";
 import { constructMetadata } from "@/lib/seo";
 
 export const metadata = constructMetadata({
-  title: "Toolifia - 300+ Free Online AI Tools & SEO Utilities (No Signup)",
-  description: "The #1 Toolify alternative. Access 300+ free online AI tools, AI text humanizer, AI content detector, SEO utilities, calculators, and converters that work 100% on-site without registration.",
+  title: "Free Online AI Tools — AI Humanizer, Video Generator, SEO Tools | Toolifia",
+  description: "300+ free AI tools that run directly in your browser. AI text humanizer, text-to-video generator (Kling 2.1), SEO utilities, calculators & converters. No account needed. The best free alternative to Toolify, Futurepedia & TAAFT.",
+  keywords: "free online tools no signup, best free ai tools 2025, toolify alternative, free ai tools directory, ai humanizer free, ai video generator free, free seo tools, text to video ai free, ai tools no account, futurepedia alternative",
 });
 
 export default function HomePage() {
@@ -61,22 +63,38 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 dark:bg-brand-400/10 text-brand-600 dark:text-brand-400 text-xs font-extrabold uppercase tracking-wider border border-brand-500/20">
-            <Sparkles className="w-4 h-4" /> Next-Generation AI & SEO Platform
+            <Sparkles className="w-4 h-4" /> 🔥 10M+ Monthly Runs · Best Toolify Alternative 2025
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
-            World-Class Free Online Tools & <br className="hidden sm:inline" />
+            300+ Free AI Tools —
+            <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              AI Utilities
+              Actually Working In Your Browser
             </span>
           </h1>
 
           <p className="text-base sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Over 300+ free online tools for AI text humanization, technical SEO, PDF conversion, developer formatters, calculators, and generators.
+            AI Video Generator, AI Humanizer, AI Detector, SEO tools, calculators, converters — all 100% free, no account needed. The best <strong>Toolify alternative</strong> with tools that actually run on-site.
           </p>
 
           <div className="flex justify-center pt-2">
             <SearchBar placeholder="Search 300+ free tools (e.g. AI Humanizer, Meta Tag Generator)..." />
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
+            <Link
+              href="/tool/ai-video-generator"
+              className="px-6 py-3 rounded-2xl bg-gradient-to-r from-rose-600 to-purple-600 text-white font-bold text-sm shadow-lg flex items-center gap-2 hover:opacity-90 transition-all"
+            >
+              <Video className="w-4 h-4" /> Try AI Video Generator Free
+            </Link>
+            <Link
+              href="/tools"
+              className="px-6 py-3 rounded-2xl bg-slate-900 dark:bg-slate-800 border border-slate-700 text-white font-bold text-sm flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-slate-700 transition-all"
+            >
+              Browse All 300+ Tools →
+            </Link>
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-semibold text-slate-500 pt-4">
@@ -236,6 +254,67 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Why Toolifia vs Toolify Comparison */}
+      <section className="space-y-8">
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
+            <CheckCircle2 className="w-4 h-4" /> Why Toolifia Beats the Competition
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            The Only AI Tools Platform Where Tools <em>Actually Work</em>
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+            Unlike Toolify, Futurepedia, and similar directories that just redirect you to external sites — every tool on Toolifia runs <strong>directly in your browser</strong>.
+          </p>
+        </div>
+
+        <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                <th className="text-left p-4 font-bold text-slate-700 dark:text-slate-300">Feature</th>
+                <th className="text-center p-4 font-bold text-brand-600 dark:text-brand-400">Toolifia ✅</th>
+                <th className="text-center p-4 font-bold text-slate-400">Toolify ❌</th>
+                <th className="text-center p-4 font-bold text-slate-400">Futurepedia ❌</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              {[
+                ["Tools run on-site", "✅ Always", "❌ Redirects only", "❌ Redirects only"],
+                ["No account required", "✅ Zero signup", "⚠️ Varies", "⚠️ Varies"],
+                ["AI Video Generator (Kling 2.1)", "✅ Free", "❌ Links to paid", "❌ Links to paid"],
+                ["AI Text Humanizer", "✅ Unlimited free", "❌ Links to paid", "❌ Links to paid"],
+                ["SEO Tools", "✅ 15+ tools free", "❌ Links only", "❌ Links only"],
+                ["No watermarks on output", "✅ Never", "❌ Depends", "❌ Depends"],
+                ["Dark mode", "✅ Full support", "❌ Partial", "✅ Yes"],
+                ["REST API access", "✅ Every tool", "❌ None", "❌ None"],
+              ].map(([feature, us, toolify, futurepedia], i) => (
+                <tr key={i} className="bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+                  <td className="p-4 font-medium text-slate-700 dark:text-slate-300">{feature}</td>
+                  <td className="p-4 text-center font-semibold text-emerald-600 dark:text-emerald-400">{us}</td>
+                  <td className="p-4 text-center text-slate-500">{toolify}</td>
+                  <td className="p-4 text-center text-slate-500">{futurepedia}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            { icon: "⚡", title: "Zero Redirects", desc: "Every tool runs 100% in-browser. No external links, no paywalls, no subscriptions." },
+            { icon: "🔑", title: "Zero Signup", desc: "Use all 300+ tools with no account, no email, no credit card — ever." },
+            { icon: "🎬", title: "Real AI Videos", desc: "Generate actual MP4 videos with Kling 2.1 — the same model as Higgsfield and Runway." },
+          ].map((item, i) => (
+            <div key={i} className="p-6 rounded-2xl bg-gradient-to-br from-brand-500/5 to-indigo-500/5 border border-brand-500/20 space-y-3">
+              <div className="text-3xl">{item.icon}</div>
+              <h3 className="font-bold text-slate-900 dark:text-white">{item.title}</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Blog & Knowledge Hub Teaser */}
       <section className="p-8 sm:p-12 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="space-y-3">
@@ -271,6 +350,41 @@ export default function HomePage() {
 
         <div className="max-w-3xl mx-auto">
           <FAQAccordion items={homeFaqs} />
+        </div>
+      </section>
+
+      {/* SEO Content Block — Helps Google understand the page topic */}
+      <section className="prose prose-slate dark:prose-invert max-w-none">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3">What is Toolifia?</h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Toolifia is a free online tools platform with 300+ utilities that run directly in your browser. Unlike AI tool directories like Toolify.ai or Futurepedia that redirect you to external sites, Toolifia hosts actual working tools — including an AI video generator powered by Kling 2.1, an AI text humanizer, AI content detector, meta tag generator, JSON formatter, BMI calculator, and more.
+            </p>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-3">
+              All tools are 100% free with no account registration required. No credit card, no email signup, no daily limits.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Free Online Tools — No Signup</h2>
+            <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1.5">
+              {[
+                "AI Video Generator (Kling 2.1, Wan, MiniMax)",
+                "AI Text Humanizer — Bypass AI Detection",
+                "AI Content Detector — GPTZero Compatible",
+                "Free SEO Tools — Meta Tags, Schema, Sitemap",
+                "Developer Tools — JSON, Base64, UUID, Hash",
+                "Calculators — BMI, Loan, Compound Interest",
+                "Unit & Currency Converters",
+                "Image Tools — QR Code, Color Picker, Resizer",
+              ].map((item, i) => (
+                <li key={i} className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-500 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
