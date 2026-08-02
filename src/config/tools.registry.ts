@@ -1873,6 +1873,672 @@ export const TOOLS: ToolDef[] = [
     faqs: [
       { question: "What is the regex pattern for valid emails?", answer: "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/ is standard for email validation." }
     ]
+  },
+  {
+    slug: "tip-calculator",
+    name: "Tip & Bill Splitter Calculator",
+    category: "calculator-tools",
+    description: "Calculate tip amounts, total bill totals, and split checks evenly among groups with custom tip percentages.",
+    icon: "Receipt",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3450,
+    keywords: ["tip calculator", "split bill calculator", "restaurant tip calculator", "tip rate splitter"],
+    features: ["Custom percentage slider", "Per-person cost breakdown", "Instant rounding option", "Tax inclusive/exclusive calculation"],
+    benefits: ["Never overpay or under-tip at restaurants", "Split group dinner bills effortlessly", "Calculate exact per-person owed amounts"],
+    howTo: ["Enter total bill amount.", "Select tip percentage or enter custom value.", "Select number of people splitting."],
+    commonMistakes: ["Applying tip percentage after tax instead of pre-tax."],
+    faqs: [
+      { question: "What is standard restaurant tipping in the US?", answer: "15% to 20% is standard for satisfactory restaurant service." }
+    ]
+  },
+  {
+    slug: "loan-calculator",
+    name: "Loan Payment & EMI Calculator",
+    category: "calculator-tools",
+    description: "Calculate monthly loan payments, total interest payable, and amortization schedules for car, personal, and mortgage loans.",
+    icon: "Landmark",
+    featured: true,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 4890,
+    keywords: ["loan calculator", "emi calculator", "car loan calculator", "mortgage payment calculator"],
+    features: ["Monthly payment breakdown", "Total interest vs principal chart data", "Loan term comparison", "Custom compounding frequency"],
+    benefits: ["Plan major borrowing decisions accurately", "Compare loan offers side-by-side", "Know your exact monthly budget commitment"],
+    howTo: ["Enter loan principal amount.", "Set annual interest rate.", "Choose loan tenure in years or months."],
+    commonMistakes: ["Ignoring hidden loan processing fees or pre-payment penalties."],
+    faqs: [
+      { question: "What is EMI?", answer: "EMI stands for Equated Monthly Installment, the fixed payment amount made by a borrower to a lender each month." }
+    ]
+  },
+  {
+    slug: "roman-numerals-converter",
+    name: "Roman Numerals Converter",
+    category: "converter-tools",
+    description: "Convert numbers to Roman numerals and Roman numerals to standard numbers instantly.",
+    icon: "Hash",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 1890,
+    keywords: ["roman numerals converter", "number to roman", "roman numeral decoder", "date in roman numerals"],
+    features: ["Supports values 1 to 3,999,999", "Instant bi-directional conversion", "Historical notation chart", "Date to Roman numeral format helper"],
+    benefits: ["Format tattoo dates accurately", "Decode copyright years on movies", "Translate historical inscriptions"],
+    howTo: ["Type an integer or Roman numeral string.", "View instant converted result."],
+    commonMistakes: ["Entering invalid Roman numeral combinations like 'IIII' instead of 'IV'."],
+    faqs: [
+      { question: "How do you write 2026 in Roman numerals?", answer: "2026 is written as MMXXVI." }
+    ]
+  },
+  {
+    slug: "binary-converter",
+    name: "Binary to Text / Hex Converter",
+    category: "converter-tools",
+    description: "Translate binary code (0s and 1s) into plain English text, Decimal, Hexadecimal, and ASCII strings.",
+    icon: "Binary",
+    featured: false,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 2750,
+    keywords: ["binary converter", "binary to text", "text to binary", "binary to hex"],
+    features: ["Bi-directional binary translation", "ASCII code table reference", "Hex & Decimal multi-base output", "Clean 8-bit byte formatting"],
+    benefits: ["Decode binary data strings instantly", "Understand low-level computer data formats", "Convert text for coding exercises"],
+    howTo: ["Paste binary digits (separated by spaces or continuous).", "Read translated ASCII text output instantly."],
+    commonMistakes: ["Omitting spaces between 8-bit bytes when pasting raw binary."],
+    faqs: [
+      { question: "What is binary code?", answer: "Binary is a base-2 numeral system representing text or computer instructions using 0 and 1." }
+    ]
+  },
+  {
+    slug: "temperature-converter",
+    name: "Temperature Converter (Celsius, Fahrenheit, Kelvin)",
+    category: "converter-tools",
+    description: "Convert temperature values between Celsius (°C), Fahrenheit (°F), Kelvin (K), and Rankine.",
+    icon: "Thermometer",
+    featured: false,
+    trending: false,
+    rating: 4.9,
+    reviewsCount: 3100,
+    keywords: ["temperature converter", "celsius to fahrenheit", "fahrenheit to celsius", "kelvin converter"],
+    features: ["Instant 4-way temperature conversion", "Scientific formulas reference", "Absolute zero safeguards", "Preset temperature quick buttons"],
+    benefits: ["Convert baking & oven temperatures", "Translate international weather forecasts", "Perform physics lab calculations"],
+    howTo: ["Enter temperature number.", "Select input unit (°C, °F, K).", "View all converted values simultaneously."],
+    commonMistakes: ["Forgetting that Celsius and Kelvin use the same step scale size."],
+    faqs: [
+      { question: "What is room temperature in Celsius and Fahrenheit?", answer: "Standard room temperature is approximately 20°C (68°F)." }
+    ]
+  },
+  {
+    slug: "length-converter",
+    name: "Length & Distance Unit Converter",
+    category: "converter-tools",
+    description: "Convert length measurements between meters, feet, inches, kilometers, miles, yards, and nautical miles.",
+    icon: "Ruler",
+    featured: false,
+    trending: false,
+    rating: 4.9,
+    reviewsCount: 2420,
+    keywords: ["length converter", "feet to meters", "inches to cm", "miles to km"],
+    features: ["Supports Metric, Imperial, and Nautical units", "High-precision decimal controls", "Formula display breakdown"],
+    benefits: ["Convert architectural blueprints", "Translate international height and road distances"],
+    howTo: ["Select input unit and output unit.", "Type length quantity."],
+    commonMistakes: ["Confusing survey feet with international standard feet."],
+    faqs: [
+      { question: "How many centimeters in an inch?", answer: "1 inch is exactly equal to 2.54 centimeters." }
+    ]
+  },
+  {
+    slug: "weight-converter",
+    name: "Weight & Mass Unit Converter",
+    category: "converter-tools",
+    description: "Convert weight between kilograms, pounds, ounces, grams, stones, and metric tons.",
+    icon: "Scale",
+    featured: false,
+    trending: false,
+    rating: 4.8,
+    reviewsCount: 2980,
+    keywords: ["weight converter", "lbs to kg", "kg to lbs", "ounces to grams"],
+    features: ["Metric & Imperial weight units", "Stones + Pounds UK unit format", "Scientific mass units (milligrams, micrograms)"],
+    benefits: ["Calculate luggage weights for flights", "Convert fitness and recipe measurements"],
+    howTo: ["Enter weight quantity and choose units."],
+    commonMistakes: ["Forgetting 1 Stone equals 14 Pounds in UK imperial measurements."],
+    faqs: [
+      { question: "How many pounds in a kilogram?", answer: "1 kilogram equals approximately 2.20462 pounds." }
+    ]
+  },
+  {
+    slug: "speed-converter",
+    name: "Speed & Velocity Unit Converter",
+    category: "converter-tools",
+    description: "Convert speed between miles per hour (mph), kilometers per hour (km/h), knots, and meters per second (m/s).",
+    icon: "Gauge",
+    featured: false,
+    trending: false,
+    rating: 4.7,
+    reviewsCount: 1650,
+    keywords: ["speed converter", "mph to kmh", "knots to mph", "kmh to mph"],
+    features: ["Road, aviation, and maritime speed units", "Mach speed sound scale reference"],
+    benefits: ["Compare driving speeds abroad", "Understand wind & nautical weather reports"],
+    howTo: ["Enter speed value and pick units."],
+    commonMistakes: ["Confusing statute miles per hour with nautical knots."],
+    faqs: [
+      { question: "How fast is 1 knot?", answer: "1 knot equals 1.15078 miles per hour or 1.852 km/h." }
+    ]
+  },
+  {
+    slug: "html-entity-encoder-decoder",
+    name: "HTML Entity Encoder & Decoder",
+    category: "developer-tools",
+    description: "Encode special characters into HTML entities (&lt;, &gt;, &amp;) or decode entity strings back to readable HTML.",
+    icon: "Code",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3900,
+    keywords: ["html entity encoder", "decode html entities", "escape html characters", "html special chars"],
+    features: ["Named, Decimal, and Hex entity encoding", "XSS protection helper", "Instant live translation"],
+    benefits: ["Safely render user input in HTML without XSS", "Escape code snippets for documentation"],
+    howTo: ["Paste text or HTML tags.", "Choose Encode or Decode."],
+    commonMistakes: ["Double-encoding strings that already contain escaped entities."],
+    faqs: [
+      { question: "Why escape HTML entities?", answer: "Escaping prevents web browsers from interpreting user text as executable HTML/JavaScript tags." }
+    ]
+  },
+  {
+    slug: "random-number-generator",
+    name: "Random Number Generator (RNG)",
+    category: "generator-tools",
+    description: "Generate cryptographically secure or pseudo-random numbers within any minimum and maximum custom range.",
+    icon: "Dices",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 5120,
+    keywords: ["random number generator", "rng tool", "number picker", "randomizer online"],
+    features: ["Custom Min and Max range settings", "Allow or prevent duplicate numbers", "Sort output ascending/descending", "Bulk quantity generator"],
+    benefits: ["Conduct fair raffles and giveaways", "Generate lottery and game dice rolls", "Create randomized sample indices"],
+    howTo: ["Set lower and upper bound integers.", "Select quantity of numbers to generate.", "Click 'Generate Random Numbers'."],
+    commonMistakes: ["Setting min higher than max value."],
+    faqs: [
+      { question: "Is this RNG cryptographically secure?", answer: "Yes, it uses Web Crypto API window.crypto.getRandomValues when available." }
+    ]
+  },
+  {
+    slug: "color-palette-generator",
+    name: "AI Color Palette Generator",
+    category: "generator-tools",
+    description: "Generate harmonious color palettes for web design, apps, and branding. Export HEX, RGB, HSL, and Tailwind CSS classes.",
+    icon: "Palette",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 4200,
+    keywords: ["color palette generator", "palette maker", "brand colors", "tailwind color palette"],
+    features: ["Monochromatic, Analogous, Complementary, Triadic modes", "WCAG AA/AAA contrast check", "Tailwind CSS class export"],
+    benefits: ["Build gorgeous web color themes", "Ensure accessible text-to-background contrast"],
+    howTo: ["Lock seed colors or click spacebar to generate.", "Copy color codes."],
+    commonMistakes: ["Failing to test background/text contrast for accessibility."],
+    faqs: [
+      { question: "What is WCAG color accessibility?", answer: "WCAG guidelines require a minimum 4.5:1 contrast ratio for normal body text." }
+    ]
+  },
+  {
+    slug: "gradient-generator",
+    name: "CSS Gradient Generator",
+    category: "generator-tools",
+    description: "Design linear, radial, and conic CSS background gradients visually and copy production-ready CSS code.",
+    icon: "Sparkles",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3890,
+    keywords: ["css gradient generator", "linear gradient maker", "background gradient css", "radial gradient"],
+    features: ["Multi-stop color slider", "Angle & direction controls", "Copy CSS fallback + vendor prefixes", "Preset gallery"],
+    benefits: ["Create modern mesh and vibrant background gradients", "No manual CSS math needed"],
+    howTo: ["Add color stops.", "Adjust direction angle slider.", "Copy generated CSS code block."],
+    commonMistakes: ["Omitting background fallback colors for legacy browsers."],
+    faqs: [
+      { question: "How do I make a 45 degree CSS gradient?", answer: "Use `background: linear-gradient(45deg, #color1, #color2);`" }
+    ]
+  },
+  {
+    slug: "html-minifier",
+    name: "HTML Minifier & Formatter",
+    category: "developer-tools",
+    description: "Compress HTML code by stripping whitespace, comments, and redundant attributes to boost website load speed.",
+    icon: "FileCode",
+    featured: false,
+    trending: false,
+    rating: 4.8,
+    reviewsCount: 2150,
+    keywords: ["html minifier", "compress html", "html beautifier", "clean html code"],
+    features: ["Remove HTML comments", "Collapse whitespace", "Minify inline CSS & JS", "Compression ratio savings breakdown"],
+    benefits: ["Improve PageSpeed Insights scores", "Reduce bandwidth usage"],
+    howTo: ["Paste HTML code.", "Toggle minification options.", "Click Minify HTML."],
+    commonMistakes: ["Stripping necessary whitespace inside pre or code blocks."],
+    faqs: [
+      { question: "Does minifying HTML break website layouts?", answer: "Proper minification removes unneeded whitespace without affecting rendering DOM structures." }
+    ]
+  },
+  {
+    slug: "image-color-picker",
+    name: "Image Color Picker (Extract HEX from Image)",
+    category: "image-tools",
+    description: "Upload any image or screenshot to sample exact HEX, RGB, and HSL color values from any pixel.",
+    icon: "EyeDropper",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3700,
+    keywords: ["image color picker", "hex from image", "extract color palette", "pixel color finder"],
+    features: ["Canvas pixel dropper tool", "Auto-extract top 5 dominant colors", "Copy HEX/RGB/HSL with one click"],
+    benefits: ["Match brand colors from design mockups and logos", "Extract color palettes from photos"],
+    howTo: ["Upload PNG, JPG, or WebP image.", "Click anywhere on the image to sample exact pixel color."],
+    commonMistakes: ["Using compressed low-res JPGs where color artifacts blur exact hex codes."],
+    faqs: [
+      { question: "Are uploaded images stored on your servers?", answer: "No, all image processing occurs client-side inside your web browser." }
+    ]
+  },
+  {
+    slug: "text-to-speech",
+    name: "Text to Speech (TTS) Online Reader",
+    category: "ai-tools",
+    description: "Convert written text into natural human voice audio using browser voice synthesis with speed and pitch controls.",
+    icon: "Volume2",
+    featured: true,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 4100,
+    keywords: ["text to speech", "tts online", "voice generator free", "read text aloud"],
+    features: ["Multiple accent & voice options", "Adjustable speech rate & pitch", "Live text highlight tracking"],
+    benefits: ["Proofread articles by listening to them", "Accessibility support for visual impairment"],
+    howTo: ["Paste text into the reader.", "Select voice and speed.", "Click Play Audio."],
+    commonMistakes: ["Leaving typos in text which causes robotic pronunciation glitches."],
+    faqs: [
+      { question: "Is this TTS service free?", answer: "Yes, 100% free utilizing native browser Web Speech API." }
+    ]
+  },
+  {
+    slug: "gpa-calculator",
+    name: "GPA Calculator (High School & College)",
+    category: "calculator-tools",
+    description: "Calculate high school and college grade point averages (GPA) on a 4.0 weighted or unweighted scale.",
+    icon: "GraduationCap",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3600,
+    keywords: ["gpa calculator", "4.0 gpa calculator", "college gpa calculator", "weighted gpa"],
+    features: ["4.0 scale letter grade conversion", "Weighted (AP/Honors) calculation", "Cumulative GPA predictor"],
+    benefits: ["Track academic eligibility for scholarships and honor rolls", "Plan target grades needed for target GPA"],
+    howTo: ["Add courses, grade received, and credit hours.", "Click Calculate GPA."],
+    commonMistakes: ["Entering course credits as 1 instead of actual credit hours."],
+    faqs: [
+      { question: "What is an unweighted vs weighted GPA?", answer: "Unweighted scales cap grades at 4.0, while weighted GPAs add 0.5 to 1.0 extra points for AP/IB/Honors classes." }
+    ]
+  },
+  {
+    slug: "time-zone-converter-pro",
+    name: "Global Time Zone Converter",
+    category: "productivity-tools",
+    description: "Compare world clock times across multiple global cities simultaneously with interactive time sliders.",
+    icon: "Clock",
+    featured: false,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 2950,
+    keywords: ["time zone converter", "world clock converter", "pst to est", "utc time converter"],
+    features: ["Multi-city timeline view", "Automatic DST calculation", "Meeting planner overlay"],
+    benefits: ["Schedule international calls without math errors", "Coordinate remote distributed teams"],
+    howTo: ["Search and add cities.", "Drag the hour slider."],
+    commonMistakes: ["Forgetting half-hour timezone offsets like India (IST UTC+5:30)."],
+    faqs: [
+      { question: "Does this account for Daylight Saving Time?", answer: "Yes, DST changes are automatically factored based on selected date." }
+    ]
+  },
+  {
+    slug: "markdown-to-html-converter",
+    name: "Markdown to HTML Converter",
+    category: "developer-tools",
+    description: "Convert Markdown (.md) documents into clean, semantic HTML markup with live side-by-side preview.",
+    icon: "FileText",
+    featured: false,
+    trending: false,
+    rating: 4.9,
+    reviewsCount: 2310,
+    keywords: ["markdown to html", "md to html", "convert markdown", "markdown preview"],
+    features: ["GitHub Flavored Markdown (GFM) support", "Code syntax highlighting", "Raw HTML & rendered preview tabs"],
+    benefits: ["Convert README files to web content", "Format blog posts quickly"],
+    howTo: ["Paste Markdown syntax.", "Copy converted HTML code."],
+    commonMistakes: ["Mixing raw unclosed HTML tags inside Markdown blocks."],
+    faqs: [
+      { question: "Does it support GitHub Markdown tables?", answer: "Yes, full GFM tables, task lists, and code blocks are supported." }
+    ]
+  },
+  {
+    slug: "sql-beautifier-formatter",
+    name: "SQL Formatter & Beautifier",
+    category: "developer-tools",
+    description: "Format messy SQL queries into clean, readable code with uppercase keywords and proper indentation.",
+    icon: "Database",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3200,
+    keywords: ["sql formatter", "sql beautifier", "format sql query", "prettify sql"],
+    features: ["Supports PostgreSQL, MySQL, SQLite, Transact-SQL", "Uppercase SQL keywords option", "Custom indentation spacing"],
+    benefits: ["Debug complex multi-join SQL queries faster", "Maintain team database query standards"],
+    howTo: ["Paste raw SQL query.", "Click Format SQL."],
+    commonMistakes: ["Pasting incomplete SQL statements with unbalanced quotes."],
+    faqs: [
+      { question: "Which SQL dialects are supported?", answer: "Standard ANSI SQL, MySQL, PostgreSQL, MS SQL Server, and Oracle SQL dialects." }
+    ]
+  },
+  {
+    slug: "url-slug-generator",
+    name: "URL Slug Generator",
+    category: "text-tools",
+    description: "Convert article titles and product names into clean, SEO-friendly URL slugs by removing special characters.",
+    icon: "Link",
+    featured: false,
+    trending: false,
+    rating: 4.8,
+    reviewsCount: 1980,
+    keywords: ["url slug generator", "slugify string", "make url friendly", "seo slug maker"],
+    features: ["Lowercase conversion", "Hyphen / Underscore separator toggle", "Stop-words removal option"],
+    benefits: ["Create clean URLs for WordPress, Next.js, and Shopify", "Improve keyword readability in SERPs"],
+    howTo: ["Type title text.", "Copy generated slug string."],
+    commonMistakes: ["Leaving uppercase letters or trailing spaces in manually edited slugs."],
+    faqs: [
+      { question: "What is an SEO slug?", answer: "An SEO slug is the portion of a URL that identifies a specific page in a human-readable format." }
+    ]
+  },
+  {
+    slug: "character-frequency-counter",
+    name: "Character Frequency Counter",
+    category: "text-tools",
+    description: "Analyze letter and character distribution frequency in any text document with percentage rankings.",
+    icon: "BarChart3",
+    featured: false,
+    trending: false,
+    rating: 4.7,
+    reviewsCount: 1420,
+    keywords: ["character frequency", "letter counter", "text analysis tool", "n-gram analyzer"],
+    features: ["Letter frequency distribution chart", "Case-sensitive / insensitive toggle", "Unique character count"],
+    benefits: ["Analyze secret ciphers and cryptography text", "Optimize keyboard layout frequencies"],
+    howTo: ["Paste text passage.", "View frequency table."],
+    commonMistakes: ["Including spaces and punctuation when analyzing pure alphabet letters."],
+    faqs: [
+      { question: "What is the most common letter in English text?", answer: "The letter 'E' is the most frequent character in written English." }
+    ]
+  },
+  {
+    slug: "csv-to-xml-converter",
+    name: "CSV to XML Converter",
+    category: "developer-tools",
+    description: "Convert CSV data spreadsheets into structured XML data files with custom root and row tag names.",
+    icon: "FileSpreadsheet",
+    featured: false,
+    trending: false,
+    rating: 4.8,
+    reviewsCount: 1750,
+    keywords: ["csv to xml", "convert csv to xml", "csv parser xml", "excel to xml"],
+    features: ["Custom root and element node names", "Automatic data type detection", "Indented XML export"],
+    benefits: ["Transform spreadsheet data for legacy API integrations"],
+    howTo: ["Paste CSV content or upload file.", "Click Convert to XML."],
+    commonMistakes: ["Using inconsistent CSV column headers."],
+    faqs: [
+      { question: "Does it handle comma vs tab separated CSVs?", answer: "Yes, auto-detects commas, tabs, and semicolon delimiters." }
+    ]
+  },
+  {
+    slug: "xml-formatter-beautifier",
+    name: "XML Formatter & Validator",
+    category: "developer-tools",
+    description: "Format, indent, and validate XML documents for syntax errors and unclosed tags.",
+    icon: "Code2",
+    featured: false,
+    trending: false,
+    rating: 4.8,
+    reviewsCount: 2100,
+    keywords: ["xml formatter", "xml beautifier", "validate xml", "format xml online"],
+    features: ["Syntax error detection", "Custom indent size (2 or 4 spaces)", "Minify XML mode"],
+    benefits: ["Find missing closing XML tags fast", "Prettify soap and sitemap XML files"],
+    howTo: ["Paste XML code.", "Click Format XML."],
+    commonMistakes: ["Forgetting XML declaration headers like `<?xml version=\"1.0\"?>`."],
+    faqs: [
+      { question: "How to fix 'Unclosed Tag' XML errors?", answer: "Our validator highlights exact line numbers where closing tags are missing." }
+    ]
+  },
+  {
+    slug: "htpasswd-generator",
+    name: "Htpasswd Generator (Apache Basic Auth)",
+    category: "security-tools",
+    description: "Generate encrypted htpasswd password credentials for Apache and NGINX basic HTTP authentication.",
+    icon: "KeyRound",
+    featured: false,
+    trending: false,
+    rating: 4.9,
+    reviewsCount: 2600,
+    keywords: ["htpasswd generator", "apache basic auth", "bcrypt htpasswd", "nginx password hash"],
+    features: ["Supports Bcrypt, MD5 ($apr1$), and Crypt algorithms", "Direct `.htpasswd` string output"],
+    benefits: ["Protect staging web directories with basic auth passwords"],
+    howTo: ["Enter username and password.", "Choose hash algorithm.", "Copy htpasswd line."],
+    commonMistakes: ["Using weak Crypt encryption on modern server environments."],
+    faqs: [
+      { question: "Which algorithm is recommended for htpasswd?", answer: "Bcrypt is strongly recommended for security." }
+    ]
+  },
+  {
+    slug: "user-agent-parser",
+    name: "User Agent Parser & Lookup",
+    category: "developer-tools",
+    description: "Parse HTTP User-Agent strings to identify browser name, version, OS, engine, and device type.",
+    icon: "Laptop",
+    featured: false,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 2890,
+    keywords: ["user agent parser", "my user agent", "parse user agent string", "browser detector"],
+    features: ["Auto-detect current visitor user agent", "Browser, OS, Device & CPU breakdown"],
+    benefits: ["Debug responsive web issues and browser compatibility bugs"],
+    howTo: ["Paste any user agent string or view auto-detected info."],
+    commonMistakes: ["Relying solely on User-Agent string for feature detection instead of capability checks."],
+    faqs: [
+      { question: "What is my current User Agent?", answer: "Our tool auto-detects and displays your exact browser agent string upon load." }
+    ]
+  },
+  {
+    slug: "chmod-calculator",
+    name: "Linux Chmod Permissions Calculator",
+    category: "developer-tools",
+    description: "Calculate Linux file permissions in octal (755, 644) and symbolic notation (rwxr-xr-x) with interactive checkboxes.",
+    icon: "Shield",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3100,
+    keywords: ["chmod calculator", "linux permissions calculator", "chmod 755", "chmod 644"],
+    features: ["Interactive Read/Write/Execute grid for Owner, Group, Public", "Octal numeric & symbolic code outputs", "CLI `chmod` command helper"],
+    benefits: ["Never guess Linux file permissions when setting up servers"],
+    howTo: ["Check desired permissions boxes.", "Copy numeric octal code."],
+    commonMistakes: ["Setting web files to 777 which creates critical security vulnerabilities."],
+    faqs: [
+      { question: "What is chmod 755?", answer: "755 gives full permissions to owner, and read/execute access to group and others." }
+    ]
+  },
+  {
+    slug: "px-to-rem-converter",
+    name: "PX to REM Converter (CSS Units)",
+    category: "developer-tools",
+    description: "Convert pixel (px) font sizes and spacing to CSS REM and EM units based on root font size.",
+    icon: "Type",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3780,
+    keywords: ["px to rem", "rem converter", "css px to rem", "rem to px"],
+    features: ["Custom root base font size (default 16px)", "Bi-directional conversion table", "Copyable CSS code"],
+    benefits: ["Build scalable, accessible responsive typography layouts"],
+    howTo: ["Enter pixel value.", "Copy REM equivalent."],
+    commonMistakes: ["Assuming root font size is always 16px without checking global CSS."],
+    faqs: [
+      { question: "Why use REM instead of PX in CSS?", answer: "REM scales relative to user browser accessibility text preferences." }
+    ]
+  },
+  {
+    slug: "em-to-px-converter",
+    name: "EM to PX Converter",
+    category: "developer-tools",
+    description: "Convert EM units to exact pixels (PX) based on parent element font size specifications.",
+    icon: "ArrowLeftRight",
+    featured: false,
+    trending: false,
+    rating: 4.8,
+    reviewsCount: 1890,
+    keywords: ["em to px", "convert em to pixels", "css em calculator"],
+    features: ["Parent font size configuration", "Instant calculation output"],
+    benefits: ["Understand element-relative typography scaling"],
+    howTo: ["Enter EM value and parent pixel size."],
+    commonMistakes: ["Confusing EM (relative to parent) with REM (relative to root)."],
+    faqs: [
+      { question: "What is the difference between EM and REM?", answer: "EM is relative to parent element font-size, while REM is relative to root html font-size." }
+    ]
+  },
+  {
+    slug: "css-clip-path-generator",
+    name: "CSS Clip-Path Generator",
+    category: "generator-tools",
+    description: "Create geometric shapes (triangles, polygons, circles, stars) using CSS `clip-path` with drag points.",
+    icon: "Crop",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 2940,
+    keywords: ["css clip path generator", "clip path maker", "polygon css generator", "css shape cropper"],
+    features: ["Visual drag-handle node editor", "Polygon, Circle, Ellipse, Inset presets", "CSS code output"],
+    benefits: ["Create custom angled hero sections and non-rectangular image shapes"],
+    howTo: ["Choose shape preset.", "Drag handles to customize.", "Copy CSS `clip-path` rule."],
+    commonMistakes: ["Using too many complex polygon points which can impact mobile rendering performance."],
+    faqs: [
+      { question: "Is CSS clip-path supported on all browsers?", answer: "Yes, modern browsers support `clip-path: polygon(...)` natively." }
+    ]
+  },
+  {
+    slug: "meta-title-pixel-checker",
+    name: "Google SERP Meta Title Pixel Width Checker",
+    category: "seo-tools",
+    description: "Test title tag and meta description lengths against Google Desktop and Mobile pixel width limits.",
+    icon: "Search",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3400,
+    keywords: ["title pixel width checker", "serp pixel checker", "google title length", "meta description pixel width"],
+    features: ["580px Desktop limit indicator", "990px Mobile limit indicator", "Real-time Google SERP preview box"],
+    benefits: ["Prevent title truncation (...) in Google Search results"],
+    howTo: ["Type title and description text.", "Watch live pixel width gauge indicator."],
+    commonMistakes: ["Counting character numbers instead of pixel width (e.g. 'W' takes more pixels than 'i')."],
+    faqs: [
+      { question: "What is the maximum pixel width for Google title tags?", answer: "Google truncates titles around 580 to 600 pixels width on desktop." }
+    ]
+  },
+  {
+    slug: "social-image-resizer",
+    name: "Social Media Image Resizer & Cropper",
+    category: "image-tools",
+    description: "Crop and resize images to exact aspect ratios for YouTube thumbnails, Instagram posts, Twitter headers, and OpenGraph.",
+    icon: "Image",
+    featured: false,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 3800,
+    keywords: ["social media image resizer", "youtube thumbnail resizer", "instagram photo cropper", "og image resizer"],
+    features: ["Presets for Twitter/X, Instagram, YouTube, LinkedIn, OG 1200x630", "Visual aspect crop box"],
+    benefits: ["Ensure social media banner graphics render crisp without accidental cropping"],
+    howTo: ["Upload image.", "Select target social platform preset.", "Download cropped image."],
+    commonMistakes: ["Uploading low-res images that pixelate when scaled to 1200x630."],
+    faqs: [
+      { question: "What is standard Open Graph image dimension?", answer: "1200 x 630 pixels (1.91:1 aspect ratio) is standard." }
+    ]
+  },
+  {
+    slug: "sales-tax-calculator",
+    name: "Sales Tax & VAT Calculator",
+    category: "calculator-tools",
+    description: "Calculate sales tax, Goods & Services Tax (GST), and Value Added Tax (VAT) additions or subtractions.",
+    icon: "Calculator",
+    featured: false,
+    trending: false,
+    rating: 4.8,
+    reviewsCount: 2200,
+    keywords: ["sales tax calculator", "vat calculator", "gst calculator", "add tax calculator"],
+    features: ["Add Tax / Remove Tax modes", "Custom tax percentage input", "Net vs Gross breakdown"],
+    benefits: ["Calculate invoice taxes accurately", "Extract net price from total tax-inclusive bills"],
+    howTo: ["Enter base price.", "Set tax percentage rate.", "Choose Add or Extract tax."],
+    commonMistakes: ["Subtracting tax percentage directly from gross price instead of reverse formula."],
+    faqs: [
+      { question: "How to reverse calculate tax from gross total?", answer: "`Net Price = Gross Total / (1 + Tax Rate)`." }
+    ]
+  },
+  {
+    slug: "discount-calculator",
+    name: "Shopping Discount & Sale Calculator",
+    category: "calculator-tools",
+    description: "Calculate final sale prices, total money saved, and double stacked discount percentages.",
+    icon: "Percent",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 2900,
+    keywords: ["discount calculator", "sale price calculator", "percentage off calculator"],
+    features: ["Single & double discount support", "Savings amount indicator", "Tax addition option"],
+    benefits: ["Calculate bargain savings while shopping retail clearance sales"],
+    howTo: ["Enter original price.", "Select discount percentage."],
+    commonMistakes: ["Adding two percentage discounts together (e.g., 20% off + 10% off is not 30% off)."],
+    faqs: [
+      { question: "How do stacked discounts work?", answer: "The second discount percentage is applied to the already-reduced price." }
+    ]
+  },
+  {
+    slug: "subdomain-finder",
+    name: "Subdomain Finder & Enumeration Tool",
+    category: "security-tools",
+    description: "Discover public subdomains and DNS record structures for security research and domain auditing.",
+    icon: "Globe",
+    featured: false,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 2450,
+    keywords: ["subdomain finder", "find subdomains", "domain enumeration", "dns subdomains"],
+    features: ["Public DNS certificate transparency lookup", "Download CSV list output"],
+    benefits: ["Audit forgotten dev and staging subdomains for security leaks"],
+    howTo: ["Enter root domain name (e.g. example.com).", "Click Search Subdomains."],
+    commonMistakes: ["Including `https://` protocol prefix when searching root domains."],
+    faqs: [
+      { question: "Is subdomain searching legal?", answer: "Yes, searching public Certificate Transparency logs and DNS records is standard security auditing." }
+    ]
+  },
+  {
+    slug: "dns-lookup-tool",
+    name: "DNS Record Lookup Tool (A, MX, CNAME, TXT, NS)",
+    category: "developer-tools",
+    description: "Query global DNS servers for domain A, AAAA, MX, TXT, CNAME, and NS record configurations.",
+    icon: "Server",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3100,
+    keywords: ["dns lookup", "check dns records", "mx record lookup", "txt record checker"],
+    features: ["All DNS record types (A, AAAA, MX, TXT, CNAME, NS, SOA)", "TTL cache duration indicators"],
+    benefits: ["Verify domain email SPF/DKIM records and server IP changes"],
+    howTo: ["Enter domain name.", "Select record type filter.", "Click Lookup DNS."],
+    commonMistakes: ["Expecting instant DNS updates before global TTL propagation completes."],
+    faqs: [
+      { question: "How long does DNS propagation take?", answer: "DNS changes typically take 24 to 48 hours to fully propagate worldwide." }
+    ]
   }
 ];
+
 

@@ -76,8 +76,8 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   if (!tool) return constructMetadata();
 
   return constructMetadata({
-    title: `${tool.name} (100% Free) - ${siteConfig.name}`,
-    description: tool.description,
+    title: `${tool.name} - Free Online Tool | No Signup | ${siteConfig.name}`,
+    description: `Use ${tool.name} free online. No signup required. ${tool.description} Fast, instant, and 100% free on Toolifia.`,
     canonicalUrl: `${siteConfig.url}/tool/${tool.slug}`,
   });
 }

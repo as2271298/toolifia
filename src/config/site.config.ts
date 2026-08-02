@@ -32,9 +32,9 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: "Toolifia",
   shortName: "Toolifia",
-  tagline: "World-Class Free AI & SEO Web Utilities",
+  tagline: "Free AI Tools, SEO Utilities & Web Tools — No Signup",
   description:
-    "Over 300+ free online tools for AI text humanization, SEO optimization, PDF converting, developer formatting, calculations, generators, and image utilities.",
+    "Toolifia offers 300+ free online AI tools, SEO tools, developer utilities, calculators, and converters. No account required. The best Toolify AI alternative with tools that work directly in your browser.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://toolifia.vercel.app",
   ogImage: "https://toolifia.vercel.app/og-default.png",
   creator: "Toolifia Inc.",

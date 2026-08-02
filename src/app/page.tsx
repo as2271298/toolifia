@@ -23,6 +23,12 @@ import {
   Users,
   Award,
 } from "lucide-react";
+import { constructMetadata } from "@/lib/seo";
+
+export const metadata = constructMetadata({
+  title: "Toolifia - 300+ Free Online AI Tools & SEO Utilities (No Signup)",
+  description: "The #1 Toolify alternative. Access 300+ free online AI tools, AI text humanizer, AI content detector, SEO utilities, calculators, and converters that work 100% on-site without registration.",
+});
 
 export default function HomePage() {
   const trendingTools = TOOLS.filter((t) => t.trending).slice(0, 6);
