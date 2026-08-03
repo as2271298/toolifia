@@ -34,7 +34,7 @@ export function CategoryToolGrid() {
             className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 shrink-0 border ${
               selectedCategory === tab.slug
                 ? "bg-white/[0.1] text-white border-white/[0.2] shadow-sm font-semibold"
-                : "bg-white/[0.03] border-white/[0.06] text-slate-400 hover:text-white hover:border-white/[0.12]"
+                : "bg-[#111318] border-white/[0.07] text-slate-400 hover:text-white hover:border-white/[0.14]"
             }`}
           >
             {tab.name}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Video, Sparkles, ShieldCheck, Image as ImageIcon, Terminal } from "lucide-react";
+import { Video, Sparkles, ShieldCheck, Image as ImageIcon, Terminal, Code2 } from "lucide-react";
 import { AiHumanizer } from "../tools/ai/AiHumanizer";
 import { AiDetector } from "../tools/ai/AiDetector";
 import { AiImageGenerator } from "../tools/ai/AiImageGenerator";
@@ -18,9 +18,9 @@ export function HeroPlayground() {
   ] as const;
 
   return (
-    <div className="w-full max-w-5xl mx-auto rounded-2xl bg-[#070a12] border border-white/[0.1] shadow-2xl overflow-hidden text-left font-sans transition-all duration-300">
+    <div className="w-full max-w-5xl mx-auto rounded-2xl bg-[#0f1115] border border-white/[0.08] shadow-2xl overflow-hidden text-left font-sans transition-all duration-300">
       {/* Top Header / Tab Switcher Bar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#0b0f19] border-b border-white/[0.08] overflow-x-auto gap-2 scrollbar-none">
+      <div className="flex items-center justify-between px-4 py-3 bg-[#111318] border-b border-white/[0.07] overflow-x-auto gap-2 scrollbar-none">
         <div className="flex items-center gap-2 shrink-0">
           <Terminal className="w-3.5 h-3.5 text-slate-500" />
           <span className="text-[11px] font-mono text-slate-400">toolifia / live-playground</span>
@@ -54,7 +54,7 @@ export function HeroPlayground() {
       </div>
 
       {/* Embedded Live Tool Playground Area */}
-      <div className="p-4 sm:p-6 bg-[#070a12]">
+      <div className="p-4 sm:p-6 bg-[#0f1115]">
         <div className="mb-4 flex items-center justify-between border-b border-white/[0.06] pb-2.5">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />

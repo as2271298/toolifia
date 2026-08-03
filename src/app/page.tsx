@@ -19,10 +19,10 @@ import {
   CheckCircle2,
   ArrowRight,
   BookOpen,
-  Video,
   Terminal,
   Cpu,
   Layers,
+  Search,
 } from "lucide-react";
 import { constructMetadata } from "@/lib/seo";
 
@@ -55,31 +55,32 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="bg-[#030712] text-slate-100 min-h-screen">
+    <div className="bg-[#08090a] text-[#f7f8f8] min-h-screen">
       {/* Ambient Top Light Beam */}
-      <div className="absolute top-0 inset-x-0 h-[600px] ambient-beam pointer-events-none" />
+      <div className="absolute top-0 inset-x-0 h-[650px] ambient-beam-master pointer-events-none" />
 
       <div className="space-y-20 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
 
-        {/* Hero Section (Linear / Vercel Style) */}
+        {/* Hero Section (Master Linear / Vercel Blueprint) */}
         <section className="relative text-center py-10 sm:py-16 space-y-8">
           
           {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] text-slate-300 text-xs font-mono border border-white/[0.1] shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] text-slate-300 text-xs font-mono border border-white/[0.08] shadow-sm">
             <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse shrink-0" />
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>300+ Online Tools · Zero Signup · #1 Toolify Alternative</span>
+            <span>300+ Browser Tools · Zero Signup · #1 Toolify Alternative</span>
+            <kbd className="kbd-badge ml-1 hidden sm:inline">⌘K</kbd>
           </div>
 
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-7xl font-bold tracking-tight text-white max-w-4xl mx-auto leading-[1.08]">
             The platform for <br className="hidden sm:inline" />
-            <span className="linear-accent-text">browser-native AI & web tools.</span>
+            <span className="text-gradient-accent">browser-native AI & web tools.</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Run AI generators, text humanizers, calculators, and SEO utilities directly in your browser. Zero setup. 100% free. The best alternative to Toolify and Futurepedia.
+            Run AI video generators, text humanizers, calculators, and SEO utilities directly inside your browser memory. Zero setup. 100% free.
           </p>
 
           {/* Search Bar */}
@@ -87,7 +88,7 @@ export default function HomePage() {
             <SearchBar placeholder="Search 300+ tools (e.g. AI Video Generator, Meta Tag Generator)..." />
           </div>
 
-          {/* Interactive Live Hero Playground */}
+          {/* Interactive Live Hero Playground (Higgsfield / Supabase Sandbox) */}
           <div className="pt-4">
             <HeroPlayground />
           </div>
@@ -101,7 +102,7 @@ export default function HomePage() {
               <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" /> Zero Account Required
             </div>
             <div className="flex items-center gap-2">
-              <Zap className="w-3.5 h-3.5 text-amber-400" /> Client-Side Processing
+              <Zap className="w-3.5 h-3.5 text-amber-400" /> Instant Client Execution
             </div>
           </div>
 
@@ -115,7 +116,7 @@ export default function HomePage() {
 
         {/* Interactive Category Tools Showcase Section */}
         <section className="space-y-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/[0.07] pb-4">
             <div>
               <div className="flex items-center gap-2 text-indigo-400 text-xs font-mono uppercase tracking-wider">
                 <Flame className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /> Tool Ecosystem
@@ -126,7 +127,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/tools"
-              className="px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.1] text-white font-medium text-xs transition-colors shrink-0"
+              className="px-4 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white font-medium text-xs transition-colors shrink-0"
             >
               View Full Directory &rarr;
             </Link>
@@ -156,7 +157,7 @@ export default function HomePage() {
           ].map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div key={idx} className="p-6 rounded-2xl bg-[#0b0f19] border border-white/[0.08] space-y-3 shadow-md">
+              <div key={idx} className="p-6 rounded-2xl bg-[#111318] border border-white/[0.07] space-y-3 shadow-md">
                 <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-indigo-400">
                   <Icon className="w-4 h-4" />
                 </div>
@@ -187,25 +188,25 @@ export default function HomePage() {
 
         {/* Platform Statistics Counter */}
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-6 rounded-2xl bg-[#0b0f19] border border-white/[0.08] text-center shadow-md">
+          <div className="p-6 rounded-2xl bg-[#111318] border border-white/[0.07] text-center shadow-md">
             <div className="text-3xl sm:text-4xl font-bold text-white">300+</div>
             <div className="text-[11px] font-mono text-slate-400 mt-1">Working Tools</div>
           </div>
-          <div className="p-6 rounded-2xl bg-[#0b0f19] border border-white/[0.08] text-center shadow-md">
+          <div className="p-6 rounded-2xl bg-[#111318] border border-white/[0.07] text-center shadow-md">
             <div className="text-3xl sm:text-4xl font-bold text-white">10M+</div>
             <div className="text-[11px] font-mono text-slate-400 mt-1">Monthly Runs</div>
           </div>
-          <div className="p-6 rounded-2xl bg-[#0b0f19] border border-white/[0.08] text-center shadow-md">
+          <div className="p-6 rounded-2xl bg-[#111318] border border-white/[0.07] text-center shadow-md">
             <div className="text-3xl sm:text-4xl font-bold text-emerald-400">100%</div>
             <div className="text-[11px] font-mono text-slate-400 mt-1">Free Forever</div>
           </div>
-          <div className="p-6 rounded-2xl bg-[#0b0f19] border border-white/[0.08] text-center shadow-md">
+          <div className="p-6 rounded-2xl bg-[#111318] border border-white/[0.07] text-center shadow-md">
             <div className="text-3xl sm:text-4xl font-bold text-amber-400">4.9/5</div>
             <div className="text-[11px] font-mono text-slate-400 mt-1">User Rating</div>
           </div>
         </section>
 
-        {/* Why Toolifia vs Toolify Comparison (Linear Style) */}
+        {/* Why Toolifia vs Toolify Comparison (Supabase / Linear Style) */}
         <section className="space-y-6">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-mono border border-emerald-500/20">
@@ -219,10 +220,10 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-white/[0.08] bg-[#0b0f19] shadow-xl">
+          <div className="overflow-x-auto rounded-2xl border border-white/[0.07] bg-[#111318] shadow-xl">
             <table className="w-full text-xs sm:text-sm">
               <thead>
-                <tr className="bg-white/[0.02] border-b border-white/[0.08] text-slate-400">
+                <tr className="bg-white/[0.02] border-b border-white/[0.07] text-slate-400">
                   <th className="text-left p-4 font-semibold">Feature</th>
                   <th className="text-center p-4 font-bold text-white bg-white/[0.04]">Toolifia ✅</th>
                   <th className="text-center p-4 font-medium text-slate-500">Toolify ❌</th>
@@ -252,7 +253,7 @@ export default function HomePage() {
         </section>
 
         {/* Blog & Knowledge Hub Teaser */}
-        <section className="p-8 rounded-2xl bg-[#0b0f19] border border-white/[0.08] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <section className="p-8 rounded-2xl bg-[#111318] border border-white/[0.07] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 text-xs font-mono text-indigo-400">
               <BookOpen className="w-3.5 h-3.5" /> Technical SEO & AI Guides
@@ -291,7 +292,7 @@ export default function HomePage() {
 
         {/* SEO Content Block */}
         <section className="prose prose-invert max-w-none">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-2xl bg-[#0b0f19] border border-white/[0.08]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-2xl bg-[#111318] border border-white/[0.07]">
             <div>
               <h2 className="text-lg font-bold text-white mb-2">What is Toolifia?</h2>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -320,7 +321,7 @@ export default function HomePage() {
         </section>
 
         {/* Newsletter Block */}
-        <section className="p-8 rounded-2xl bg-gradient-to-r from-indigo-950/80 via-slate-900 to-purple-950/80 border border-white/[0.1] text-white text-center space-y-4 shadow-xl">
+        <section className="p-8 rounded-2xl bg-[#111318] border border-white/[0.07] text-white text-center space-y-4 shadow-xl">
           <div className="max-w-2xl mx-auto space-y-2">
             <h2 className="text-2xl font-bold tracking-tight">
               Stay Updated with New Tools & Features

@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { ToolDef } from "@/config/tools.registry";
-import { Sparkles, Star, Flame, ArrowUpRight, Zap } from "lucide-react";
+import { Sparkles, Star, Flame, ArrowUpRight } from "lucide-react";
 
 export function ToolCard({ tool }: { tool: ToolDef }) {
   return (
     <Link
       href={`/tool/${tool.slug}`}
-      className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#0b0f19] border border-white/[0.08] hover:border-white/[0.22] hover:bg-[#0f1523] transition-all duration-200 shadow-md hover:shadow-xl overflow-hidden"
+      className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#111318] border border-white/[0.07] hover:border-white/[0.22] hover:bg-[#151820] transition-all duration-200 shadow-lg hover:-translate-y-0.5 overflow-hidden"
     >
       <div>
         <div className="flex items-center justify-between gap-2 mb-3.5">
-          <div className="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-indigo-400 group-hover:scale-105 group-hover:bg-indigo-500/10 group-hover:border-indigo-500/30 transition-all duration-200">
+          <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-indigo-400 group-hover:scale-105 group-hover:bg-indigo-500/10 group-hover:border-indigo-500/30 transition-all duration-200">
             <Sparkles className="w-4 h-4" />
           </div>
           
@@ -27,7 +27,7 @@ export function ToolCard({ tool }: { tool: ToolDef }) {
           </div>
         </div>
 
-        <h3 className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors mb-1.5 leading-snug">
+        <h3 className="text-sm font-bold text-[#f7f8f8] group-hover:text-indigo-300 transition-colors mb-1.5 leading-snug">
           {tool.name}
         </h3>
 

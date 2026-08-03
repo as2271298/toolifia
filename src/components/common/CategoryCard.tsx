@@ -9,11 +9,11 @@ export function CategoryCard({ category }: { category: CategoryDef }) {
   return (
     <Link
       href={`/category/${category.slug}`}
-      className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#0b0f19] border border-white/[0.08] hover:border-white/[0.22] hover:bg-[#0f1523] transition-all duration-200 shadow-md"
+      className="group relative flex flex-col justify-between p-5 rounded-2xl bg-[#111318] border border-white/[0.07] hover:border-white/[0.22] hover:bg-[#151820] transition-all duration-200 shadow-md hover:-translate-y-0.5"
     >
       <div>
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-indigo-400 group-hover:scale-105 group-hover:bg-indigo-500/10 transition-all duration-200">
+          <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-indigo-400 group-hover:scale-105 group-hover:bg-indigo-500/10 transition-all duration-200">
             <Sparkles className="w-4 h-4" />
           </div>
           <span className="text-[10px] font-mono text-slate-400 bg-white/[0.04] px-2.5 py-0.5 rounded-full border border-white/[0.06]">
@@ -21,7 +21,7 @@ export function CategoryCard({ category }: { category: CategoryDef }) {
           </span>
         </div>
 
-        <h3 className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors mb-1">
+        <h3 className="text-sm font-bold text-[#f7f8f8] group-hover:text-indigo-300 transition-colors mb-1">
           {category.name}
         </h3>
 
