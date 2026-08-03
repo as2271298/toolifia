@@ -2,22 +2,20 @@
 
 import React, { useState } from "react";
 import { TOOLS, ToolDef } from "@/config/tools.registry";
-import { CATEGORIES } from "@/config/categories.registry";
 import { ToolCard } from "@/components/common/ToolCard";
-import { Sparkles, Flame, LayoutGrid, Zap } from "lucide-react";
 
 export function CategoryToolGrid() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const filterTabs = [
     { slug: "all", name: "All Tools (133+)" },
-    { slug: "ai-tools", name: "🤖 AI Tools" },
-    { slug: "seo-tools", name: "📈 SEO Tools" },
-    { slug: "developer-tools", name: "💻 Dev Tools" },
-    { slug: "calculator-tools", name: "🧮 Calculators" },
-    { slug: "converter-tools", name: "🔄 Converters" },
-    { slug: "text-tools", name: "📝 Text Tools" },
-    { slug: "image-tools", name: "🖼️ Image Tools" },
+    { slug: "ai-tools", name: "AI Tools" },
+    { slug: "seo-tools", name: "SEO Tools" },
+    { slug: "developer-tools", name: "Dev Tools" },
+    { slug: "calculator-tools", name: "Calculators" },
+    { slug: "converter-tools", name: "Converters" },
+    { slug: "text-tools", name: "Text Tools" },
+    { slug: "image-tools", name: "Image Tools" },
   ];
 
   const displayedTools =
@@ -26,17 +24,17 @@ export function CategoryToolGrid() {
       : TOOLS.filter((t) => t.category === selectedCategory).slice(0, 12);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Category Tab Selector */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none scroll-smooth">
         {filterTabs.map((tab) => (
           <button
             key={tab.slug}
             onClick={() => setSelectedCategory(tab.slug)}
-            className={`px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all duration-200 shrink-0 border ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 shrink-0 border ${
               selectedCategory === tab.slug
-                ? "bg-gradient-to-r from-brand-600 to-indigo-600 text-white border-brand-500 shadow-lg shadow-brand-500/20 scale-105"
-                : "bg-slate-900/60 dark:bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700"
+                ? "bg-white/[0.1] text-white border-white/[0.2] shadow-sm font-semibold"
+                : "bg-white/[0.03] border-white/[0.06] text-slate-400 hover:text-white hover:border-white/[0.12]"
             }`}
           >
             {tab.name}
@@ -45,7 +43,7 @@ export function CategoryToolGrid() {
       </div>
 
       {/* Tools Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {displayedTools.map((tool) => (
           <ToolCard key={tool.slug} tool={tool} />
         ))}
