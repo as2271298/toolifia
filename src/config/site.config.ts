@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
   },
   monetization: {
     adsensePublisherId: process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-0000000000000000",
-    enableAds: true,
+    enableAds: false,
     slots: {
       headerBanner: "1234567890",
       sidebarBanner: "0987654321",

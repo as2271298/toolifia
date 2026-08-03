@@ -53,38 +53,17 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
         <JsonLd data={[orgSchema, websiteSchema]} />
-
-        {/* Multitag / Glad tag Script */}
-        <Script
-          src="https://quge5.com/88/tag.min.js"
-          strategy="afterInteractive"
-          data-zone="264982"
-          async
-          data-cfasync="false"
-        />
-
-        {/* Popunder script for toolifia.vercel.app */}
-        <Script
-          src="https://pl30549937.effectivecpmnetwork.com/de/c0/f0/dec0f0d1f5c6bb531bdc77c26daeb45c.js"
-          strategy="lazyOnload"
-        />
       </head>
-      <body className="min-h-screen flex flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-brand-500 selection:text-white font-sans">
+      <body className="min-h-screen flex flex-col bg-[#08090a] text-[#f7f8f8] antialiased selection:bg-indigo-500 selection:text-white font-sans">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
         <TrustpilotBadge variant="floating" />
         <ProductHuntBadge variant="floating" />
-
-        {/* Social Bar script for toolifia.vercel.app right before closing </body> */}
-        <Script
-          src="https://pl30549940.effectivecpmnetwork.com/c2/b9/7a/c2b97a6f7a2f3d0dfd5d888ca701bdfd.js"
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   );
