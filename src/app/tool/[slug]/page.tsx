@@ -128,6 +128,16 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     title: "Free UUID / GUID Generator Online — v4 UUID Bulk Generator | Toolifia",
     description: "Generate UUID v4 identifiers instantly for free. Bulk generate multiple UUIDs, copy to clipboard. No account required. Used by developers for database IDs.",
     keywords: "uuid generator free, guid generator online, uuid v4 generator, random uuid, bulk uuid generator"
+  },
+  "schema-generator": {
+    title: "Free JSON-LD Schema Generator — JSON-LD Builder & Markup Tool | Toolifia",
+    description: "Generate valid JSON-LD structured data schemas for free. Build Schema.org markup for Articles, FAQs, Products, Breadcrumbs, Reviews, Events, Local Business & more. Instantly copy the LD+JSON code. Best free json-ld generator, no signup needed.",
+    keywords: "json-ld generator, json-ld schema generator, ld json schema generator, json-ld builder, json-ld code generator, json ld generator, schema generator free, json-ld schema guide, ld json schema ai, schema markup generator, structured data generator, schema.org generator, json ld maker online"
+  },
+  "meta-tag-generator": {
+    title: "Free Meta Tag Generator — SEO Title & Description Preview | Toolifia",
+    description: "Generate SEO meta tags for free. Build title tags, meta descriptions, Open Graph, Twitter Card markup, and preview Google SERP snippet in real time. No account needed.",
+    keywords: "meta tag generator free, seo meta tags, title tag generator, meta description generator, open graph generator, twitter card generator, seo tag builder"
   }
 };
 

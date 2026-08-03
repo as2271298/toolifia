@@ -384,19 +384,55 @@ export const TOOLS: ToolDef[] = [
     slug: "schema-generator",
     name: "JSON-LD Schema Generator",
     category: "seo-tools",
-    description: "Generate structured data markup for SoftwareApplication, FAQ, Article, Product, and HowTo schemas.",
+    description: "Free JSON-LD schema generator for structured data markup. Build valid Schema.org JSON-LD code for Articles, FAQs, Products, Reviews, Local Business, Breadcrumbs, Events, HowTo, and more — no signup required.",
     icon: "Code2",
     featured: true,
     trending: true,
     rating: 4.9,
     reviewsCount: 1840,
-    keywords: ["schema generator", "json-ld markup maker", "faq schema creator", "softwareapplication schema"],
-    features: ["Multi-schema template options", "Valid Google Rich Results syntax", "Dynamic field builder", "Clean JSON output"],
-    benefits: ["Qualify for Google rich snippets", "Improve search engine understanding", "Stand out in search result listings"],
-    howTo: ["Select the Schema Type (Software, FAQ, Article, HowTo).", "Fill out the structured form fields.", "Copy the generated `<script type=\"application/ld+json\">` code."],
-    commonMistakes: ["Leaving required fields empty.", "Adding inaccurate info not present on the web page."],
+    keywords: [
+      "json-ld generator", "json-ld schema generator", "ld json schema generator", "json-ld builder",
+      "json-ld code generator", "json ld generator free", "schema generator", "json-ld markup maker",
+      "faq schema creator", "structured data generator", "schema.org generator", "schema markup generator",
+      "json ld maker online", "rich snippet generator", "schema markup tool free", "article schema generator",
+      "product schema generator", "faq rich snippet generator", "breadcrumb schema generator",
+      "local business schema generator", "event schema markup", "howto schema generator",
+      "google rich results schema", "seo schema markup", "json ld schema ai"
+    ],
+    features: [
+      "10+ Schema.org types (Article, FAQ, Product, Review, Event, Local Business, Breadcrumb, HowTo, SoftwareApp, VideoObject)",
+      "Valid Google Rich Results syntax — passes Rich Results Test",
+      "Dynamic form-based field builder — no JSON knowledge required",
+      "One-click copy of clean `<script type=\"application/ld+json\">` output",
+      "Real-time JSON-LD preview and validation",
+      "Free to use, no signup, no watermarks"
+    ],
+    benefits: [
+      "Qualify for Google rich snippets and enhanced SERP features",
+      "Improve search engine understanding of your content",
+      "Stand out in search results with star ratings, FAQs, and breadcrumbs",
+      "Boost click-through rate (CTR) by up to 30% with rich results",
+      "No JSON-LD coding knowledge required — auto-generates valid markup"
+    ],
+    howTo: [
+      "Select the Schema Type from the dropdown (Article, FAQ, Product, etc.).",
+      "Fill out the structured form fields with your page's real data.",
+      "Copy the generated `<script type=\"application/ld+json\">` code.",
+      "Paste it inside your page's `<head>` section.",
+      "Test with Google's Rich Results Test tool to verify."
+    ],
+    commonMistakes: [
+      "Leaving required fields empty — all required properties must be present.",
+      "Adding inaccurate info not actually visible on the web page.",
+      "Forgetting to test with Google Rich Results Test after adding.",
+      "Using JSON-LD for content not relevant to the page topic."
+    ],
     faqs: [
-      { question: "Where should I place the schema markup?", answer: "Inside the `<head>` tag or right before the closing `</body>` tag of your HTML document." }
+      { question: "What is a JSON-LD schema generator?", answer: "A JSON-LD schema generator is a free online tool that creates valid Schema.org structured data markup in JSON-LD format. It helps Google understand your content and qualify for rich snippets in search results." },
+      { question: "Where should I place the schema markup?", answer: "Paste the generated JSON-LD `<script>` tag inside the `<head>` section or right before the closing `</body>` tag of your HTML page." },
+      { question: "What is the difference between JSON-LD and Microdata?", answer: "JSON-LD is a separate script block that Google recommends. Microdata is embedded inline in HTML. JSON-LD is easier to manage and is Google's preferred format." },
+      { question: "Does JSON-LD markup directly improve rankings?", answer: "JSON-LD structured data doesn't directly boost rankings, but it enables rich results (FAQs, star ratings, breadcrumbs) which increase click-through rates and organic traffic." },
+      { question: "Is this JSON-LD generator free?", answer: "Yes, Toolifia's JSON-LD Schema Generator is 100% free with no signup or credit card required." }
     ]
   },
   {
