@@ -1,81 +1,91 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeToggle";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
-import { SearchBar } from "../common/SearchBar";
 import { Logo } from "../common/Logo";
-import { TrustpilotBadge } from "../trustpilot/TrustpilotBadge";
-import { ProductHuntBadge } from "../producthunt/ProductHuntBadge";
-import { Grid, Menu, ChevronDown, Lock } from "lucide-react";
+import { Grid, Menu, ChevronDown, Zap, BookOpen, Shield } from "lucide-react";
+
+const NAV_LINKS = [
+  { href: "/tools", label: "All Tools", highlight: true },
+  { href: "/blog", label: "Blog", icon: BookOpen },
+  { href: "/privacy", label: "Privacy", icon: Shield },
+];
 
 export function Header() {
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full glass border-b border-slate-200/50 dark:border-slate-800/50 transition-all">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "glass-nav shadow-[0_1px_0_rgba(255,255,255,0.06),0_8px_32px_rgba(0,0,0,0.4)]"
+          : "bg-transparent border-b border-white/[0.04]"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Brand Logo */}
-        <div className="flex items-center gap-6">
+
+        {/* ── Left: Logo + Nav ── */}
+        <div className="flex items-center gap-5">
           <Logo size="md" />
 
-          {/* Mega Menu Desktop Trigger */}
+          {/* Categories dropdown trigger */}
           <button
             onClick={() => setMegaMenuOpen(!megaMenuOpen)}
-            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all duration-200"
           >
-            <Grid className="w-4 h-4 text-brand-500" />
+            <Grid className="w-4 h-4 text-violet-400" />
             <span>Categories</span>
-            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${megaMenuOpen ? "rotate-180" : ""}`} />
+            <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${megaMenuOpen ? "rotate-180" : ""}`} />
           </button>
 
+          {/* All Tools pill */}
           <Link
             href="/tools"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-brand-600 dark:text-brand-400 bg-brand-500/10 dark:bg-brand-400/10 hover:bg-brand-500/20 transition-colors"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-violet-300 bg-violet-500/10 border border-violet-500/20 hover:bg-violet-500/20 hover:border-violet-400/40 transition-all duration-200"
           >
-            <span>All Tools (133+)</span>
+            <Zap className="w-3.5 h-3.5" />
+            All Tools (133+)
           </Link>
         </div>
 
-        {/* Quick Search */}
-        <div className="hidden lg:block flex-1 max-w-md">
-          <SearchBar placeholder="Search tools (e.g. AI Humanizer, JSON Formatter)..." />
-        </div>
+        {/* ── Right: Nav Links + Mobile ── */}
+        <div className="flex items-center gap-1">
 
-        {/* Right Navigation */}
-        <div className="flex items-center gap-3">
-          <ProductHuntBadge variant="header" />
-          <TrustpilotBadge variant="header" />
+          {NAV_LINKS.slice(1).map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="hidden md:inline-flex px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.05] transition-all duration-200"
+            >
+              {label}
+            </Link>
+          ))}
+
+          {/* Divider */}
+          <div className="hidden md:block w-px h-5 bg-white/[0.1] mx-2" />
+
+          {/* Get Started CTA */}
           <Link
-            href="/blog"
-            className="hidden sm:inline-flex text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+            href="/tools"
+            className="hidden sm:inline-flex btn-primary px-4 py-2 rounded-xl text-sm font-semibold text-white"
           >
-            Blog
+            Try Free Tools
           </Link>
-
-          <Link
-            href="/privacy"
-            className="hidden md:inline-flex text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
-          >
-            Privacy
-          </Link>
-
-          <Link
-            href="/admin"
-            className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800"
-          >
-            <Lock className="w-3 h-3 text-brand-500" /> Admin
-          </Link>
-
-          <ThemeToggle />
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800"
+            className="md:hidden p-2.5 rounded-xl text-slate-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.07] transition-all ml-2"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
@@ -83,7 +93,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mega Menu Dropdown */}
+      {/* Mega Menu */}
       {megaMenuOpen && <MegaMenu onClose={() => setMegaMenuOpen(false)} />}
 
       {/* Mobile Drawer */}
