@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
-  // Standalone output for Netlify — avoids needing @netlify/plugin-nextjs
+  // Standalone output for Netlify & Vercel
   output: "standalone",
   serverExternalPackages: ["@prisma/client", "prisma"],
 
