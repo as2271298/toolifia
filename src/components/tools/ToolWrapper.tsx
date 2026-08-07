@@ -8,6 +8,7 @@ import { RatingStars } from "../common/RatingStars";
 import { FAQAccordion } from "../common/FAQAccordion";
 import { ToolCard } from "../common/ToolCard";
 import { AdBanner } from "../monetization/AdBanner";
+import { PosterAd } from "../monetization/PosterAd";
 import { JsonLd } from "../seo/JsonLd";
 import {
   generateSoftwareApplicationSchema,
@@ -198,6 +199,8 @@ export function ToolWrapper({
 
           {/* FAQ Section */}
           <section>
+            {/* Poster ad directly before FAQ for high visibility */}
+            <PosterAd layout="horizontal" className="mb-8" />
             <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">
               Frequently Asked Questions
             </h2>
@@ -240,6 +243,9 @@ export function ToolWrapper({
               </div>
             </section>
           )}
+
+          {/* Poster Ad at bottom of tool page */}
+          <PosterAd layout="horizontal" theme="dark" className="mt-8" />
         </div>
       </div>
     </>

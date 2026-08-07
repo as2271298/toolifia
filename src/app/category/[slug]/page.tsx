@@ -3,6 +3,7 @@ import { CATEGORIES } from "@/config/categories.registry";
 import { TOOLS } from "@/config/tools.registry";
 import { ToolCard } from "@/components/common/ToolCard";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
+import { PosterAd } from "@/components/monetization/PosterAd";
 import { siteConfig } from "@/config/site.config";
 import { constructMetadata } from "@/lib/seo";
 import { Sparkles, Grid } from "lucide-react";
@@ -111,6 +112,9 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
         </div>
       </div>
 
+      {/* --- Banner Ad between hero and tool grid --- */}
+      <PosterAd layout="horizontal" className="mb-4" />
+
       <div className="flex items-center justify-between pb-6 mb-8 border-b border-slate-200 dark:border-slate-800">
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white">
@@ -137,6 +141,9 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
           </p>
         </div>
       )}
+
+      {/* --- Leaderboard-style poster ad below tool grid --- */}
+      <PosterAd layout="horizontal" className="mt-8" />
 
       {/* SEO Content Block */}
       <section className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-6">

@@ -6,6 +6,7 @@ import { CategoryCard } from "@/components/common/CategoryCard";
 import { FAQAccordion } from "@/components/common/FAQAccordion";
 import { NewsletterForm } from "@/components/common/NewsletterForm";
 import { AnimatedHero } from "@/components/home/AnimatedHero";
+import { PosterAd } from "@/components/monetization/PosterAd";
 import { constructMetadata } from "@/lib/seo";
 import {
   Zap, ShieldCheck, CheckCircle2, ArrowRight,
@@ -113,6 +114,9 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── Banner Ad: After Featured Tools ── */}
+        <PosterAd layout="horizontal" theme="violet" />
+
         {/* ── Divider ── */}
         <hr className="section-divider" />
 
@@ -144,6 +148,9 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── Banner Ad: After Categories Grid ── */}
+        <PosterAd layout="horizontal" theme="cyan" />
+
         {/* ── Divider ── */}
         <hr className="section-divider" />
 
@@ -162,6 +169,9 @@ export default function HomePage() {
             <ToolSection title="Calculators"           emoji="🧮" tools={CALC_TOOLS} href="/category/calculator-tools" />
           </div>
         </section>
+
+        {/* ── Banner Ad: After Tool Ecosystem ── */}
+        <PosterAd layout="horizontal" theme="amber" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -256,6 +266,9 @@ export default function HomePage() {
             </table>
           </div>
         </section>
+
+        {/* ── Banner Ad: After Comparison Table ── */}
+        <PosterAd layout="horizontal" theme="emerald" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
