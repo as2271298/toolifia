@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Search, Sparkles, ArrowRight, Zap, Shield, Globe } from "lucide-react";
+import { Search, Sparkles, ArrowRight, Zap, Shield, Globe, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const ROTATING_WORDS = [
@@ -32,10 +32,10 @@ const FLOATING_CHIPS = [
 ];
 
 const STATS = [
-  { value: "300+", label: "Free Tools", icon: Zap, color: "#a78bfa" },
-  { value: "0", label: "Signup Needed", icon: Shield, color: "#10b981" },
-  { value: "10M+", label: "Monthly Users", icon: Globe, color: "#06b6d4" },
-  { value: "4.9★", label: "User Rating", icon: Sparkles, color: "#f59e0b" },
+  { value: "300+", label: "Free Tools", Icon: Zap, color: "#a78bfa" },
+  { value: "Zero", label: "Signup Needed", Icon: Shield, color: "#10b981" },
+  { value: "10M+", label: "Monthly Users", Icon: Globe, color: "#06b6d4" },
+  { value: "4.9★", label: "User Rating", Icon: Star, color: "#f59e0b" },
 ];
 
 export function AnimatedHero() {
@@ -77,7 +77,7 @@ export function AnimatedHero() {
   };
 
   return (
-    <section className="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+    <section className="relative flex flex-col items-center overflow-hidden">
 
       {/* ── Mesh Gradient Background Orbs ── */}
       <div className="mesh-bg">
@@ -110,8 +110,8 @@ export function AnimatedHero() {
         }}
       />
 
-      {/* ── Content ── */}
-      <div className="relative z-10 flex flex-col items-center gap-8 max-w-5xl mx-auto w-full">
+      {/* ── Main Hero Content ── */}
+      <div className="relative z-10 flex flex-col items-center gap-8 max-w-5xl mx-auto w-full px-4 pt-24 pb-16 text-center">
 
         {/* Top badge */}
         <div className="animate-fade-up">
@@ -206,22 +206,22 @@ export function AnimatedHero() {
           </Link>
         </div>
 
-        {/* Stat Cards */}
+        {/* Stat Cards — clearly separated, NOT overlapping marquee */}
         <div className="animate-fade-up-d4 grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl mt-2">
-          {STATS.map(({ value, label, icon: Icon, color }) => (
+          {STATS.map(({ value, label, Icon, color }) => (
             <div key={label} className="stat-card rounded-2xl p-4 text-center">
               <div className="text-2xl sm:text-3xl font-black" style={{ color }}>{value}</div>
               <div className="text-xs text-slate-400 mt-1 flex items-center justify-center gap-1">
-                <Icon className="w-3 h-3" style={{ color }} />
-                {label}
+                <Icon className="w-3 h-3 shrink-0" style={{ color }} />
+                <span>{label}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ── Scrolling Category Marquee ── */}
-      <div className="absolute bottom-0 left-0 right-0 overflow-hidden py-4 border-t border-white/[0.05]">
+      {/* ── Scrolling Category Marquee — BELOW hero content, in normal flow ── */}
+      <div className="relative z-10 w-full overflow-hidden py-4 border-t border-white/[0.05]">
         <div className="marquee-track">
           {[...FLOATING_CHIPS, ...FLOATING_CHIPS].map((chip, i) => (
             <div
