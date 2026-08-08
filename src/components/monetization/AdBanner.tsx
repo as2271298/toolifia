@@ -6,7 +6,7 @@ import { ExternalLink } from "lucide-react";
 import { PosterAd } from "./PosterAd";
 
 export const SMARTLINK_URL =
-  "https://www.effectivecpmnetwork.com/d51gzcmx?key=80aaee205e409e2d9f27954f0633be82805";
+  "https://www.effectivecpmnetwork.com/d51gzcmx?key=80aaee205e409e2d9f27954f0639f7bf";
 
 // ─── The EXACT HTML snippet from EffectiveCPM for the native ad zone ──────────
 // Using an iframe per instance means each one gets its own container-ID context
