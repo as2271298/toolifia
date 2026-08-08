@@ -26,6 +26,17 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.toolifia.vercel.app" }],
+        destination: "https://toolifia.vercel.app/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {
@@ -54,11 +65,28 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/:path*.(svg|jpg|png|webp|avif|ico)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+          {
+            key: "Expires",
+            value: "Thu, 31 Dec 2037 23:59:59 GMT",
+          },
+        ],
+      },
+      {
         source: "/_next/static/:path*",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+          {
+            key: "Expires",
+            value: "Thu, 31 Dec 2037 23:59:59 GMT",
           },
         ],
       },

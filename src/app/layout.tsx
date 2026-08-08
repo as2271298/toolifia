@@ -107,6 +107,7 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <meta name="trustpilot-one-time-domain-verification-id" content="c7d56998-6f55-46a8-97d5-b09dfc212854" />
+        <meta name="keywords" content="free online tools, ai humanizer free, ai detector free, toolify alternative, free ai tools no signup, seo tools free, meta tag generator, keyword density checker, json formatter, word counter free, pdf converter online, text tools online, developer tools free, free calculator online, unit converter free, ai text humanizer, bypass ai detection, free prompt generator, schema markup generator, online tools no account" />
 
         {/* Google Analytics 4 */}
         <Script
