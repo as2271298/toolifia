@@ -124,6 +124,7 @@ export default function HomePage() {
         {/* ── Ads: After Featured Tools ── */}
         <AdBanner slot="inArticleBanner" variant="leaderboard" />
         <PosterAd layout="horizontal" theme="violet" />
+        <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -142,6 +143,8 @@ export default function HomePage() {
 
         {/* ── Ad: After Trending Tools ── */}
         <AdBanner slot="inArticleBanner" variant="leaderboard" />
+        <PosterAd layout="horizontal" theme="amber" />
+        <AdBanner slot="toolFooterBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -162,6 +165,8 @@ export default function HomePage() {
         {/* ── Ads: After Categories Grid ── */}
         <AdBanner slot="sidebarBanner" variant="leaderboard" />
         <PosterAd layout="horizontal" theme="cyan" />
+        <AdBanner slot="headerBanner" variant="leaderboard" />
+        <PosterAd layout="horizontal" theme="violet" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -183,7 +188,9 @@ export default function HomePage() {
         </section>
 
         {/* ── Banner Ad: After Tool Ecosystem ── */}
+        <AdBanner slot="inArticleBanner" variant="leaderboard" />
         <PosterAd layout="horizontal" theme="amber" />
+        <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -230,6 +237,8 @@ export default function HomePage() {
 
         {/* ── Banner Ad: After Feature Highlights ── */}
         <AdBanner slot="inArticleBanner" variant="leaderboard" />
+        <PosterAd layout="horizontal" theme="dark" />
+        <AdBanner slot="toolFooterBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -283,7 +292,9 @@ export default function HomePage() {
         </section>
 
         {/* ── Banner Ad: After Comparison Table ── */}
+        <AdBanner slot="sidebarBanner" variant="leaderboard" />
         <PosterAd layout="horizontal" theme="emerald" />
+        <AdBanner slot="headerBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -312,6 +323,8 @@ export default function HomePage() {
 
         {/* ── Banner Ad: After Social Proof Stars ── */}
         <AdBanner slot="inArticleBanner" variant="leaderboard" />
+        <PosterAd layout="horizontal" theme="violet" />
+        <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -352,6 +365,11 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── Ads after FAQ ── */}
+        <AdBanner slot="toolFooterBanner" variant="leaderboard" />
+        <PosterAd layout="horizontal" theme="cyan" />
+        <AdBanner slot="inArticleBanner" variant="leaderboard" />
+
         {/* ══════════ SEO TEXT BLOCK ══════════ */}
         <section className="glass-card rounded-2xl p-8 border border-white/[0.06]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -381,6 +399,11 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ── Banner Ad: Before Newsletter ── */}
+        <AdBanner slot="sidebarBanner" variant="leaderboard" />
+        <PosterAd layout="horizontal" theme="amber" />
+        <AdBanner slot="inArticleBanner" variant="leaderboard" />
 
         {/* ══════════ NEWSLETTER ══════════ */}
         <section className="relative overflow-hidden rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/10 via-violet-500/5 to-transparent p-8 md:p-12 text-center space-y-6">

@@ -35,8 +35,10 @@ export default function AllToolsPage() {
         </p>
       </div>
 
-      {/* Ad: Below header */}
+      {/* Ad: Below header — double stack */}
       <AdBanner slot="headerBanner" variant="leaderboard" />
+      <PosterAd layout="horizontal" theme="violet" />
+      <AdBanner slot="inArticleBanner" variant="leaderboard" />
 
       {/* Featured AI & Video Highlights */}
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-purple-900/40 via-indigo-900/40 to-slate-900 border border-purple-500/30 text-white space-y-4">
@@ -51,8 +53,10 @@ export default function AllToolsPage() {
         </div>
       </div>
 
-      {/* Ad: After featured block */}
+      {/* Ad: After featured block — double stack */}
       <AdBanner slot="inArticleBanner" variant="leaderboard" />
+      <PosterAd layout="horizontal" theme="cyan" />
+      <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
       {/* Tools Grouped by Category — ad injected every 3 categories */}
       <div className="space-y-12">
@@ -80,19 +84,22 @@ export default function AllToolsPage() {
                 </div>
               </section>
 
-              {/* Inject a banner ad after EVERY category block for maximum ad coverage */}
-              {catIndex % 2 === 0 ? (
-                <AdBanner key={`ad-${catIndex}`} slot="inArticleBanner" variant="leaderboard" />
-              ) : (
-                <PosterAd key={`poster-${catIndex}`} layout="horizontal" />
+              {/* Inject BOTH a banner ad AND a poster after EVERY category block */}
+              <AdBanner key={`ad-${catIndex}`} slot="inArticleBanner" variant="leaderboard" />
+              <PosterAd key={`poster-${catIndex}`} layout="horizontal" />
+              {catIndex % 3 === 0 && (
+                <AdBanner key={`ad2-${catIndex}`} slot="toolFooterBanner" variant="leaderboard" />
               )}
             </>
           );
         })}
       </div>
 
-      {/* Ad: Bottom of page */}
+      {/* Ad: Bottom of page — triple stack */}
       <AdBanner slot="toolFooterBanner" variant="leaderboard" />
+      <PosterAd layout="horizontal" theme="emerald" />
+      <AdBanner slot="headerBanner" variant="leaderboard" />
+      <PosterAd layout="horizontal" theme="dark" />
     </div>
   );
 }
