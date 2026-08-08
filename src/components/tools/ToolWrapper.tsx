@@ -29,7 +29,7 @@ export function ToolWrapper({
   const [activeTab, setActiveTab] = useState<"tool" | "api">("tool");
 
   const breadcrumbs = [
-    { name: "Tools", url: "/#tools" },
+    { name: "Tools", url: "/tools" },
     { name: tool.category, url: `/category/${tool.category}` },
     { name: tool.name, url: `/tool/${tool.slug}` },
   ];

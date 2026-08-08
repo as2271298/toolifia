@@ -91,7 +91,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
   const categoryTools = TOOLS.filter((t) => t.category === category.slug);
 
   const breadcrumbs = [
-    { name: "Categories", url: "/#categories" },
+    { name: "Categories", url: "/tools" },
     { name: category.name, url: `/category/${category.slug}` },
   ];
 

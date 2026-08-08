@@ -48,7 +48,7 @@ export const siteConfig: SiteConfig = {
     linkedin: "https://linkedin.com/company/toolifia",
     facebook: "https://facebook.com/toolifia",
     instagram: "https://instagram.com/toolifia",
-    youtube: "https://youtube.com/@toolifia",
+    youtube: "https://www.youtube.com/@toolifia",
   },
   monetization: {
     adsensePublisherId: process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-0000000000000000",

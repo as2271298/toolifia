@@ -86,7 +86,7 @@ export function MegaMenu({ onClose }: { onClose: () => void }) {
             <p className="text-xs text-slate-500 dark:text-slate-400">Explore over 35 specialized categories & 300+ free online tools</p>
           </div>
           <Link
-            href="/#categories"
+            href="/tools"
             onClick={onClose}
             className="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline"
           >

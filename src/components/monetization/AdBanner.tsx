@@ -84,8 +84,13 @@ export function AdBanner({
   if (!siteConfig.monetization.enableAds) return null;
   if (!mounted) return null;
 
+  const minHeightClass = variant === "sidebar" ? "min-h-[260px]" : "min-h-[105px]";
+
   return (
-    <div className={`relative w-full my-6 ${className}`} aria-label="Advertisement">
+    <div
+      className={`relative w-full my-6 overflow-hidden ${minHeightClass} ${className}`}
+      aria-label="Advertisement"
+    >
       {/* 1. Network Script Container */}
       <div
         ref={containerRef}

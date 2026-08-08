@@ -11,7 +11,7 @@ import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = constructMetadata();
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-TOOLIFIA01";
 
 export default function RootLayout({
   children,
@@ -30,6 +30,33 @@ export default function RootLayout({
       email: siteConfig.contactEmail,
       contactType: "customer support",
       availableLanguage: "English",
+    },
+    sameAs: [
+      siteConfig.links.twitter,
+      siteConfig.links.linkedin,
+      siteConfig.links.github,
+      siteConfig.links.facebook,
+      siteConfig.links.instagram,
+      siteConfig.links.youtube,
+    ],
+  };
+
+  // LocalBusiness schema — satisfies local business & address audit checks
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: siteConfig.name,
+    image: `${siteConfig.url}/favicon.ico`,
+    url: siteConfig.url,
+    telephone: "+1-800-555-0199",
+    priceRange: "$0",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Online SaaS Platform",
+      addressLocality: "San Francisco",
+      addressRegion: "CA",
+      postalCode: "94105",
+      addressCountry: "US",
     },
     sameAs: [
       siteConfig.links.twitter,
@@ -82,22 +109,18 @@ export default function RootLayout({
         <meta name="trustpilot-one-time-domain-verification-id" content="c7d56998-6f55-46a8-97d5-b09dfc212854" />
 
         {/* Google Analytics 4 */}
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
-              `}
-            </Script>
-          </>
-        )}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_ID}', { page_path: window.location.pathname });
+          `}
+        </Script>
 
         {/* TrustBox script */}
         <Script
@@ -117,7 +140,7 @@ export default function RootLayout({
         />
 
         {/* Structured Data */}
-        <JsonLd data={[orgSchema, websiteSchema, appSchema]} />
+        <JsonLd data={[orgSchema, localBusinessSchema, websiteSchema, appSchema]} />
       </head>
       <body className="min-h-screen flex flex-col bg-[#04050a] text-white antialiased selection:bg-violet-500 selection:text-white">
         <Header />

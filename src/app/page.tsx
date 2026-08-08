@@ -133,7 +133,7 @@ export default function HomePage() {
           <SectionHeader
             label="Trending Now" labelIcon={Flame} labelColor="text-amber-400"
             title="Hottest Tools This Week"
-            href="/tools?filter=trending" linkText="See All Trending"
+            href="/tools" linkText="See All Trending"
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TRENDING_TOOLS.map((tool) => <ToolCard key={tool.slug} tool={tool} />)}

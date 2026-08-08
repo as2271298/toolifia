@@ -102,13 +102,7 @@ export function AnimatedHero() {
       </div>
 
       {/* ── Grid Overlay ── */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-          backgroundSize: "72px 72px",
-        }}
-      />
+      <div className="hero-grid-overlay" />
 
       {/* ── Main Hero Content ── */}
       <div className="relative z-10 flex flex-col items-center gap-8 max-w-5xl mx-auto w-full px-4 pt-24 pb-16 text-center">
