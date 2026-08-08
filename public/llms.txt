@@ -1,0 +1,28 @@
+# Toolifia — Free Online AI Tools & Utilities
+> 300+ free browser-based AI tools, developer utilities, SEO checkers, calculators, and converters. No account required.
+
+## Main Tools
+- AI Video Generator (Kling 2.1): https://toolifia.vercel.app/tool/ai-video-generator
+- AI Text Humanizer (Bypass AI detection): https://toolifia.vercel.app/tool/ai-humanizer
+- AI Content Detector (GPTZero compatible): https://toolifia.vercel.app/tool/ai-detector
+- JSON-LD Schema Markup Generator: https://toolifia.vercel.app/tool/schema-generator
+- SEO Meta Tag Generator: https://toolifia.vercel.app/tool/meta-tag-generator
+- JSON Formatter & Validator: https://toolifia.vercel.app/tool/json-formatter
+- Word & Character Counter: https://toolifia.vercel.app/tool/word-counter
+
+## Tool Categories
+- AI Tools: https://toolifia.vercel.app/category/ai-tools
+- SEO Tools: https://toolifia.vercel.app/category/seo-tools
+- Developer Tools: https://toolifia.vercel.app/category/developer-tools
+- Calculators: https://toolifia.vercel.app/category/calculator-tools
+- Converters: https://toolifia.vercel.app/category/converter-tools
+- Text Tools: https://toolifia.vercel.app/category/text-tools
+- Image Tools: https://toolifia.vercel.app/category/image-tools
+- Generator Tools: https://toolifia.vercel.app/category/generator-tools
+- Security Tools: https://toolifia.vercel.app/category/security-tools
+
+## Platform Features
+- 100% Free to use
+- Runs directly in browser (client-side execution)
+- No user sign-up or registration required
+- Programmatic REST API endpoints available for developers

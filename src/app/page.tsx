@@ -15,10 +15,11 @@ import {
 } from "lucide-react";
 
 export const metadata = constructMetadata({
-  title: "Free Online AI Tools — AI Humanizer, Video Generator, SEO Tools | Toolifia",
-  description: "300+ free AI tools that run directly in your browser. AI text humanizer, text-to-video generator (Kling 2.1), SEO utilities, calculators & converters. No account needed. The best free alternative to Toolify, Futurepedia & TAAFT.",
+  title: "Free AI Tools Online — No Signup Required | Toolifia",
+  description: "300+ free AI tools in your browser: AI video generator, text humanizer, SEO utilities, calculators & converters. No account needed. Zero paywalls.",
   keywords: "free online tools no signup, best free ai tools 2025, toolify alternative, free ai tools directory, ai humanizer free, ai video generator free, free seo tools, text to video ai free, ai tools no account, futurepedia alternative",
 });
+
 
 // Featured tools to highlight in sections
 const FEATURED_TOOLS = TOOLS.filter((t) => t.featured).slice(0, 8);

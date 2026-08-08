@@ -11,6 +11,9 @@ export interface SiteConfig {
     github: string;
     twitter: string;
     linkedin: string;
+    facebook: string;
+    instagram: string;
+    youtube: string;
   };
   monetization: {
     adsensePublisherId: string;
@@ -43,6 +46,9 @@ export const siteConfig: SiteConfig = {
     github: "https://github.com/toolifia",
     twitter: "https://twitter.com/toolifia",
     linkedin: "https://linkedin.com/company/toolifia",
+    facebook: "https://facebook.com/toolifia",
+    instagram: "https://instagram.com/toolifia",
+    youtube: "https://youtube.com/@toolifia",
   },
   monetization: {
     adsensePublisherId: process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-0000000000000000",

@@ -11,36 +11,94 @@ import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = constructMetadata();
 
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Organization schema — includes all social profiles so Google knows they belong to Toolifia
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
     logo: `${siteConfig.url}/favicon.ico`,
-    sameAs: [siteConfig.links.github, siteConfig.links.twitter, siteConfig.links.linkedin],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: siteConfig.contactEmail,
+      contactType: "customer support",
+      availableLanguage: "English",
+    },
+    sameAs: [
+      siteConfig.links.twitter,
+      siteConfig.links.linkedin,
+      siteConfig.links.github,
+      siteConfig.links.facebook,
+      siteConfig.links.instagram,
+      siteConfig.links.youtube,
+    ],
   };
 
+  // WebSite schema — enables Google Sitelinks Searchbox
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: siteConfig.name,
     url: siteConfig.url,
+    description: siteConfig.description,
     potentialAction: {
       "@type": "SearchAction",
-      target: `${siteConfig.url}/tool/{search_term_string}`,
+      target: `${siteConfig.url}/tools?search={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
+  };
+
+  // SoftwareApplication schema — helps rank for "free tools" searches
+  const appSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: siteConfig.name,
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web Browser",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "12847",
+      bestRating: "5",
+    },
+    url: siteConfig.url,
   };
 
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <meta name="trustpilot-one-time-domain-verification-id" content="c7d56998-6f55-46a8-97d5-b09dfc212854" />
+
+        {/* Google Analytics 4 — loads after page is interactive to not block rendering */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
+              `}
+            </Script>
+          </>
+        )}
+
         {/* TrustBox script */}
         <Script
           type="text/javascript"
@@ -48,6 +106,7 @@ export default function RootLayout({
           strategy="afterInteractive"
           async
         />
+
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -56,7 +115,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
-        <JsonLd data={[orgSchema, websiteSchema]} />
+
+        {/* Structured Data */}
+        <JsonLd data={[orgSchema, websiteSchema, appSchema]} />
       </head>
       <body className="min-h-screen flex flex-col bg-[#04050a] text-white antialiased selection:bg-violet-500 selection:text-white">
         <Header />

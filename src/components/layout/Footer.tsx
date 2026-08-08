@@ -4,7 +4,7 @@ import { CATEGORIES } from "@/config/categories.registry";
 import { Logo } from "../common/Logo";
 import { TrustpilotBadge } from "../trustpilot/TrustpilotBadge";
 import { ProductHuntBadge } from "../producthunt/ProductHuntBadge";
-import { Github, Twitter, Linkedin, Heart, ShieldCheck } from "lucide-react";
+import { Github, Twitter, Linkedin, Heart, ShieldCheck, Facebook, Instagram, Youtube } from "lucide-react";
 
 export function Footer() {
   return (
@@ -20,32 +20,29 @@ export function Footer() {
             </p>
 
             <div className="flex items-center gap-3 pt-2">
-              <a
-                href={siteConfig.links.github}
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors"
-                aria-label="GitHub"
-              >
+              <a href={siteConfig.links.github} target="_blank" rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="GitHub">
                 <Github className="w-4 h-4" />
               </a>
-              <a
-                href={siteConfig.links.twitter}
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors"
-                aria-label="Twitter"
-              >
+              <a href={siteConfig.links.twitter} target="_blank" rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="X / Twitter">
                 <Twitter className="w-4 h-4" />
               </a>
-              <a
-                href={siteConfig.links.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors"
-                aria-label="LinkedIn"
-              >
+              <a href={siteConfig.links.linkedin} target="_blank" rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="LinkedIn">
                 <Linkedin className="w-4 h-4" />
+              </a>
+              <a href={siteConfig.links.facebook} target="_blank" rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-[#1877F2] transition-colors" aria-label="Facebook">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a href={siteConfig.links.instagram} target="_blank" rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-pink-500 transition-colors" aria-label="Instagram">
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a href={siteConfig.links.youtube} target="_blank" rel="noreferrer"
+                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-red-500 transition-colors" aria-label="YouTube">
+                <Youtube className="w-4 h-4" />
               </a>
             </div>
           </div>
