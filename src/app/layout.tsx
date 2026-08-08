@@ -81,7 +81,15 @@ export default function RootLayout({
       <head>
         <meta name="trustpilot-one-time-domain-verification-id" content="c7d56998-6f55-46a8-97d5-b09dfc212854" />
 
-        {/* Google Analytics 4 — loads after page is interactive to not block rendering */}
+        {/* Multitag / Industrious Tag Script */}
+        <Script
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="264982"
+          strategy="afterInteractive"
+          data-cfasync="false"
+        />
+
+        {/* Google Analytics 4 */}
         {GA_ID && (
           <>
             <Script
@@ -125,6 +133,12 @@ export default function RootLayout({
         <Footer />
         <TrustpilotBadge variant="floating" />
         <ProductHuntBadge variant="floating" />
+
+        {/* Social Bar script (Adsterra) — loaded before closing body tag */}
+        <Script
+          src="https://pl30549940.effectivecpmnetwork.com/c2/b9/7a/c2b97a6f7a2f3d0dfd5d888ca701bdfd.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
