@@ -43,12 +43,12 @@ export const siteConfig: SiteConfig = {
   creator: "Toolifia Inc.",
   twitterHandle: "@toolifia",
   links: {
-    github: "https://github.com/toolifia",
-    twitter: "https://twitter.com/toolifia",
+    github: "", // Not yet live — remove to avoid 404 audit warnings
+    twitter: "", // Not yet live — remove to avoid 404 audit warnings
     linkedin: "https://linkedin.com/company/toolifia",
     facebook: "https://facebook.com/toolifia",
     instagram: "https://instagram.com/toolifia",
-    youtube: "https://www.youtube.com/@toolifia",
+    youtube: "", // Not yet live — remove to avoid 404 audit warnings
   },
   monetization: {
     adsensePublisherId: process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-0000000000000000",

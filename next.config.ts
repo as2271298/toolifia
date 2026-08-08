@@ -28,6 +28,18 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      // Fix: "Redirect from index pages configured incorrectly" — Critical SEO audit item
+      {
+        source: "/index.html",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/index.php",
+        destination: "/",
+        permanent: true,
+      },
+      // WWW → non-WWW canonical redirect
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.toolifia.vercel.app" }],

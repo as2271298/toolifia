@@ -38,7 +38,7 @@ export default function RootLayout({
       siteConfig.links.facebook,
       siteConfig.links.instagram,
       siteConfig.links.youtube,
-    ],
+    ].filter(Boolean),
   };
 
   // LocalBusiness schema — satisfies local business & address audit checks
@@ -65,7 +65,7 @@ export default function RootLayout({
       siteConfig.links.facebook,
       siteConfig.links.instagram,
       siteConfig.links.youtube,
-    ],
+    ].filter(Boolean),
   };
 
   // WebSite schema — enables Google Sitelinks Searchbox

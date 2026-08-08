@@ -129,6 +129,15 @@ export const CATEGORIES: CategoryDef[] = [
     color: "from-green-500 to-emerald-700",
   },
   {
+    // calculator-tools is used by many tools in tools.registry.ts — this slug MUST be present
+    slug: "calculator-tools",
+    name: "Calculators",
+    description: "Free online calculators for BMI, loans, EMI, percentages, age, GPA, compound interest, and more. Get instant results with no signup.",
+    icon: "Calculator",
+    featured: true,
+    color: "from-orange-500 to-amber-600",
+  },
+  {
     slug: "math-tools",
     name: "Math Tools",
     description: "Scientific calculators, percentage calculators, and equation solvers.",

@@ -19,31 +19,44 @@ export function Footer() {
               {siteConfig.description} Free, high-performance online utilities built for content creators, developers, technical SEOs, and students.
             </p>
 
+            {/* Social icons — only rendered when the URL is set */}
             <div className="flex items-center gap-3 pt-2">
-              <a href={siteConfig.links.github} target="_blank" rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="GitHub">
-                <Github className="w-4 h-4" />
-              </a>
-              <a href={siteConfig.links.twitter} target="_blank" rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="X / Twitter">
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a href={siteConfig.links.linkedin} target="_blank" rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="LinkedIn">
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a href={siteConfig.links.facebook} target="_blank" rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-[#1877F2] transition-colors" aria-label="Facebook">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href={siteConfig.links.instagram} target="_blank" rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-pink-500 transition-colors" aria-label="Instagram">
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a href={siteConfig.links.youtube} target="_blank" rel="noreferrer"
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-red-500 transition-colors" aria-label="YouTube">
-                <Youtube className="w-4 h-4" />
-              </a>
+              {siteConfig.links.github && (
+                <a href={siteConfig.links.github} target="_blank" rel="noreferrer"
+                  className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="GitHub">
+                  <Github className="w-4 h-4" />
+                </a>
+              )}
+              {siteConfig.links.twitter && (
+                <a href={siteConfig.links.twitter} target="_blank" rel="noreferrer"
+                  className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="X / Twitter">
+                  <Twitter className="w-4 h-4" />
+                </a>
+              )}
+              {siteConfig.links.linkedin && (
+                <a href={siteConfig.links.linkedin} target="_blank" rel="noreferrer"
+                  className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="LinkedIn">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              )}
+              {siteConfig.links.facebook && (
+                <a href={siteConfig.links.facebook} target="_blank" rel="noreferrer"
+                  className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-[#1877F2] transition-colors" aria-label="Facebook">
+                  <Facebook className="w-4 h-4" />
+                </a>
+              )}
+              {siteConfig.links.instagram && (
+                <a href={siteConfig.links.instagram} target="_blank" rel="noreferrer"
+                  className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-pink-500 transition-colors" aria-label="Instagram">
+                  <Instagram className="w-4 h-4" />
+                </a>
+              )}
+              {siteConfig.links.youtube && (
+                <a href={siteConfig.links.youtube} target="_blank" rel="noreferrer"
+                  className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-red-500 transition-colors" aria-label="YouTube">
+                  <Youtube className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </div>
 

@@ -82,20 +82,37 @@ export function AdBanner({
   }, [mounted, containerId]);
 
   if (!siteConfig.monetization.enableAds) return null;
-  if (!mounted) return null;
 
-  const minHeightClass = variant === "sidebar" ? "min-h-[260px]" : "min-h-[105px]";
+  // ─── CLS FIX ────────────────────────────────────────────────────────────────
+  // NEVER return null — always render a wrapper with a reserved fixed height.
+  // This prevents a layout shift (CLS) when the ad mounts on the client.
+  // The placeholder renders on SSR & during hydration, then is replaced by the real ad.
+  const reservedHeight = variant === "sidebar" ? "260px" : "105px";
+
+  // SSR / pre-mount: render stable placeholder to reserve space
+  if (!mounted) {
+    return (
+      <div
+        className={`w-full my-6 overflow-hidden rounded-2xl bg-slate-900/40 border border-slate-800/50 ${className}`}
+        style={{ minHeight: reservedHeight }}
+        aria-hidden="true"
+      />
+    );
+  }
 
   return (
     <div
-      className={`relative w-full my-6 overflow-hidden ${minHeightClass} ${className}`}
+      className={`relative w-full my-6 overflow-hidden ${className}`}
+      style={{ minHeight: reservedHeight }}
       aria-label="Advertisement"
     >
       {/* 1. Network Script Container */}
       <div
         ref={containerRef}
         className={`w-full flex justify-center items-center ${
-          hasNetworkAd ? "block p-4 rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl" : "hidden"
+          hasNetworkAd
+            ? "block p-4 rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl"
+            : "hidden"
         }`}
       >
         <div className="w-full">
