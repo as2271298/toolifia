@@ -1,26 +1,47 @@
 "use client";
 
-import { useEffect, useRef, useState, useId } from "react";
+import { useState, useEffect } from "react";
 import { siteConfig } from "@/config/site.config";
 import { ExternalLink } from "lucide-react";
 import { PosterAd } from "./PosterAd";
 
+export const SMARTLINK_URL =
+  "https://www.effectivecpmnetwork.com/d51gzcmx?key=80aaee205e409e2d9f27954f0633be82805";
+
+// ─── The EXACT HTML snippet from EffectiveCPM for the native ad zone ──────────
+// Using an iframe per instance means each one gets its own container-ID context
+// so there's NO conflict when 10+ ads are on the same page.
+const NATIVE_AD_HTML = `<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: transparent; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div id="container-00cf79882490a2b5dc99ed1e056650aa"></div>
+  <script async data-cfasync="false"
+    src="https://pl30549938.effectivecpmnetwork.com/00cf79882490a2b5dc99ed1e056650aa/invoke.js">
+  </script>
+</body>
+</html>`;
+
 interface AdBannerProps {
   slot: keyof typeof siteConfig.monetization.slots;
   className?: string;
+  /** leaderboard ≈ 90px tall  |  rectangle ≈ 280px tall  |  native ≈ 320px tall */
   variant?: "leaderboard" | "rectangle" | "sidebar" | "native";
   theme?: "violet" | "cyan" | "emerald" | "amber" | "dark";
 }
 
-// Smartlink URL for toolifia.vercel.app
-export const SMARTLINK_URL =
-  "https://www.effectivecpmnetwork.com/d51gzcmx?key=80aaee205e409e2d9f27954f0633be82805";
-
-// Native invoke script URL
-const INVOKE_SCRIPT_SRC =
-  "https://pl30549938.effectivecpmnetwork.com/00cf79882490a2b5dc99ed1e056650aa/invoke.js";
-
-const BASE_CONTAINER_ID = "container-00cf79882490a2b5dc99ed1e056650aa";
+/** Height in px reserved for each variant. Must be fixed so the iframe fills it. */
+const VARIANT_HEIGHT: Record<NonNullable<AdBannerProps["variant"]>, number> = {
+  leaderboard: 110,
+  rectangle:   280,
+  sidebar:     280,
+  native:      340,
+};
 
 export function AdBanner({
   slot,
@@ -28,73 +49,22 @@ export function AdBanner({
   variant = "native",
   theme,
 }: AdBannerProps) {
-  const uid = useId().replace(/:/g, "");
-  const containerId = `${BASE_CONTAINER_ID}-${uid}`;
-  const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-  const [hasNetworkAd, setHasNetworkAd] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
-    if (!siteConfig.monetization.enableAds) return;
-
-    // Set container ID for network script targeting
-    const inner = document.getElementById(containerId);
-    if (inner) {
-      inner.id = BASE_CONTAINER_ID;
-    }
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.setAttribute("data-cfasync", "false");
-    script.src = INVOKE_SCRIPT_SRC;
-
-    if (containerRef.current) {
-      containerRef.current.appendChild(script);
-    }
-
-    // Observer to detect when the ad script actually inserts ad content into the DOM
-    const observer = new MutationObserver(() => {
-      const el = document.getElementById(BASE_CONTAINER_ID);
-      if (el && el.children.length > 0) {
-        setHasNetworkAd(true);
-      }
-    });
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current, { childList: true, subtree: true });
-    }
-
-    return () => {
-      observer.disconnect();
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-      const restored = document.getElementById(BASE_CONTAINER_ID);
-      if (restored && containerRef.current?.contains(restored)) {
-        restored.id = containerId;
-      }
-    };
-  }, [mounted, containerId]);
-
   if (!siteConfig.monetization.enableAds) return null;
 
-  // ─── CLS FIX ────────────────────────────────────────────────────────────────
-  // NEVER return null — always render a wrapper with a reserved fixed height.
-  // This prevents a layout shift (CLS) when the ad mounts on the client.
-  // The placeholder renders on SSR & during hydration, then is replaced by the real ad.
-  const reservedHeight = variant === "sidebar" ? "260px" : "105px";
+  const height = VARIANT_HEIGHT[variant];
 
-  // SSR / pre-mount: render stable placeholder to reserve space
+  // ── SSR / pre-hydration: reserve space to avoid CLS ─────────────────────────
   if (!mounted) {
     return (
       <div
-        className={`w-full my-6 overflow-hidden rounded-2xl bg-slate-900/40 border border-slate-800/50 ${className}`}
-        style={{ minHeight: reservedHeight }}
+        className={`w-full my-4 rounded-2xl bg-slate-900/40 border border-slate-800/50 ${className}`}
+        style={{ height }}
         aria-hidden="true"
       />
     );
@@ -102,43 +72,34 @@ export function AdBanner({
 
   return (
     <div
-      className={`relative w-full my-6 overflow-hidden ${className}`}
-      style={{ minHeight: reservedHeight }}
+      className={`w-full my-4 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl ${className}`}
+      style={{ height: height + 32 /* +32 for label padding */ }}
       aria-label="Advertisement"
     >
-      {/* 1. Network Script Container */}
-      <div
-        ref={containerRef}
-        className={`w-full flex justify-center items-center ${
-          hasNetworkAd
-            ? "block p-4 rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl"
-            : "hidden"
-        }`}
-      >
-        <div className="w-full">
-          <div className="flex items-center justify-between text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-2">
-            <span>SPONSORED ADVERTISEMENT</span>
-            <a
-              href={SMARTLINK_URL}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="flex items-center gap-1 hover:text-violet-400 transition-colors"
-            >
-              Featured Offer <ExternalLink className="w-2.5 h-2.5" />
-            </a>
-          </div>
-          <div id={containerId} className="w-full min-h-[90px]" />
-        </div>
+      {/* Label row */}
+      <div className="flex items-center justify-between px-4 pt-2 pb-1 text-[10px] font-bold tracking-widest text-slate-500 uppercase">
+        <span>Sponsored Advertisement</span>
+        <a
+          href={SMARTLINK_URL}
+          target="_blank"
+          rel="noopener noreferrer sponsored"
+          className="flex items-center gap-1 hover:text-violet-400 transition-colors"
+        >
+          Featured Offer <ExternalLink className="w-2.5 h-2.5" />
+        </a>
       </div>
 
-      {/* 2. Fallback Poster Ad (renders immediately & stays active if network ad is empty or blocked) */}
-      {!hasNetworkAd && (
-        <PosterAd
-          theme={theme}
-          layout={variant === "sidebar" ? "vertical" : "horizontal"}
-          className="my-0"
-        />
-      )}
+      {/* ── Iframe: isolated context so each ad loads its OWN container ─────── */}
+      <iframe
+        srcDoc={NATIVE_AD_HTML}
+        width="100%"
+        height={height}
+        scrolling="no"
+        frameBorder="0"
+        title="Advertisement"
+        style={{ display: "block", border: "none" }}
+        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+      />
     </div>
   );
 }
