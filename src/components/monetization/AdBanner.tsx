@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState, useId } from "react";
 import { siteConfig } from "@/config/site.config";
-import { ExternalLink, Zap, Star, TrendingUp } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { PosterAd } from "./PosterAd";
 
 interface AdBannerProps {
   slot: keyof typeof siteConfig.monetization.slots;
   className?: string;
   variant?: "leaderboard" | "rectangle" | "sidebar" | "native";
+  theme?: "violet" | "cyan" | "emerald" | "amber" | "dark";
 }
 
 // Smartlink URL for toolifia.vercel.app
@@ -24,11 +26,13 @@ export function AdBanner({
   slot,
   className = "",
   variant = "native",
+  theme,
 }: AdBannerProps) {
   const uid = useId().replace(/:/g, "");
   const containerId = `${BASE_CONTAINER_ID}-${uid}`;
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  const [hasNetworkAd, setHasNetworkAd] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -38,7 +42,7 @@ export function AdBanner({
     if (!mounted) return;
     if (!siteConfig.monetization.enableAds) return;
 
-    // Rename the inner container to match what the script expects, then load script
+    // Set container ID for network script targeting
     const inner = document.getElementById(containerId);
     if (inner) {
       inner.id = BASE_CONTAINER_ID;
@@ -53,11 +57,23 @@ export function AdBanner({
       containerRef.current.appendChild(script);
     }
 
+    // Observer to detect when the ad script actually inserts ad content into the DOM
+    const observer = new MutationObserver(() => {
+      const el = document.getElementById(BASE_CONTAINER_ID);
+      if (el && el.children.length > 0) {
+        setHasNetworkAd(true);
+      }
+    });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current, { childList: true, subtree: true });
+    }
+
     return () => {
+      observer.disconnect();
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
-      // Restore unique ID on unmount so re-mounts work correctly
       const restored = document.getElementById(BASE_CONTAINER_ID);
       if (restored && containerRef.current?.contains(restored)) {
         restored.id = containerId;
@@ -68,80 +84,39 @@ export function AdBanner({
   if (!siteConfig.monetization.enableAds) return null;
   if (!mounted) return null;
 
-  const labelRow = (
-    <div className="flex items-center justify-between text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-3">
-      <span className="flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-        Sponsored Advertisement
-      </span>
-      <a
-        href={SMARTLINK_URL}
-        target="_blank"
-        rel="noopener noreferrer sponsored"
-        className="flex items-center gap-1 hover:text-violet-400 transition-colors"
-      >
-        Featured Offer <ExternalLink className="w-2.5 h-2.5" />
-      </a>
-    </div>
-  );
-
-  const adContainer = (
-    <div
-      ref={containerRef}
-      className="w-full flex justify-center items-center min-h-[280px]"
-    >
-      <div id={containerId} className="w-full" />
-    </div>
-  );
-
-  if (variant === "leaderboard") {
-    return (
-      <div
-        className={`w-full overflow-hidden rounded-2xl border border-violet-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900 to-slate-950/90 p-5 my-8 backdrop-blur-sm ${className}`}
-        aria-label="Advertisement"
-        suppressHydrationWarning
-      >
-        {labelRow}
-        {adContainer}
-      </div>
-    );
-  }
-
-  if (variant === "rectangle") {
-    return (
-      <div
-        className={`overflow-hidden rounded-2xl border border-violet-500/20 bg-gradient-to-b from-slate-900 to-slate-950 p-5 my-6 ${className}`}
-        aria-label="Advertisement"
-        suppressHydrationWarning
-      >
-        {labelRow}
-        {adContainer}
-      </div>
-    );
-  }
-
-  if (variant === "sidebar") {
-    return (
-      <div
-        className={`overflow-hidden rounded-2xl border border-cyan-500/20 bg-gradient-to-b from-slate-900/80 to-slate-950/80 p-5 my-6 backdrop-blur-sm ${className}`}
-        aria-label="Advertisement"
-        suppressHydrationWarning
-      >
-        {labelRow}
-        {adContainer}
-      </div>
-    );
-  }
-
-  // Default: native
   return (
-    <div
-      className={`w-full overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5 my-8 ${className}`}
-      aria-label="Advertisement"
-      suppressHydrationWarning
-    >
-      {labelRow}
-      {adContainer}
+    <div className={`relative w-full my-6 ${className}`} aria-label="Advertisement">
+      {/* 1. Network Script Container */}
+      <div
+        ref={containerRef}
+        className={`w-full flex justify-center items-center ${
+          hasNetworkAd ? "block p-4 rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl" : "hidden"
+        }`}
+      >
+        <div className="w-full">
+          <div className="flex items-center justify-between text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-2">
+            <span>SPONSORED ADVERTISEMENT</span>
+            <a
+              href={SMARTLINK_URL}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="flex items-center gap-1 hover:text-violet-400 transition-colors"
+            >
+              Featured Offer <ExternalLink className="w-2.5 h-2.5" />
+            </a>
+          </div>
+          <div id={containerId} className="w-full min-h-[90px]" />
+        </div>
+      </div>
+
+      {/* 2. Fallback Poster Ad (renders immediately & stays active if network ad is empty or blocked) */}
+      {!hasNetworkAd && (
+        <PosterAd
+          theme={theme}
+          layout={variant === "sidebar" ? "vertical" : "horizontal"}
+          className="my-0"
+        />
+      )}
     </div>
   );
 }
