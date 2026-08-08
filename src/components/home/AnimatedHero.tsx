@@ -122,11 +122,11 @@ export function AnimatedHero() {
         {/* Main Headline */}
         <div className="animate-fade-up-d1 space-y-3">
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.02]">
-            <span className="text-gradient-white block">The free toolkit</span>
-            <span className="text-gradient-white block">for your</span>
+            <span className="text-gradient-white block">300+ Free Online AI Tools</span>
+            <span className="text-slate-400 block text-xl sm:text-3xl font-semibold tracking-normal mt-2">The browser toolkit for</span>
           </h1>
           {/* Typewriter line */}
-          <div className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.02] h-[1.1em] flex items-center justify-center">
+          <div className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.02] h-[1.1em] flex items-center justify-center">
             <span
               style={{ color: ROTATING_WORDS[wordIndex].color, transition: "color 0.3s ease" }}
               className="drop-shadow-lg"
