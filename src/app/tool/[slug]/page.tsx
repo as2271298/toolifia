@@ -133,6 +133,21 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     title: "Free JSON-LD Schema Generator — JSON-LD Builder & Markup Tool | Toolifia",
     description: "Generate valid JSON-LD structured data schemas for free. Build Schema.org markup for Articles, FAQs, Products, Breadcrumbs, Reviews, Events, Local Business & more. Instantly copy the LD+JSON code. Best free json-ld generator, no signup needed.",
     keywords: "json-ld generator, json-ld schema generator, ld json schema generator, json-ld builder, json-ld code generator, json ld generator, schema generator free, json-ld schema guide, ld json schema ai, schema markup generator, structured data generator, schema.org generator, json ld maker online"
+  },
+  "resume-builder": {
+    title: "Free AI Resume Builder — ATS Resume Builder for Students & Pros | Toolifia",
+    description: "Build ATS-optimized AI resumes for free. Solve formatting challenges for MIS students and job seekers. Generate bullet points, skills & summaries. No signup needed.",
+    keywords: "ai resume builder free, mis students resume builder, ats resume generator, ai resume writer, free resume builder online"
+  },
+  "markdown-editor": {
+    title: "Free Markdown Editor Online — Real-Time Live Preview | Toolifia",
+    description: "Write and preview Markdown online for free. Solve cross-platform editor formatting problems. Instant export to HTML & MD. 100% free in your browser.",
+    keywords: "markdown editor online free, live markdown preview, cross-platform markdown editor, markdown writer, online md editor"
+  },
+  "loan-calculator": {
+    title: "Free EMI & Loan Calculator — Accurate Repayment Schedule | Toolifia",
+    description: "Calculate monthly loan EMIs, interest rates & full repayment schedules instantly. Solve common calculator errors. 100% free online EMI tool.",
+    keywords: "loan calculator free, emi calculator online, emi calculator problems, loan interest calculator, calculate emi free"
   }
 };
 
