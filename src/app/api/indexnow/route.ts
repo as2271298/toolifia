@@ -4,7 +4,7 @@ import { TOOLS } from "@/config/tools.registry";
 import { CATEGORIES } from "@/config/categories.registry";
 import { SAMPLE_POSTS } from "@/lib/blog-data";
 
-const INDEXNOW_KEY = "c7438e801124446b85d38a9e29a8a2bf";
+const INDEXNOW_KEY = "2032946dbd1548d89436c5306cc46231";
 
 export async function GET() {
   const host = new URL(siteConfig.url).host;
