@@ -7,6 +7,7 @@ import { FAQAccordion } from "@/components/common/FAQAccordion";
 import { NewsletterForm } from "@/components/common/NewsletterForm";
 import { AnimatedHero } from "@/components/home/AnimatedHero";
 import { PosterAd } from "@/components/monetization/PosterAd";
+import { AdBanner } from "@/components/monetization/AdBanner";
 import { constructMetadata } from "@/lib/seo";
 import {
   Zap, ShieldCheck, CheckCircle2, ArrowRight,
@@ -99,6 +100,11 @@ export default function HomePage() {
       {/* ══════════ HERO ══════════ */}
       <AnimatedHero />
 
+      {/* ── Ad: Below Hero ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0">
+        <AdBanner slot="headerBanner" variant="leaderboard" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 py-20">
 
         {/* ══════════ FEATURED TOOLS ══════════ */}
@@ -114,7 +120,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Banner Ad: After Featured Tools ── */}
+        {/* ── Ads: After Featured Tools ── */}
+        <AdBanner slot="inArticleBanner" variant="leaderboard" />
         <PosterAd layout="horizontal" theme="violet" />
 
         {/* ── Divider ── */}
@@ -132,6 +139,9 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── Ad: After Trending Tools ── */}
+        <AdBanner slot="inArticleBanner" variant="leaderboard" />
+
         {/* ── Divider ── */}
         <hr className="section-divider" />
 
@@ -148,7 +158,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Banner Ad: After Categories Grid ── */}
+        {/* ── Ads: After Categories Grid ── */}
+        <AdBanner slot="sidebarBanner" variant="leaderboard" />
         <PosterAd layout="horizontal" theme="cyan" />
 
         {/* ── Divider ── */}

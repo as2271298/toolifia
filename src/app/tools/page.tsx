@@ -4,6 +4,7 @@ import { TOOLS } from "@/config/tools.registry";
 import { CATEGORIES } from "@/config/categories.registry";
 import { ToolCard } from "@/components/common/ToolCard";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
+import { AdBanner } from "@/components/monetization/AdBanner";
 import { Sparkles, Grid, Wrench } from "lucide-react";
 
 export const metadata = constructMetadata({
@@ -33,6 +34,9 @@ export default function AllToolsPage() {
         </p>
       </div>
 
+      {/* Ad: Below header */}
+      <AdBanner slot="headerBanner" variant="leaderboard" />
+
       {/* Featured AI & Video Highlights */}
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-purple-900/40 via-indigo-900/40 to-slate-900 border border-purple-500/30 text-white space-y-4">
         <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
@@ -46,33 +50,46 @@ export default function AllToolsPage() {
         </div>
       </div>
 
-      {/* Tools Grouped by Category */}
+      {/* Ad: After featured block */}
+      <AdBanner slot="inArticleBanner" variant="leaderboard" />
+
+      {/* Tools Grouped by Category — ad injected every 3 categories */}
       <div className="space-y-12">
-        {CATEGORIES.map((cat) => {
+        {CATEGORIES.map((cat, catIndex) => {
           const categoryTools = TOOLS.filter((t) => t.category === cat.slug);
           if (categoryTools.length === 0) return null;
 
           return (
-            <section key={cat.slug} id={cat.slug} className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">✨</span>
-                  <div>
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">{cat.name}</h2>
-                    <p className="text-xs text-slate-500">{cat.description} ({categoryTools.length} tools)</p>
+            <>
+              <section key={cat.slug} id={cat.slug} className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">✨</span>
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white">{cat.name}</h2>
+                      <p className="text-xs text-slate-500">{cat.description} ({categoryTools.length} tools)</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {categoryTools.map((tool) => (
-                  <ToolCard key={tool.slug} tool={tool} />
-                ))}
-              </div>
-            </section>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {categoryTools.map((tool) => (
+                    <ToolCard key={tool.slug} tool={tool} />
+                  ))}
+                </div>
+              </section>
+
+              {/* Inject a real ad banner after every 3rd category */}
+              {(catIndex + 1) % 3 === 0 && (
+                <AdBanner key={`ad-${catIndex}`} slot="inArticleBanner" variant="leaderboard" />
+              )}
+            </>
           );
         })}
       </div>
+
+      {/* Ad: Bottom of page */}
+      <AdBanner slot="toolFooterBanner" variant="leaderboard" />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { SAMPLE_POSTS } from "@/lib/blog-data";
 import { db } from "@/lib/db";
 import { BookOpen } from "lucide-react";
 import { BlogSearchList, SerializedBlogPost } from "@/components/blog/BlogSearchList";
+import { AdBanner } from "@/components/monetization/AdBanner";
 
 export const revalidate = 60; // Revalidate blog page every 60 seconds
 
@@ -79,7 +80,13 @@ export default async function BlogIndexPage() {
         </p>
       </div>
 
+      {/* Ad: Below blog header */}
+      <AdBanner slot="headerBanner" variant="leaderboard" />
+
       <BlogSearchList posts={serializedPosts} />
+
+      {/* Ad: Below blog list */}
+      <AdBanner slot="toolFooterBanner" variant="leaderboard" />
     </div>
   );
 }
