@@ -5,6 +5,7 @@ import { CATEGORIES } from "@/config/categories.registry";
 import { ToolCard } from "@/components/common/ToolCard";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { AdBanner } from "@/components/monetization/AdBanner";
+import { PosterAd } from "@/components/monetization/PosterAd";
 import { Sparkles, Grid, Wrench } from "lucide-react";
 
 export const metadata = constructMetadata({
@@ -79,9 +80,11 @@ export default function AllToolsPage() {
                 </div>
               </section>
 
-              {/* Inject a real ad banner after every 3rd category */}
-              {(catIndex + 1) % 3 === 0 && (
+              {/* Inject a banner ad after EVERY category block for maximum ad coverage */}
+              {catIndex % 2 === 0 ? (
                 <AdBanner key={`ad-${catIndex}`} slot="inArticleBanner" variant="leaderboard" />
+              ) : (
+                <PosterAd key={`poster-${catIndex}`} layout="horizontal" />
               )}
             </>
           );

@@ -233,6 +233,7 @@ export function ToolWrapper({
           {/* Related Tools */}
           {relatedTools.length > 0 && (
             <section className="pt-8 border-t border-slate-200 dark:border-slate-800">
+              <AdBanner slot="sidebarBanner" variant="leaderboard" className="mb-6" />
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                 Related {tool.category.replace("-", " ")}
               </h2>

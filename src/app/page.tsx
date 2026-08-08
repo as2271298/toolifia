@@ -228,6 +228,9 @@ export default function HomePage() {
           ))}
         </section>
 
+        {/* ── Banner Ad: After Feature Highlights ── */}
+        <AdBanner slot="inArticleBanner" variant="leaderboard" />
+
         {/* ── Divider ── */}
         <hr className="section-divider" />
 
@@ -306,6 +309,9 @@ export default function HomePage() {
             </div>
           ))}
         </section>
+
+        {/* ── Banner Ad: After Social Proof Stars ── */}
+        <AdBanner slot="inArticleBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
