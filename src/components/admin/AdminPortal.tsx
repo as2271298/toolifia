@@ -154,7 +154,10 @@ export function AdminPortal() {
                 <input
                   type="password"
                   value={passcode}
-                  onChange={(e) => setPasscode(e.target.value)}
+                  onChange={(e) => {
+                    setPasscode(e.target.value);
+                    if (error) setError("");
+                  }}
                   placeholder="Enter admin passcode"
                   autoComplete="new-password"
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
