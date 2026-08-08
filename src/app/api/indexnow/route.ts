@@ -26,19 +26,36 @@ export async function GET() {
   };
 
   try {
-    const res = await fetch("https://api.indexnow.org/indexnow", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(payload),
-    });
+    const endpoints = [
+      "https://api.indexnow.org/indexnow",
+      "https://www.bing.com/indexnow",
+      "https://yandex.com/indexnow",
+    ];
+
+    const results = await Promise.all(
+      endpoints.map(async (endpoint) => {
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(payload),
+          });
+          return { endpoint, status: res.status, ok: res.ok };
+        } catch (e: any) {
+          return { endpoint, status: 500, error: e.message };
+        }
+      })
+    );
 
     return NextResponse.json({
       success: true,
-      status: res.status,
       submittedUrls: urlList.length,
-      message: "IndexNow payload sent to Bing & search engines successfully",
+      key: INDEXNOW_KEY,
+      keyLocation: payload.keyLocation,
+      results,
+      message: "IndexNow payload sent to Bing, IndexNow.org & Yandex successfully",
     });
   } catch (err: any) {
     return NextResponse.json(
