@@ -431,13 +431,69 @@ export default function HomePage() {
             </article>
           </div>
 
-          <div className="border-t border-white/[0.08] pt-8 space-y-4">
-            <h3 className="text-lg font-bold text-white">
+          <div className="border-t border-white/[0.08] pt-8 space-y-6">
+            <h3 className="text-xl font-bold text-white">
               Why Toolifia is the Best Alternative to Legacy Tool Directories
             </h3>
             <p className="text-sm text-slate-400 leading-relaxed">
               Unlike legacy directory websites (such as Toolify or Futurepedia) that operate primarily as link portals redirecting users to external subscription paywalls, <strong>Toolifia hosts actual working tools directly on-site</strong>. Users enjoy unlimited execution, responsive mobile layout compatibility, dark mode UI theme support, zero intrusive popunder scripts, and programmatic REST API endpoint access for custom application integration.
             </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+              <div className="space-y-2 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                <h4 className="text-base font-bold text-violet-300">Client-Side Processing</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Converters, formatters, and calculators execute 100% inside your browser using modern WebAssembly and JavaScript engines. No sensitive data is transferred to remote servers.
+                </p>
+              </div>
+
+              <div className="space-y-2 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                <h4 className="text-base font-bold text-cyan-300">Zero Paywalls or Accounts</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Enjoy unrestricted access to all 300+ utilities without creating an account, filling out credit card forms, or hitting arbitrary daily submission caps.
+                </p>
+              </div>
+
+              <div className="space-y-2 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                <h4 className="text-base font-bold text-emerald-300">Developer API Integration</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Every tool includes a dedicated JSON API tab with cURL examples, allowing software engineers to integrate Toolifia utilities into automated CI/CD pipelines.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-4 pt-6 border-t border-white/[0.08]">
+              <h3 className="text-xl font-bold text-white">
+                Detailed Guide to Toolifia&apos;s Core Engineering Modules
+              </h3>
+
+              <div className="space-y-4 text-sm text-slate-400 leading-relaxed">
+                <h4 className="text-base font-semibold text-slate-200">1. AI Text Humanizer &amp; Content Detection Methodology</h4>
+                <p>
+                  Artificial intelligence detection tools like GPTZero, Originality.ai, Turnitin, and CopyLeaks analyze two primary linguistic metrics: perplexity (randomness of word choice) and burstiness (variation in sentence structure length). AI language models tend to generate uniform sentence lengths with predictable vocabulary sequences. Toolifia&apos;s AI Humanizer analyzes input text, restructures clauses, injects varied syntactic patterns, and applies contextual synonym replacement. This lowers predictability metrics while preserving the core factual intent, producing human-like prose that passes detection scanners consistently.
+                </p>
+
+                <h4 className="text-base font-semibold text-slate-200">2. Technical SEO &amp; Schema Generator Implementation</h4>
+                <p>
+                  Structured data implementation is critical for modern search engine optimization (SEO) and Generative Engine Optimization (GEO). Search bots use JSON-LD markup to understand entity relationships, local business attributes, product reviews, and FAQ hierarchies. Toolifia&apos;s Schema Markup Generator creates Google-compliant JSON-LD scripts that can be pasted directly into website head tags. Combined with our Meta Tag Generator and XML Sitemap Builder, webmasters can build complete technical SEO frameworks that rank higher in search results.
+                </p>
+
+                <h4 className="text-base font-semibold text-slate-200">3. Cryptographic Security &amp; Developer Productivity Utilities</h4>
+                <p>
+                  Data security requires robust hashing algorithms. Toolifia provides MD5, SHA-1, SHA-256, and SHA-512 cryptographic hash generators, along with UUID/GUID v4 string generators. For frontend and backend developers, our JSON Formatter validates syntax, formats nested key-value structures, and minifies JSON payloads for optimal network transmission. Base64 encoders/decoders handle binary data stream encoding for API payload headers and URI query strings.
+                </p>
+
+                <h4 className="text-base font-semibold text-slate-200">4. Financial &amp; Mathematical Calculations</h4>
+                <p>
+                  Accurate financial estimation is vital for personal financial planning and business analysis. Our Loan &amp; EMI Calculator computes monthly installment schedules, interest amortization, and total repayment sums over custom tenures. The Compound Interest Calculator models wealth accumulation using annual, quarterly, or monthly compounding frequencies. Health calculators like our BMI and TDEE units provide actionable metrics for wellness and nutrition tracking.
+                </p>
+
+                <h4 className="text-base font-semibold text-slate-200">5. Unit Conversion Engine &amp; Color Science Tools</h4>
+                <p>
+                  Converting units across imperial and metric systems is seamless with our multi-unit converter. Convert length (meters, feet, miles, inches), mass (kilograms, pounds, ounces), temperature (Celsius, Fahrenheit, Kelvin), speed (km/h, mph, knots), and digital storage (bytes, gigabytes, terabytes). For visual designers, our HEX to RGB Color Converter and CSS Gradient Generator provide exact color space coordinates and cross-browser CSS code snippets.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 

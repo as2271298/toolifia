@@ -89,11 +89,12 @@ export function AdBanner({
         </a>
       </div>
 
-      {/* ── Iframe: isolated context so each ad loads its OWN container ─────── */}
+      {/* ── Iframe: isolated context with loading="lazy" for max Mobile PageSpeed ── */}
       <iframe
         srcDoc={NATIVE_AD_HTML}
         width="100%"
         height={height}
+        loading="lazy"
         scrolling="no"
         frameBorder="0"
         title="Advertisement"
