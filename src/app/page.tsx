@@ -370,33 +370,74 @@ export default function HomePage() {
         <PosterAd layout="horizontal" theme="cyan" />
         <AdBanner slot="inArticleBanner" variant="leaderboard" />
 
-        {/* ══════════ SEO TEXT BLOCK ══════════ */}
-        <section className="glass-card rounded-2xl p-8 border border-white/[0.06]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-lg font-bold text-white mb-3">What is Toolifia?</h2>
+        {/* ══════════ SEO TEXT BLOCK & DETAILED KNOWLEDGE GUIDE ══════════ */}
+        <section className="glass-card rounded-3xl p-8 sm:p-12 border border-white/[0.08] space-y-10">
+          <div className="border-b border-white/[0.08] pb-6">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3">
+              Toolifia — The Complete Free Browser Utilities &amp; AI Toolkit Platform
+            </h2>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
+              Toolifia provides over 300+ web-native utilities designed for software developers, technical SEO specialists, digital marketers, content creators, and students. Every utility operates 100% free of charge with zero mandatory registration, no subscription paywalls, and complete client-side data privacy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <article className="space-y-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-violet-400" /> Next-Generation AI Suite
+              </h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Toolifia is a free browser-native tools platform with 300+ utilities. Unlike AI tool directories like Toolify.ai or Futurepedia that redirect you to external paid sites, Toolifia hosts actual working tools — including an AI video generator (Kling 2.1), AI text humanizer, AI content detector, meta tag generator, JSON-LD schema generator, JSON formatter, BMI calculator, and much more.
+                Our suite of artificial intelligence tools includes an advanced <strong>AI Video Generator</strong> powered by Kling 2.1, Wan, and MiniMax architecture, capable of converting descriptive text prompts into high-definition 1080p MP4 video clips. Furthermore, our <strong>AI Text Humanizer</strong> algorithms reframe AI-generated prose from GPT-4, Claude 3.5, and Gemini into natural human cadence, passing detectors like GPTZero and Turnitin while preserving semantic meaning.
               </p>
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-white mb-3">Free Online Tools — No Signup</h2>
-              <ul className="text-sm text-slate-400 space-y-2">
-                {[
-                  "AI Video Generator (Kling 2.1, Wan, MiniMax)",
-                  "AI Text Humanizer — Bypass AI Detection",
-                  "AI Content Detector — GPTZero Compatible",
-                  "Free SEO Tools — Meta Tags, Schema, Sitemap",
-                  "Developer Tools — JSON, Base64, UUID, Hash",
-                  "Calculators — BMI, Loan, Compound Interest",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-2.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                For job seekers and professionals, our AI Resume Builder and Cover Letter Generator craft tailored, ATS-compliant CV documents optimized for automated recruitment filters.
+              </p>
+            </article>
+
+            <article className="space-y-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Zap className="w-5 h-5 text-cyan-400" /> Technical SEO &amp; Webmaster Suite
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Technical SEO execution requires exact metadata formatting and valid structured data markup. Toolifia offers instant generators for <strong>JSON-LD Schema Markup</strong> (supporting Organizations, Local Business, FAQs, HowTo, Products, and Software Applications), custom Robots.txt rule builders, XML Sitemap generators, and Open Graph card previewers for social platforms.
+              </p>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Analyze your content using our TF-IDF <strong>Keyword Density Checker</strong> to prevent keyword stuffing penalties while identifying semantic gaps in page content.
+              </p>
+            </article>
+
+            <article className="space-y-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-rose-400" /> Developer Utilities &amp; Formatters
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Web developers can format, validate, and minify complex JSON, HTML, CSS, and JavaScript payloads instantly. Security features include client-side <strong>MD5, SHA-256, and SHA-512 Hash Generators</strong>, cryptographically strong UUID/GUID generators, Base64 encoders/decoders, JWT token decoders, and customizable random password generators.
+              </p>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                All developer conversions run within your local browser execution context — zero sensitive tokens or source payloads are ever logged to external database nodes.
+              </p>
+            </article>
+
+            <article className="space-y-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-emerald-400" /> Financial, Health &amp; Unit Calculators
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Perform complex mathematical operations with our <strong>Loan &amp; EMI Calculator</strong>, Compound Interest Growth Estimator, Scientific Function Calculator, Percentage Calculator, and GPA Calculator. Health modules include Body Mass Index (BMI) assessment, TDEE Calorie calculators, and precise Age calculators.
+              </p>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Our unit converter engine handles digital storage, speed, mass, length, temperature (Celsius, Fahrenheit, Kelvin), binary-to-hexadecimal, and currency conversions with microsecond latency.
+              </p>
+            </article>
+          </div>
+
+          <div className="border-t border-white/[0.08] pt-8 space-y-4">
+            <h3 className="text-lg font-bold text-white">
+              Why Toolifia is the Best Alternative to Legacy Tool Directories
+            </h3>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              Unlike legacy directory websites (such as Toolify or Futurepedia) that operate primarily as link portals redirecting users to external subscription paywalls, <strong>Toolifia hosts actual working tools directly on-site</strong>. Users enjoy unlimited execution, responsive mobile layout compatibility, dark mode UI theme support, zero intrusive popunder scripts, and programmatic REST API endpoint access for custom application integration.
+            </p>
           </div>
         </section>
 

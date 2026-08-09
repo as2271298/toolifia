@@ -28,23 +28,68 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      // Fix: "Redirect from index pages configured incorrectly" — Critical SEO audit item
+      // Fix: "Redirect from index pages configured incorrectly" — Critical SEO audit item (Requires 301 Moved Permanently)
       {
         source: "/index.html",
         destination: "/",
-        permanent: true,
+        statusCode: 301,
+      },
+      {
+        source: "/index.htm",
+        destination: "/",
+        statusCode: 301,
       },
       {
         source: "/index.php",
         destination: "/",
-        permanent: true,
+        statusCode: 301,
       },
-      // WWW → non-WWW canonical redirect
+      {
+        source: "/index.asp",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/index.aspx",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/index.jsp",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/index",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/default.html",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/default.aspx",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/home",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/home.html",
+        destination: "/",
+        statusCode: 301,
+      },
+      // WWW → non-WWW canonical redirect (301)
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.toolifia.vercel.app" }],
         destination: "https://toolifia.vercel.app/:path*",
-        permanent: true,
+        statusCode: 301,
       },
     ];
   },

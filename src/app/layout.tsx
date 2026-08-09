@@ -123,12 +123,11 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* TrustBox script */}
+        {/* TrustBox script — loaded lazily to preserve Mobile PageSpeed */}
         <Script
           type="text/javascript"
           src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-          strategy="afterInteractive"
-          async
+          strategy="lazyOnload"
         />
 
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -150,10 +149,10 @@ export default function RootLayout({
         <TrustpilotBadge variant="floating" />
         <ProductHuntBadge variant="floating" />
 
-        {/* Social Bar script (Adsterra) — non-intrusive floating social bar */}
+        {/* Social Bar script (Adsterra) — loaded lazily to maximize mobile performance */}
         <Script
           src="https://pl30549940.effectivecpmnetwork.com/c2/b9/7a/c2b97a6f7a2f3d0dfd5d888ca701bdfd.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>
