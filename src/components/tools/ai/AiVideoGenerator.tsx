@@ -447,13 +447,35 @@ export function AiVideoGenerator() {
               <AlertCircle className="w-6 h-6 text-red-400" />
             </div>
             <div className="text-center max-w-md">
-              <p className="text-red-400 font-semibold text-sm mb-1">Generation Failed</p>
-              <p className="text-slate-500 text-xs">{error}</p>
+              <p className="text-red-400 font-semibold text-sm mb-1">
+                {error.includes("Exhausted balance") || error.includes("locked")
+                  ? "fal.ai API Credit Balance Exhausted"
+                  : "Generation Failed"}
+              </p>
+              <p className="text-slate-400 text-xs leading-relaxed">{error}</p>
             </div>
-            <a href="https://fal.ai/dashboard/keys" target="_blank" rel="noopener noreferrer"
-              className="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1.5 underline">
-              <ExternalLink className="w-3 h-3" /> Get / verify your fal.ai API key
-            </a>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              {/* 1-Click fallback to free preview mode */}
+              <button
+                onClick={() => {
+                  setError(null);
+                  generatePreviewImages();
+                }}
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 text-white font-semibold text-xs py-2.5 px-5 rounded-xl shadow flex items-center gap-2 transition-all"
+              >
+                <Wand2 className="w-3.5 h-3.5" /> Generate Free Storyboard Preview (No Balance Needed)
+              </button>
+
+              <a
+                href="https://fal.ai/dashboard/billing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1.5 underline bg-slate-800 px-3.5 py-2.5 rounded-xl border border-slate-700"
+              >
+                <ExternalLink className="w-3.5 h-3.5" /> Top Up Balance on fal.ai
+              </a>
+            </div>
           </div>
         )}
 
