@@ -63,13 +63,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  // Blog posts
+  // Blog posts — dynamically includes ALL posts including newly added ones
   const blogPages: MetadataRoute.Sitemap = SAMPLE_POSTS.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.7,
+    lastModified: post.date ? new Date(post.date) : new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.75,
   }));
 
-  return [...staticPages, ...categoryPages, ...toolPages, ...blogPages];
+  // High-priority SEO target blog posts (exact-match keyword articles)
+  const seoTargetSlugs = [
+    "problems-users-face-with-emi-calculator-websites",
+    "challenges-building-cross-platform-markdown-editor",
+    "ai-resume-builder-challenges-for-mis-students",
+    "best-toolify-ai-alternative-2026",
+    "best-free-ai-humanizer-no-signup-2026",
+    "best-free-ai-video-generator-higgsfield-alternative-2025",
+  ];
+
+  const boostedBlogPages: MetadataRoute.Sitemap = blogPages.map((page) => ({
+    ...page,
+    priority: seoTargetSlugs.some((s) => page.url.includes(s)) ? 0.9 : 0.75,
+  }));
+
+  return [...staticPages, ...categoryPages, ...toolPages, ...boostedBlogPages];
 }
