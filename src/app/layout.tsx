@@ -109,6 +109,13 @@ export default function RootLayout({
         <meta name="trustpilot-one-time-domain-verification-id" content="c7d56998-6f55-46a8-97d5-b09dfc212854" />
         <meta name="keywords" content="free online tools, ai humanizer free, ai detector free, toolify alternative, free ai tools no signup, seo tools free, meta tag generator, keyword density checker, json formatter, word counter free, pdf converter online, text tools online, developer tools free, free calculator online, unit converter free, ai text humanizer, bypass ai detection, free prompt generator, schema markup generator, online tools no account" />
 
+        {/* Google AdSense Site Verification & Ad Script */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7118968206723457"
+          crossOrigin="anonymous"
+        />
+
         {/* Google Analytics 4 */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
