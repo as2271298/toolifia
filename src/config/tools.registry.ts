@@ -480,16 +480,49 @@ export const TOOLS: ToolDef[] = [
     description: "Analyze keyword usage, frequency ratios, 1-word, 2-word, and 3-word n-grams to prevent over-optimization.",
     icon: "BarChart3",
     featured: true,
-    trending: false,
-    rating: 4.7,
-    reviewsCount: 640,
-    keywords: ["keyword density checker", "keyword frequency analyzer", "seo content density", "over optimization checker"],
-    features: ["Multi-word phrase breakdown", "Stop-word filter toggle", "Density percentage calculator", "Top keyword ranking list"],
-    benefits: ["Avoid Google keyword stuffing penalties", "Maintain natural keyword distribution", "Identify missing topic terms"],
-    howTo: ["Paste your blog post or web page text.", "Toggle stop-words exclusion.", "Analyze density percentages for key terms."],
-    commonMistakes: ["Targeting keyword densities above 3-4% which triggers spam filters."],
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 1420,
+    keywords: [
+      "keyword density checker",
+      "keyword density analyzer tool",
+      "keyword density tool",
+      "keyword density analysis",
+      "keyword frequency checker",
+      "seo content density",
+      "analyze keyword density",
+      "keyword density check"
+    ],
+    features: [
+      "1-word, 2-word, and 3-word n-gram phrase extraction",
+      "Stop-word filtering toggle",
+      "Keyword density percentage & frequency metrics",
+      "Over-optimization alerts for Google SEO"
+    ],
+    benefits: [
+      "Avoid Google keyword stuffing and over-optimization penalties",
+      "Ensure natural keyword distribution across headings and paragraphs",
+      "Identify high-value related search terms missing from your content"
+    ],
+    howTo: [
+      "Paste your article, blog post, or webpage text into the input box.",
+      "Toggle stop-word filtering to ignore common filler words (and, the, of).",
+      "Review the keyword density table to ensure target terms stay between 1% and 2.5%."
+    ],
+    commonMistakes: ["Targeting keyword densities above 3-4% which triggers search engine spam filters."],
     faqs: [
-      { question: "What is an ideal keyword density?", answer: "Generally around 1% to 2% for primary keywords, supported by naturally related terms." }
+      {
+        question: "What is an ideal keyword density for Google SEO?",
+        answer: "A safe and effective keyword density is between 1% and 2% for your primary focus keyword. Supporting secondary keywords should naturally appear at 0.5% to 1%."
+      },
+      {
+        question: "How do you calculate keyword density percentage?",
+        answer: "Keyword Density = (Number of times keyword appears / Total word count) × 100. For example, if a keyword appears 15 times in a 1,000-word article, the density is 1.5%."
+      },
+      {
+        question: "What is the difference between keyword frequency and keyword density?",
+        answer: "Keyword frequency is the raw count of how many times a word appears, whereas keyword density measures that count as a percentage of total words in the text."
+      }
     ]
   },
   {
@@ -1868,17 +1901,53 @@ export const TOOLS: ToolDef[] = [
     category: "seo-tools",
     description: "Preview how your title tag and meta description look on Google desktop & mobile search results, checking character and pixel limits.",
     icon: "Eye",
-    featured: false,
+    featured: true,
     trending: true,
-    rating: 4.8,
-    reviewsCount: 1740,
-    keywords: ["meta title length checker", "serp preview tool", "meta description character counter", "google snippet preview"],
-    features: ["Pixel width measurement (600px title / 960px desc)", "Desktop and mobile SERP preview cards", "Truncation warning alerts"],
-    benefits: ["Prevent title truncation on search engine result pages", "Improve search snippet click-through rates (CTR)", "Audit page metadata before publishing"],
-    howTo: ["Type or paste your Title Tag and Meta Description.", "View live Google search result preview.", "Adjust text to ensure green checkmarks for character & pixel length."],
-    commonMistakes: ["Relying only on character counts — pixel width determines when Google truncates text with ellipses (...)."],
+    rating: 4.9,
+    reviewsCount: 2310,
+    keywords: [
+      "meta title length checker",
+      "meta title checker",
+      "meta description length",
+      "meta description length checker",
+      "meta title and description checker",
+      "meta desc checker",
+      "meta description checker",
+      "check meta description length",
+      "seo title length checker",
+      "serp preview tool",
+      "google snippet preview"
+    ],
+    features: [
+      "Pixel width measurement (600px title / 960px desc)",
+      "Desktop and mobile SERP preview cards",
+      "Live character and pixel truncation warning alerts",
+      "Google Search Rich Snippet simulation"
+    ],
+    benefits: [
+      "Prevent title and description truncation on Google search engine result pages (SERPs)",
+      "Maximize search snippet click-through rates (CTR)",
+      "Audit page SEO metadata before publishing"
+    ],
+    howTo: [
+      "Type or paste your Title Tag and Meta Description into the preview fields.",
+      "Check live desktop and mobile Google SERP cards for truncation.",
+      "Adjust text until both pixel width and character counts show green checkmarks."
+    ],
+    commonMistakes: ["Relying only on character counts — pixel width (calculated by letter thickness like 'W' vs 'I') determines when Google truncates text with ellipses (...)."],
     faqs: [
-      { question: "What is the recommended title tag pixel width?", answer: "Google truncates titles wider than 600 pixels (typically 50-60 characters)." }
+      {
+        question: "What is the recommended meta title length for Google in 2026?",
+        answer: "Google recommends keeping meta titles between 50 and 60 characters, or under 600 pixels in width on desktop and mobile displays."
+      },
+      {
+        question: "What is the ideal meta description length for SEO?",
+        answer: "The ideal meta description length is 150 to 160 characters (approximately 960 pixels). For mobile search results, descriptions are often truncated around 120 characters."
+      },
+      {
+        question: "Why does Google truncate titles with ellipses (...)?",
+        answer: "Google calculates title length in pixels rather than character count. Wide characters (like 'W' or 'M') take up more pixel space than narrow characters (like 'I' or 'l'). If your title exceeds 600px, Google cuts it off."
+      }
     ]
   },
   {

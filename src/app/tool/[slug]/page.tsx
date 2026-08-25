@@ -100,9 +100,44 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     keywords: "json formatter online free, json validator, pretty print json, json beautifier, format json online, json minifier"
   },
   "meta-tag-generator": {
-    title: "Free Meta Tag Generator — SEO Title & Description Builder | Toolifia",
-    description: "Generate perfect HTML meta tags for SEO instantly. Preview how your page looks in Google SERP. Build title tags, meta descriptions, Open Graph & Twitter Cards free.",
-    keywords: "meta tag generator free, seo meta tags, title tag generator, meta description generator, open graph generator, twitter card generator"
+    title: "Free Meta Tag Generator — SEO Title, Description & Open Graph Builder | Toolifia",
+    description: "Generate perfect HTML meta tags for SEO. Build meta title, meta description, robots, canonical tags, and Open Graph cards with live SERP preview. 100% free online tool.",
+    keywords: "meta tag generator free, seo meta tags, title tag generator, meta description generator, open graph generator, twitter card generator, serp title and description generator"
+  },
+  "meta-title-length-checker": {
+    title: "Free Meta Title & Description Length Checker — Google SERP Preview | Toolifia",
+    description: "Check meta title and description character length & pixel width for Google SERP. Live search snippet preview, pixel counter, and truncation warnings. 100% free, no signup.",
+    keywords: "meta title checker, meta description length, meta description length checker, meta title and description checker, meta desc checker, meta description checker, meta title length checker, meta title length check, meta title length, check meta description length, seo title length checker, length of meta title, meta description length check, meta title check, seo meta description length, meta description check, meta length, meta description character count"
+  },
+  "keyword-density-checker": {
+    title: "Free Keyword Density Analyzer Tool — Check Keyword Frequency Online | Toolifia",
+    description: "Analyze keyword density, frequency ratios, and 1/2/3-word n-grams online for free. Prevent keyword stuffing and optimize for Google SEO algorithms. No signup required.",
+    keywords: "keyword density tool, keyword density analyzer tool, keyword density, keyword density analysis tool, keyword density analysis, keyword density analyzer, analyze keyword density, keyword density tool seo, keyword density tools, measure keyword density, best keyword density, tool keyword density, keyword density checker tools, best keyword density tool, keyword density for seo, keywords density analyzer, keyword density check, best keyword density checker, keywords density analysis"
+  },
+  "open-graph-validator": {
+    title: "Free Open Graph (OG) Tag Validator — Social Media Preview Checker | Toolifia",
+    description: "Validate and preview Open Graph (og:title, og:description, og:image) meta tags for Facebook, Twitter/X, LinkedIn, and Discord. Free social snippet debugger.",
+    keywords: "opengraph tag validator, og validator, open graph meta tags generator, og tag checker, social media preview validator"
+  },
+  "open-graph-generator": {
+    title: "Free Open Graph Meta Tag Generator — Create Social Share Cards | Toolifia",
+    description: "Generate social media meta tags (og:title, og:description, og:image, twitter:card) for Facebook, Twitter/X, LinkedIn, and Discord. Instant copy & paste.",
+    keywords: "open graph meta tags generator, og generator, social meta tag generator, open graph tags maker"
+  },
+  "ai-story-generator": {
+    title: "Free AI Story & Plot Generator — Write Creative Stories Online | Toolifia",
+    description: "Generate creative story plots, characters, twists, and complete novel chapters using free AI. Best free plot and storyline generator with no signup.",
+    keywords: "ai plot generator, story plot generator ai, storyline generator, ai story plot, plot generator toolbaz, online story plot generator, ai story generator free"
+  },
+  "regex-tester": {
+    title: "Free Regex Tester & Regular Expression Validator Online | Toolifia",
+    description: "Test and debug regular expressions in real-time with instant match highlighting, explanation breakdown, and cheat sheet. 100% free developer tool.",
+    keywords: "regex tester online free, regex validator, test regex online, regular expression checker, regex pattern tester"
+  },
+  "htpasswd-generator": {
+    title: "Free Htpasswd Generator Online — Apache & Nginx Basic Auth | Toolifia",
+    description: "Generate secure htpasswd passwords using Bcrypt, MD5 (APR1), and SHA-1 for Apache and Nginx HTTP basic authentication. 100% free in-browser generation.",
+    keywords: "htpasswd generator, htaccess htpasswd generator, generate htpasswd, apache htpasswd online, basic auth generator"
   },
   "password-generator": {
     title: "Free Random Password Generator — Strong & Secure Passwords | Toolifia",
@@ -115,9 +150,9 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     keywords: "bmi calculator free, body mass index calculator, bmi calculator online, calculate bmi, bmi checker"
   },
   "word-counter": {
-    title: "Free Word Counter Online — Character, Sentence & Reading Time Counter | Toolifia",
-    description: "Count words, characters, sentences, paragraphs, and estimated reading time instantly for free. No account required. Works offline in your browser.",
-    keywords: "word counter online free, character counter, word count tool, sentence counter, reading time calculator"
+    title: "Free Word Counter & Twitter Character Limit Counter Online | Toolifia",
+    description: "Count words, characters, sentences, paragraphs, reading time, and Twitter/X character limits in real-time. Free, instant, offline-capable in your browser.",
+    keywords: "word counter online free, character counter, twitter counter, tweet character counter, twitter character counter, character counter twitter, count characters for twitter, word count tool, sentence counter, reading time calculator"
   },
   "qr-generator": {
     title: "Free QR Code Generator Online — Download PNG & SVG | Toolifia",
