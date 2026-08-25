@@ -574,7 +574,7 @@ For entry-level MIS students with limited full-time work experience, academic ca
 
 ## Build an ATS-Optimized MIS Resume
 
-Create a free, clean, ATS-compliant resume with zero signup: [Toolifia AI Resume Builder](https://toolifia.vercel.app/tool/resume-builder).\`,
+Create a free, clean, ATS-compliant resume with zero signup: [Toolifia AI Resume Builder](https://toolifia.vercel.app/tool/resume-builder).`,
   },
   {
     slug: "meta-title-length-checker-complete-guide-and-best-practices",
@@ -584,7 +584,7 @@ Create a free, clean, ATS-compliant resume with zero signup: [Toolifia AI Resume
     author: "Toolifia SEO Team",
     date: "August 24, 2026",
     readTime: "6 min read",
-    content: \`# Meta Title & Description Length in 2026: Google Character Limits & Pixel Guide
+    content: `# Meta Title & Description Length in 2026: Google Character Limits & Pixel Guide
 
 Your meta title and meta description are your website's primary digital billboard on Google Search Result Pages (SERP). If your title tag is too long, Google cuts it off with an unsightly ellipsis (\`...\`), destroying your click-through rate (CTR).
 
@@ -626,7 +626,7 @@ Google uses proportional fonts (like Arial and Roboto). Wide uppercase letters l
 
 ## Test Your Snippet Live
 
-Audit your webpage title and description with our zero-signup tool: [Toolifia Meta Title Length Checker](https://toolifia.vercel.app/tool/meta-title-length-checker) or generate full tags with [Toolifia Meta Tag Generator](https://toolifia.vercel.app/tool/meta-tag-generator).\`,
+Audit your webpage title and description with our zero-signup tool: [Toolifia Meta Title Length Checker](https://toolifia.vercel.app/tool/meta-title-length-checker) or generate full tags with [Toolifia Meta Tag Generator](https://toolifia.vercel.app/tool/meta-tag-generator).`,
   },
   {
     slug: "keyword-density-checker-complete-guide-and-best-practices",
@@ -636,7 +636,7 @@ Audit your webpage title and description with our zero-signup tool: [Toolifia Me
     author: "Toolifia SEO Team",
     date: "August 24, 2026",
     readTime: "7 min read",
-    content: \`# Keyword Density for SEO in 2026: Ideal Percentages, Analyzer Tools & Best Practices
+    content: `# Keyword Density for SEO in 2026: Ideal Percentages, Analyzer Tools & Best Practices
 
 Search engine algorithms have evolved past exact-match phrase matching toward semantic entity comprehension. However, **keyword density and term frequency** remain foundational signals for Google's content relevance scoring.
 
@@ -648,10 +648,10 @@ Here is what you need to know about **keyword density analyzer tools, safe perce
 
 Keyword density is the percentage of times a target keyword or phrase appears within a block of text relative to the total number of words.
 
-$$\\\\text{Keyword Density (\\\\%)} = \\\\left( \\\\frac{\\\\text{Keyword Frequency}}{\\\\text{Total Word Count}} \\\\right) \\\\times 100$$
+$$\\text{Keyword Density (\\%)} = \\left( \\frac{\\text{Keyword Frequency}}{\\text{Total Word Count}} \\right) \\times 100$$
 
 **Example:** If your target keyword *"keyword density tool"* appears 12 times in an 800-word article:
-$$\\\\left(\\\\frac{12}{800}\\\\right) \\\\times 100 = 1.5\\\\%$$
+$$\\left(\\frac{12}{800}\\right) \\times 100 = 1.5\\%$$
 
 ---
 
@@ -673,7 +673,7 @@ $$\\\\left(\\\\frac{12}{800}\\\\right) \\\\times 100 = 1.5\\\\%$$
 
 ## Audit Your Content Free
 
-Analyze your text density and frequency in seconds: [Toolifia Keyword Density Checker](https://toolifia.vercel.app/tool/keyword-density-checker).\`,
+Analyze your text density and frequency in seconds: [Toolifia Keyword Density Checker](https://toolifia.vercel.app/tool/keyword-density-checker).`,
   },
 ];
 
