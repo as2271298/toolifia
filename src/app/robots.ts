@@ -7,7 +7,32 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: ["/", "/tool/", "/category/", "/blog/", "/tools", "/contact", "/privacy", "/terms", "/llms.txt"],
-        disallow: ["/admin", "/api/", "/_next/"],
+        disallow: [
+          "/admin",
+          "/admin/",
+          "/api/",
+          "/_next/",
+          "/static/",
+          "/*?*search=",
+          "/*?*filter=",
+          "/*?*sort=",
+          "/*?*page=",
+        ],
+      },
+      {
+        userAgent: "Bingbot",
+        allow: "/",
+        disallow: ["/admin/", "/api/", "/_next/"],
+      },
+      {
+        userAgent: "msnbot",
+        allow: "/",
+        disallow: ["/admin/", "/api/", "/_next/"],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: ["/admin/", "/api/", "/_next/"],
       },
       {
         userAgent: [
@@ -19,22 +44,15 @@ export default function robots(): MetadataRoute.Robots {
           "Google-Extended",
           "CCBot",
           "cohere-ai",
+          "Bytespider",
+          "Applebot",
         ],
         allow: "/",
-        crawlDelay: 0,
-      },
-      {
-        userAgent: "Googlebot",
-        allow: "/",
-        crawlDelay: 0,
-      },
-      {
-        userAgent: "Bingbot",
-        allow: "/",
-        crawlDelay: 0,
+        disallow: ["/admin/", "/api/"],
       },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,
     host: siteConfig.url,
   };
 }
+
