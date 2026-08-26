@@ -129,10 +129,11 @@ export default function PrivacyPolicyPage() {
             5. Contact Privacy Team
           </h2>
           <p>
-            If you have questions or concerns regarding this Privacy Policy, please reach out to our team at{" "}
-            <a href="mailto:privacy@toolifia.com" className="text-brand-600 dark:text-brand-400 font-bold hover:underline">
-              privacy@toolifia.com
-            </a>.
+            If you have questions or concerns regarding this Privacy Policy, please use our{" "}
+            <a href="/contact" className="text-brand-600 dark:text-brand-400 font-bold hover:underline">
+              Contact page
+            </a>{" "}
+            to reach our team.
           </p>
         </section>
       </div>

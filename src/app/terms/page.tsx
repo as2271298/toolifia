@@ -103,10 +103,11 @@ export default function TermsOfServicePage() {
             7. Contact Information
           </h2>
           <p>
-            If you have questions regarding these Terms of Service, please contact us at{" "}
-            <a href="mailto:support@toolifia.com" className="text-brand-600 dark:text-brand-400 font-bold hover:underline">
-              support@toolifia.com
-            </a>.
+            If you have questions regarding these Terms of Service, please use our{" "}
+            <a href="/contact" className="text-brand-600 dark:text-brand-400 font-bold hover:underline">
+              Contact page
+            </a>{" "}
+            to reach us.
           </p>
         </section>
       </div>
