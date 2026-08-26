@@ -49,7 +49,7 @@ export default function ContactPage() {
       </div>
 
       <div className="max-w-3xl mx-auto">
-        <ContactForm endpoint="https://formspree.io/f/xqerwaog" />
+        <ContactForm endpoint="https://formspree.io/f/xaewraro" />
       </div>
     </div>
   );
