@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Send, CheckCircle2, AlertCircle, Loader2, MessageSquare, Mail, User, Tag } from "lucide-react";
 
 interface ContactFormProps {
   endpoint?: string;
 }
 
-export function ContactForm({ endpoint = "https://formspree.io/f/xqerwaog" }: ContactFormProps) {
+export function ContactForm({ endpoint = "https://formspree.io/f/xaewraro" }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,6 +18,13 @@ export function ContactForm({ endpoint = "https://formspree.io/f/xqerwaog" }: Co
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  // Track when the form was rendered to detect instant bot submissions
+  const formLoadTime = useRef(Date.now());
+
+  // Reset load time when form becomes visible
+  useEffect(() => {
+    formLoadTime.current = Date.now();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -27,8 +34,40 @@ export function ContactForm({ endpoint = "https://formspree.io/f/xqerwaog" }: Co
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // ── Honeypot check: if hidden field is filled, it's a bot ──────────────
+    const form = e.currentTarget;
+    const honeypot = (form.elements.namedItem("_gotcha") as HTMLInputElement)?.value;
+    if (honeypot) {
+      // Silently pretend success to confuse bots
+      setStatus("success");
+      return;
+    }
+
+    // ── Timing check: humans take > 3s to fill a form ─────────────────────
+    const elapsed = Date.now() - formLoadTime.current;
+    if (elapsed < 3000) {
+      setStatus("success"); // Silent fake success for bots
+      return;
+    }
+
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setErrorMessage("Please fill in all required fields.");
+      setStatus("error");
+      return;
+    }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrorMessage("Please enter a valid email address.");
+      setStatus("error");
+      return;
+    }
+
+    // Message length guard
+    if (formData.message.length > 5000) {
+      setErrorMessage("Message is too long. Please keep it under 5000 characters.");
       setStatus("error");
       return;
     }
@@ -44,11 +83,11 @@ export function ContactForm({ endpoint = "https://formspree.io/f/xqerwaog" }: Co
           Accept: "application/json",
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
+          name: formData.name.slice(0, 100),
+          email: formData.email.slice(0, 200),
           category: formData.category,
-          subject: formData.subject || `Inquiry from ${formData.name}`,
-          message: formData.message,
+          subject: (formData.subject || `Inquiry from ${formData.name}`).slice(0, 200),
+          message: formData.message.slice(0, 5000),
           _subject: `[Toolifia Contact] ${formData.category}: ${formData.subject || formData.name}`,
           submittedAt: new Date().toISOString(),
         }),
@@ -102,6 +141,12 @@ export function ContactForm({ endpoint = "https://formspree.io/f/xqerwaog" }: Co
 
   return (
     <form onSubmit={handleSubmit} className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-5">
+      {/* ── Honeypot: hidden from humans, filled by bots ── */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}>
+        <label htmlFor="_gotcha">Leave this blank</label>
+        <input type="text" name="_gotcha" id="_gotcha" autoComplete="off" tabIndex={-1} />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className={labelCls}>Your Name *</label>

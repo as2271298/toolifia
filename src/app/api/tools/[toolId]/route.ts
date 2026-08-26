@@ -8,8 +8,20 @@ export async function POST(
   props: { params: Promise<{ toolId: string }> }
 ) {
   try {
+    // ── Block requests larger than 50 KB ──────────────────────────────────
+    const contentLength = parseInt(req.headers.get("content-length") || "0", 10);
+    if (contentLength > 50_000) {
+      return NextResponse.json({ error: "Request body too large" }, { status: 413 });
+    }
+
     const params = await props.params;
     const { toolId } = params;
+
+    // ── Validate toolId format (slug: letters, digits, dashes only) ───────
+    if (!/^[a-z0-9-]{1,60}$/.test(toolId)) {
+      return NextResponse.json({ error: "Invalid tool ID" }, { status: 400 });
+    }
+
     const tool = TOOLS.find((t) => t.slug === toolId);
 
     if (!tool) {
@@ -18,18 +30,22 @@ export async function POST(
 
     const body = (await req.json().catch(() => ({}))) as Record<string, any>;
 
+    // ── Strip excessively long fields to prevent prompt injection ─────────
+    const sanitize = (val: unknown, maxLen = 8000): string =>
+      typeof val === "string" ? val.slice(0, maxLen).replace(/<script[\s\S]*?<\/script>/gi, "").trim() : "";
+
     // Smart input extraction across all client component payloads
     let input =
-      body.input ||
-      body.prompt ||
-      body.text ||
-      body.topic ||
-      body.idea ||
-      (body.role ? `Role: ${body.role}. Skills: ${body.skills || ""}` : "") ||
-      (body.jobTitle ? `${body.jobTitle} at ${body.company || "Company"}. Skills: ${body.skills || ""}` : "") ||
-      (body.messages && Array.isArray(body.messages) ? body.messages[body.messages.length - 1]?.content : "");
+      sanitize(body.input) ||
+      sanitize(body.prompt) ||
+      sanitize(body.text) ||
+      sanitize(body.topic) ||
+      sanitize(body.idea) ||
+      (body.role ? `Role: ${sanitize(body.role)}. Skills: ${sanitize(body.skills || "")}` : "") ||
+      (body.jobTitle ? `${sanitize(body.jobTitle)} at ${sanitize(body.company || "Company")}. Skills: ${sanitize(body.skills || "")}` : "") ||
+      (body.messages && Array.isArray(body.messages) ? sanitize(body.messages[body.messages.length - 1]?.content) : "");
 
-    const tone = body.tone || "conversational";
+    const tone = sanitize(body.tone || "conversational", 50);
 
     if (!input && !body.messages) {
       return NextResponse.json(
