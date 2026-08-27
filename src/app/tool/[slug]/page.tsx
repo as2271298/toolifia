@@ -46,6 +46,26 @@ import { RegexTester } from "@/components/tools/dev/RegexTester";
 import { PasswordGenerator } from "@/components/tools/dev/PasswordGenerator";
 import { JwtDecoder } from "@/components/tools/dev/JwtDecoder";
 import { CssGradientGenerator } from "@/components/tools/dev/CssGradientGenerator";
+import { CssMinifier } from "@/components/tools/dev/CssMinifier";
+import { JsMinifier } from "@/components/tools/dev/JsMinifier";
+import { HtmlMinifier } from "@/components/tools/dev/HtmlMinifier";
+import { HtmlEntityEncoder } from "@/components/tools/dev/HtmlEntityEncoder";
+import { UrlEncoder } from "@/components/tools/dev/UrlEncoder";
+import { CsvToJson } from "@/components/tools/dev/CsvToJson";
+import { JsonToCsv } from "@/components/tools/dev/JsonToCsv";
+import { JsonToYaml } from "@/components/tools/dev/JsonToYaml";
+import { YamlToJson } from "@/components/tools/dev/YamlToJson";
+import { HtmlToMarkdown } from "@/components/tools/dev/HtmlToMarkdown";
+import { MarkdownToHtml } from "@/components/tools/dev/MarkdownToHtml";
+import { SqlFormatter } from "@/components/tools/dev/SqlFormatter";
+import { DiffChecker } from "@/components/tools/dev/DiffChecker";
+import { CurlToFetch } from "@/components/tools/dev/CurlToFetch";
+import { CronJobParser } from "@/components/tools/dev/CronJobParser";
+import { HtpasswdGenerator } from "@/components/tools/dev/HtpasswdGenerator";
+import { UserAgentParser } from "@/components/tools/dev/UserAgentParser";
+import { DnsLookupTool } from "@/components/tools/dev/DnsLookupTool";
+import { SubdomainFinder } from "@/components/tools/dev/SubdomainFinder";
+import { IpLookup } from "@/components/tools/dev/IpLookup";
 
 // Image Suite
 import { QrGenerator } from "@/components/tools/image/QrGenerator";
@@ -61,9 +81,62 @@ import { PercentageCalculator } from "@/components/tools/math/PercentageCalculat
 import { ScientificCalculator } from "@/components/tools/math/ScientificCalculator";
 import { CompoundInterestCalculator } from "@/components/tools/math/CompoundInterestCalculator";
 import { PomodoroTimer } from "@/components/tools/math/PomodoroTimer";
+import { TipCalculator } from "@/components/tools/math/TipCalculator";
+import { AspectRatioCalculator } from "@/components/tools/math/AspectRatioCalculator";
+import { LoanCalculator } from "@/components/tools/math/LoanCalculator";
+import { DiscountCalculator } from "@/components/tools/math/DiscountCalculator";
+import { GpaCalculator } from "@/components/tools/math/GpaCalculator";
+import { CalorieCalculator } from "@/components/tools/math/CalorieCalculator";
+import { FractionCalculator } from "@/components/tools/math/FractionCalculator";
+import { SalesTaxCalculator } from "@/components/tools/math/SalesTaxCalculator";
+import { GstTaxCalculator } from "@/components/tools/math/GstTaxCalculator";
+import { LoanPayoffCalculator } from "@/components/tools/math/LoanPayoffCalculator";
 
 // Unit & Converters
 import { UnitConverter } from "@/components/tools/unit/UnitConverter";
+import { TemperatureConverter } from "@/components/tools/unit/TemperatureConverter";
+import { LengthConverter } from "@/components/tools/unit/LengthConverter";
+import { WeightConverter } from "@/components/tools/unit/WeightConverter";
+import { SpeedConverter } from "@/components/tools/unit/SpeedConverter";
+import { RomanNumeralsConverter } from "@/components/tools/unit/RomanNumeralsConverter";
+import { BinaryConverter } from "@/components/tools/unit/BinaryConverter";
+import { HexToRgbConverter } from "@/components/tools/unit/HexToRgbConverter";
+import { CurrencyConverter } from "@/components/tools/unit/CurrencyConverter";
+import { EmToPxConverter } from "@/components/tools/unit/EmToPxConverter";
+import { PxToRemConverter } from "@/components/tools/unit/PxToRemConverter";
+
+// NEW TOOLS
+import { AiSummarizer } from "@/components/tools/text/AiSummarizer";
+import { AiHeadlineGenerator } from "@/components/tools/text/AiHeadlineGenerator";
+import { CitationGenerator } from "@/components/tools/text/CitationGenerator";
+import { WordCounter2 } from "@/components/tools/text/WordCounter2";
+import { ReadabilityChecker } from "@/components/tools/text/ReadabilityChecker";
+import { CharacterFrequencyCounter } from "@/components/tools/text/CharacterFrequencyCounter";
+import { StringUtilities } from "@/components/tools/text/StringUtilities";
+import { TwitterCharacterCounter } from "@/components/tools/text/TwitterCharacterCounter";
+import { NoteTakingTool } from "@/components/tools/text/NoteTakingTool";
+import { TextToSpeech } from "@/components/tools/text/TextToSpeech";
+import { UrlSlugGenerator } from "@/components/tools/text/UrlSlugGenerator";
+
+import { MetaTitleLengthChecker } from "@/components/tools/seo/MetaTitleLengthChecker";
+import { OpenGraphValidator } from "@/components/tools/seo/OpenGraphValidator";
+import { HashtagGenerator } from "@/components/tools/seo/HashtagGenerator";
+import { GradientGenerator } from "@/components/tools/seo/GradientGenerator";
+
+import { SvgToPng } from "@/components/tools/image/SvgToPng";
+import { SocialImageResizer } from "@/components/tools/image/SocialImageResizer";
+import { ImageColorPicker } from "@/components/tools/image/ImageColorPicker";
+import { YouTubeThumbnailDownloader } from "@/components/tools/image/YouTubeThumbnailDownloader";
+import { FaviconGenerator } from "@/components/tools/image/FaviconGenerator";
+
+import { XmlFormatter } from "@/components/tools/dev/XmlFormatter";
+import { XmlSitemapValidator } from "@/components/tools/dev/XmlSitemapValidator";
+import { CssBoxShadowGenerator } from "@/components/tools/dev/CssBoxShadowGenerator";
+import { CssFlexboxGenerator } from "@/components/tools/dev/CssFlexboxGenerator";
+import { CssClipPathGenerator } from "@/components/tools/dev/CssClipPathGenerator";
+import { ColorPaletteGenerator } from "@/components/tools/dev/ColorPaletteGenerator";
+import { RegexPatternLibrary } from "@/components/tools/dev/RegexPatternLibrary";
+
 import { siteConfig } from "@/config/site.config";
 
 export async function generateStaticParams() {
@@ -252,7 +325,86 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ tool?: any }>> = {
   "scientific-calculator": ScientificCalculator,
   "compound-interest-calculator": CompoundInterestCalculator,
   "pomodoro-timer": PomodoroTimer,
+  "tip-calculator": TipCalculator,
+  "aspect-ratio-calculator": AspectRatioCalculator,
+  "loan-calculator": LoanCalculator,
+  "discount-calculator": DiscountCalculator,
+  "gpa-calculator": GpaCalculator,
+  "calorie-calculator": CalorieCalculator,
+  "fraction-calculator": FractionCalculator,
+  "sales-tax-calculator": SalesTaxCalculator,
+  "gst-tax-calculator": GstTaxCalculator,
+  "loan-payoff-calculator": LoanPayoffCalculator,
   "unit-converter": UnitConverter,
+  "temperature-converter": TemperatureConverter,
+  "length-converter": LengthConverter,
+  "weight-converter": WeightConverter,
+  "speed-converter": SpeedConverter,
+  "roman-numerals-converter": RomanNumeralsConverter,
+  "binary-converter": BinaryConverter,
+  "hex-to-rgb-converter": HexToRgbConverter,
+  "currency-converter": CurrencyConverter,
+  "em-to-px-converter": EmToPxConverter,
+  "px-to-rem-converter": PxToRemConverter,
+  
+  // New Tools Mapping
+  "ai-summarizer": AiSummarizer,
+  "ai-headline-generator": AiHeadlineGenerator,
+  "citation-generator": CitationGenerator,
+  "reading-time-calculator": WordCounter2,
+  "readability-score-checker": ReadabilityChecker,
+  "character-frequency-counter": CharacterFrequencyCounter,
+  "string-utilities": StringUtilities,
+  "twitter-character-counter": TwitterCharacterCounter,
+  "note-taking-tool": NoteTakingTool,
+  "text-to-speech": TextToSpeech,
+  "url-slug-generator": UrlSlugGenerator,
+  
+  "meta-title-length-checker": MetaTitleLengthChecker,
+  "open-graph-validator": OpenGraphValidator,
+  "hashtag-generator": HashtagGenerator,
+  "social-hashtag-generator": HashtagGenerator,
+  "gradient-generator": GradientGenerator,
+  
+  "svg-to-png-converter": SvgToPng,
+  "social-image-resizer": SocialImageResizer,
+  "image-color-picker": ImageColorPicker,
+  "youtube-thumbnail-downloader": YouTubeThumbnailDownloader,
+  "favicon-generator": FaviconGenerator,
+  
+  "xml-formatter-beautifier": XmlFormatter,
+  "xml-sitemap-validator": XmlSitemapValidator,
+  "css-box-shadow-generator": CssBoxShadowGenerator,
+  "css-flexbox-generator": CssFlexboxGenerator,
+  "css-clip-path-generator": CssClipPathGenerator,
+  "color-palette-generator": ColorPaletteGenerator,
+  "regex-pattern-library": RegexPatternLibrary,
+
+  // Developer Suite Additions
+  "css-minifier": CssMinifier,
+  "js-minifier": JsMinifier,
+  "html-minifier": HtmlMinifier,
+  "html-entity-encoder": HtmlEntityEncoder,
+  "html-entity-encoder-decoder": HtmlEntityEncoder,
+  "url-encoder": UrlEncoder,
+  "csv-to-json": CsvToJson,
+  "json-to-csv": JsonToCsv,
+  "json-to-yaml": JsonToYaml,
+  "yaml-to-json": YamlToJson,
+  "html-to-markdown": HtmlToMarkdown,
+  "markdown-to-html-converter": MarkdownToHtml,
+  "sql-formatter": SqlFormatter,
+  "sql-beautifier-formatter": SqlFormatter,
+  "diff-checker": DiffChecker,
+  "text-diff-checker": DiffChecker,
+  "curl-to-fetch": CurlToFetch,
+  "cron-job-parser": CronJobParser,
+  "cron-expression-generator": CronJobParser,
+  "htpasswd-generator": HtpasswdGenerator,
+  "user-agent-parser": UserAgentParser,
+  "dns-lookup-tool": DnsLookupTool,
+  "subdomain-finder": SubdomainFinder,
+  "ip-lookup": IpLookup,
 };
 
 export default async function ToolPage(props: { params: Promise<{ slug: string }> }) {

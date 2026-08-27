@@ -178,6 +178,16 @@ export async function POST(
         const res = await processAiTask({ prompt: input, task: "social-bio" });
         data = res;
         outputText = res.result;
+      } else if (toolId === "ai-summarizer") {
+        taskName = "summarize";
+        const res = await processAiTask({ prompt: `Length: ${body.length || "standard"}\n\nText:\n${input}`, task: "summarize" });
+        data = res;
+        outputText = res.result;
+      } else if (toolId === "ai-headline-generator") {
+        taskName = "headline";
+        const res = await processAiTask({ prompt: `Topic: ${input}\nTone: ${tone}`, task: "headline" });
+        data = res;
+        outputText = res.result;
       } else {
         taskName = "prompt-gen";
         const res = await processAiTask({ prompt: input, task: "prompt-gen" });

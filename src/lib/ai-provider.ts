@@ -12,7 +12,9 @@ export interface AiRequestOptions {
     | "cover-letter"
     | "grammar"
     | "blog-intro"
-    | "social-bio";
+    | "social-bio"
+    | "summarize"
+    | "headline";
   tone?: string;
   context?: string;
   messages?: { role: string; content: string }[];
@@ -174,6 +176,15 @@ Include a hook, core conflict, and solution teaser for each. Format clearly with
 
   "social-bio": `You are a social media branding specialist.
 Generate 5 punchy, creative, and engaging social media bios for the specified platform and profession/skills. Include relevant emojis, clean layout, and a call-to-action line.`,
+
+  summarize: `You are a professional text summarizer.
+Summarize the provided text to the requested length (brief, standard, or detailed).
+Capture the main points and key arguments accurately. Format clearly.
+Return ONLY the summary.`,
+
+  headline: `You are an expert copywriter.
+Generate 10 compelling, high-converting headlines based on the topic and requested tone.
+Format as a simple numbered list. Return ONLY the list.`,
 };
 
 // ── OpenRouter API Call ───────────────────────────────────────────────────────
@@ -268,6 +279,14 @@ function localFallback(options: AiRequestOptions): AiTaskResult {
     for (const [k, v] of Object.entries(replacements)) { text = text.replace(new RegExp(`\\b${k}\\b`, "gi"), v); }
     if (tone === "conversational") { text = text.replace(/\bHowever,\b/gi, "But,").replace(/\bTherefore,\b/gi, "So,"); }
     return { result: text, humanScore: 96, aiProbability: 4, changesMade: Object.keys(replacements).length };
+  }
+
+  if (task === "summarize") {
+    return { result: `Here is a summary of your text: \n\n${prompt.slice(0, 100)}... (This is a local fallback summary.)` };
+  }
+
+  if (task === "headline") {
+    return { result: `1. The Ultimate Guide to ${prompt}\n2. How to Master ${prompt} in 2026\n3. 5 Secrets About ${prompt} You Didn't Know\n4. Why ${prompt} is the Future\n5. The Best Tool for ${prompt}` };
   }
 
   if (task === "chat") {
