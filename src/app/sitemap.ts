@@ -5,8 +5,15 @@ import { CATEGORIES } from "@/config/categories.registry";
 import { SAMPLE_POSTS } from "@/lib/blog-data";
 import { db } from "@/lib/db";
 
-// SEO-priority boosted slugs (exact-match keyword target articles)
+// SEO-priority boosted slugs (exact-match keyword target articles from GSC analysis)
 const SEO_PRIORITY_SLUGS = [
+  "meta-title-length-checker-complete-guide-and-best-practices",
+  "keyword-density-checker-complete-guide-and-best-practices",
+  "mastering-json-ld-schema-engineering-for-google-rich-snippets",
+  "base64-encoding-explained-uses-and-misuses",
+  "ai-summarizer-complete-guide-and-best-practices",
+  "complete-guide-css-gradients-linear-radial-conic",
+  "git-commit-message-best-practices-conventional-commits",
   "problems-users-face-with-emi-calculator-websites",
   "challenges-building-cross-platform-markdown-editor",
   "ai-resume-builder-challenges-for-mis-students",
