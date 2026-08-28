@@ -1,7 +1,7 @@
 import { constructMetadata } from "@/lib/seo";
 import { siteConfig } from "@/config/site.config";
 import { TOOLS } from "@/config/tools.registry";
-import { CATEGORIES } from "@/config/categories.registry";
+import { CATEGORIES, getToolsForCategory } from "@/config/categories.registry";
 import { ToolCard } from "@/components/common/ToolCard";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { AdBanner } from "@/components/monetization/AdBanner";
@@ -61,7 +61,7 @@ export default function AllToolsPage() {
       {/* Tools Grouped by Category — ad injected every 3 categories */}
       <div className="space-y-12">
         {CATEGORIES.map((cat, catIndex) => {
-          const categoryTools = TOOLS.filter((t) => t.category === cat.slug);
+          const categoryTools = getToolsForCategory(cat.slug, TOOLS);
           if (categoryTools.length === 0) return null;
 
           return (

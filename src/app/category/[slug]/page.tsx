@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { CATEGORIES } from "@/config/categories.registry";
+import { CATEGORIES, getToolsForCategory } from "@/config/categories.registry";
 import { TOOLS } from "@/config/tools.registry";
 import { ToolCard } from "@/components/common/ToolCard";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
@@ -70,7 +70,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   if (!cat) return constructMetadata();
 
   const custom = CATEGORY_SEO[params.slug];
-  const toolCount = TOOLS.filter((t) => t.category === params.slug).length;
+  const toolCount = getToolsForCategory(params.slug, TOOLS).length;
 
   return constructMetadata({
     title: custom?.title || `${cat.name} — ${toolCount} Free Online Tools | Toolifia`,
@@ -88,7 +88,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
     notFound();
   }
 
-  const categoryTools = TOOLS.filter((t) => t.category === category.slug);
+  const categoryTools = getToolsForCategory(category.slug, TOOLS);
 
   const breadcrumbs = [
     { name: "Categories", url: "/tools" },

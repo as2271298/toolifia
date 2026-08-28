@@ -290,3 +290,183 @@ export const CATEGORIES: CategoryDef[] = [
     color: "from-indigo-600 to-purple-700",
   },
 ];
+
+// ── Smart Category-to-Tool Mapping (ensures ZERO empty categories across the platform) ──
+export const CATEGORY_TOOL_MAP: Record<string, string[]> = {
+  "ai-tools": [
+    "ai-image-generator", "ai-video-generator", "ai-humanizer", "ai-detector", "prompt-generator",
+    "ai-story-generator", "ai-chat-assistant", "ai-summarizer", "ai-headline-generator",
+    "text-to-speech", "resume-builder", "email-writer", "cover-letter-generator", "grammar-checker",
+    "blog-intro-generator", "social-bio-writer"
+  ],
+  "seo-tools": [
+    "meta-tag-generator", "schema-generator", "robots-generator", "sitemap-generator",
+    "keyword-density-checker", "open-graph-generator", "open-graph-validator", "utm-builder",
+    "meta-title-length-checker", "meta-title-pixel-checker", "xml-sitemap-validator",
+    "subdomain-finder", "dns-lookup-tool"
+  ],
+  "text-tools": [
+    "word-counter", "case-converter", "text-rewriter", "slug-generator", "lorem-ipsum-generator",
+    "markdown-editor", "reading-time-calculator", "readability-score-checker", "character-frequency-counter",
+    "string-utilities", "twitter-character-counter", "note-taking-tool", "url-slug-generator",
+    "citation-generator", "diff-checker", "text-diff-checker"
+  ],
+  "writing-tools": [
+    "email-writer", "cover-letter-generator", "grammar-checker", "blog-intro-generator",
+    "social-bio-writer", "citation-generator", "resume-builder", "ai-story-generator",
+    "ai-humanizer", "text-rewriter", "markdown-editor"
+  ],
+  "developer-tools": [
+    "json-formatter", "base64-encoder", "hash-generator", "uuid-generator", "html-formatter",
+    "regex-tester", "jwt-decoder", "css-gradient-generator", "css-minifier", "js-minifier",
+    "html-minifier", "html-entity-encoder", "url-encoder", "csv-to-json", "json-to-csv",
+    "json-to-yaml", "yaml-to-json", "html-to-markdown", "markdown-to-html-converter",
+    "sql-formatter", "diff-checker", "curl-to-fetch", "cron-job-parser", "htpasswd-generator",
+    "user-agent-parser", "dns-lookup-tool", "subdomain-finder", "ip-lookup",
+    "xml-formatter-beautifier", "regex-pattern-library", "color-palette-generator"
+  ],
+  "json-tools": [
+    "json-formatter", "json-to-csv", "json-to-yaml", "csv-to-json", "yaml-to-json", "jwt-decoder"
+  ],
+  "html-tools": [
+    "html-formatter", "html-minifier", "html-entity-encoder", "html-entity-encoder-decoder",
+    "html-to-markdown", "markdown-to-html-converter", "meta-tag-generator"
+  ],
+  "css-tools": [
+    "css-gradient-generator", "css-minifier", "css-box-shadow-generator", "css-flexbox-generator",
+    "css-clip-path-generator", "gradient-generator", "color-picker", "color-palette-generator",
+    "em-to-px-converter", "px-to-rem-converter"
+  ],
+  "javascript-tools": [
+    "js-minifier", "js-formatter", "json-formatter", "jwt-decoder", "curl-to-fetch", "regex-tester"
+  ],
+  "xml-tools": [
+    "xml-formatter-beautifier", "xml-sitemap-validator", "csv-to-xml-converter", "sitemap-generator"
+  ],
+  "programming-tools": [
+    "regex-tester", "regex-pattern-library", "diff-checker", "text-diff-checker", "curl-to-fetch",
+    "sql-formatter", "sql-beautifier-formatter", "cron-job-parser", "cron-expression-generator",
+    "uuid-generator", "base64-encoder", "hash-generator", "user-agent-parser"
+  ],
+  "color-tools": [
+    "color-picker", "image-color-picker", "color-palette-generator", "hex-to-rgb-converter",
+    "gradient-generator", "css-gradient-generator"
+  ],
+  "image-tools": [
+    "qr-generator", "barcode-generator", "color-picker", "image-resizer", "svg-to-png-converter",
+    "social-image-resizer", "image-color-picker", "youtube-thumbnail-downloader",
+    "favicon-generator", "aspect-ratio-calculator"
+  ],
+  "pdf-tools": [
+    "markdown-editor", "markdown-to-html-converter", "html-to-markdown", "note-taking-tool",
+    "resume-builder", "citation-generator"
+  ],
+  "finance-tools": [
+    "emi-calculator", "compound-interest-calculator", "loan-calculator", "loan-payoff-calculator",
+    "sales-tax-calculator", "gst-tax-calculator", "discount-calculator", "tip-calculator",
+    "currency-converter", "percentage-calculator"
+  ],
+  "calculator-tools": [
+    "bmi-calculator", "age-calculator", "emi-calculator", "percentage-calculator",
+    "scientific-calculator", "compound-interest-calculator", "tip-calculator",
+    "aspect-ratio-calculator", "loan-calculator", "discount-calculator", "gpa-calculator",
+    "calorie-calculator", "fraction-calculator", "sales-tax-calculator", "gst-tax-calculator",
+    "loan-payoff-calculator", "chmod-calculator"
+  ],
+  "math-tools": [
+    "percentage-calculator", "scientific-calculator", "fraction-calculator",
+    "aspect-ratio-calculator", "compound-interest-calculator", "random-number-generator",
+    "binary-converter", "roman-numerals-converter"
+  ],
+  "health-calculators": [
+    "bmi-calculator", "calorie-calculator", "age-calculator"
+  ],
+  "unit-converters": [
+    "unit-converter", "temperature-converter", "length-converter", "weight-converter",
+    "speed-converter", "roman-numerals-converter", "binary-converter", "hex-to-rgb-converter",
+    "currency-converter", "em-to-px-converter", "px-to-rem-converter", "time-zone-converter",
+    "time-zone-converter-pro"
+  ],
+  "converter-tools": [
+    "unit-converter", "temperature-converter", "length-converter", "weight-converter",
+    "speed-converter", "roman-numerals-converter", "binary-converter", "hex-to-rgb-converter",
+    "currency-converter", "em-to-px-converter", "px-to-rem-converter", "time-zone-converter",
+    "time-zone-converter-pro"
+  ],
+  "security-tools": [
+    "password-generator", "password-strength-checker", "password-generator-random",
+    "hash-generator", "htpasswd-generator", "jwt-decoder", "base64-encoder"
+  ],
+  "hash-tools": [
+    "hash-generator", "htpasswd-generator", "base64-encoder", "jwt-decoder"
+  ],
+  "encoding-tools": [
+    "base64-encoder", "url-encoder", "html-entity-encoder", "html-entity-encoder-decoder",
+    "binary-converter", "hex-to-rgb-converter"
+  ],
+  "generators": [
+    "lorem-ipsum-generator", "uuid-generator", "password-generator", "qr-generator",
+    "barcode-generator", "color-palette-generator", "gradient-generator", "random-number-generator",
+    "favicon-generator", "prompt-generator", "hashtag-generator"
+  ],
+  "generator-tools": [
+    "lorem-ipsum-generator", "uuid-generator", "password-generator", "qr-generator",
+    "barcode-generator", "color-palette-generator", "gradient-generator", "random-number-generator",
+    "favicon-generator", "prompt-generator", "hashtag-generator"
+  ],
+  "random-tools": [
+    "random-number-generator", "password-generator-random", "uuid-generator", "lorem-ipsum-generator"
+  ],
+  "utility-tools": [
+    "pomodoro-timer", "time-zone-converter", "time-zone-converter-pro", "note-taking-tool",
+    "user-agent-parser", "ip-lookup", "dns-lookup-tool", "subdomain-finder"
+  ],
+  "social-media-tools": [
+    "social-bio-writer", "twitter-character-counter", "hashtag-generator",
+    "social-hashtag-generator", "social-image-resizer", "open-graph-generator",
+    "open-graph-validator", "youtube-thumbnail-downloader"
+  ],
+  "productivity-tools": [
+    "pomodoro-timer", "note-taking-tool", "reading-time-calculator", "word-counter",
+    "time-zone-converter", "time-zone-converter-pro", "markdown-editor"
+  ],
+  "student-tools": [
+    "gpa-calculator", "citation-generator", "readability-score-checker", "fraction-calculator",
+    "scientific-calculator", "resume-builder", "word-counter", "grammar-checker"
+  ],
+  "business-tools": [
+    "gst-tax-calculator", "sales-tax-calculator", "loan-calculator", "emi-calculator",
+    "discount-calculator", "cover-letter-generator", "email-writer", "utm-builder"
+  ],
+  "marketing-tools": [
+    "utm-builder", "hashtag-generator", "meta-tag-generator", "open-graph-generator",
+    "meta-title-length-checker", "ai-headline-generator", "social-image-resizer", "social-bio-writer"
+  ],
+  "resume-tools": [
+    "resume-builder", "cover-letter-generator", "social-bio-writer", "grammar-checker"
+  ],
+  "scientific-calculators": [
+    "scientific-calculator", "fraction-calculator", "binary-converter",
+    "aspect-ratio-calculator", "calorie-calculator"
+  ],
+  "legal-templates": [
+    "schema-generator", "robots-generator", "sitemap-generator"
+  ],
+  "video-tools": [
+    "ai-video-generator", "youtube-thumbnail-downloader", "aspect-ratio-calculator", "social-image-resizer"
+  ],
+  "audio-tools": [
+    "text-to-speech", "pomodoro-timer", "reading-time-calculator"
+  ],
+};
+
+/**
+ * Returns all tools belonging directly or via taxonomy mapping to the specified category.
+ */
+export function getToolsForCategory(categorySlug: string, allTools: any[]) {
+  const mappedSlugs = CATEGORY_TOOL_MAP[categorySlug] || [];
+  return allTools.filter(
+    (t) => t.category === categorySlug || mappedSlugs.includes(t.slug)
+  );
+}
+

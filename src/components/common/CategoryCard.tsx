@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CategoryDef } from "@/config/categories.registry";
+import { CategoryDef, getToolsForCategory } from "@/config/categories.registry";
 import { TOOLS } from "@/config/tools.registry";
 import { ArrowRight } from "lucide-react";
 
@@ -26,7 +26,7 @@ const CATEGORY_CONFIG: Record<string, {
 const DEFAULT_CFG = { gradient: "from-violet-600/20 via-purple-600/10 to-transparent", border: "border-violet-500/20 hover:border-violet-400/50", glow: "hover:shadow-[0_8px_32px_rgba(124,58,237,0.25)]", emoji: "🔧" };
 
 export function CategoryCard({ category }: { category: CategoryDef }) {
-  const toolsCount = TOOLS.filter((t) => t.category === category.slug).length;
+  const toolsCount = getToolsForCategory(category.slug, TOOLS).length;
   const cfg = CATEGORY_CONFIG[category.slug] ?? DEFAULT_CFG;
 
   return (

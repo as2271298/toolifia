@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ToolDef, TOOLS } from "@/config/tools.registry";
+import { getToolsForCategory } from "@/config/categories.registry";
 import { Breadcrumb } from "../common/Breadcrumb";
 import { ShareButtons } from "../common/ShareButtons";
 import { RatingStars } from "../common/RatingStars";
@@ -34,9 +35,9 @@ export function ToolWrapper({
     { name: tool.name, url: `/tool/${tool.slug}` },
   ];
 
-  const relatedTools = TOOLS.filter(
-    (t) => t.category === tool.category && t.slug !== tool.slug
-  ).slice(0, 3);
+  const relatedTools = getToolsForCategory(tool.category, TOOLS)
+    .filter((t) => t.slug !== tool.slug)
+    .slice(0, 3);
 
   const softwareSchema = generateSoftwareApplicationSchema(tool);
   const faqSchema = generateFaqSchema(tool.faqs);
