@@ -68,8 +68,8 @@ export function AiVideoGenerator() {
 
   const generateWithFalAI = async () => {
     if (!falKey.trim()) {
-      setError("Please enter your fal.ai API key to generate real AI videos.");
-      return;
+      // If no fal.ai key, automatically run the free instant AI storyboard generator
+      return generatePreviewImages();
     }
 
     setStatus("generating");

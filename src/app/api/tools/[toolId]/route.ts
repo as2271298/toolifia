@@ -58,7 +58,15 @@ export async function POST(
     let taskName = "generic";
     let outputText = "";
 
-    if (tool.category === "ai-tools" || tool.category === "writing-tools") {
+    const AI_TOOL_SLUGS = [
+      "ai-humanizer", "ai-detector", "resume-builder", "email-writer",
+      "text-rewriter", "ai-story-generator", "ai-chat-assistant",
+      "cover-letter-generator", "grammar-checker", "blog-intro-generator",
+      "social-bio-writer", "ai-summarizer", "ai-headline-generator",
+      "prompt-generator", "citation-generator"
+    ];
+
+    if (AI_TOOL_SLUGS.includes(toolId) || tool.category === "ai-tools" || tool.category === "writing-tools") {
       if (toolId === "ai-humanizer") {
         taskName = "humanize";
         const res = await processAiTask({ prompt: input, task: "humanize", tone });

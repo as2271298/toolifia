@@ -194,10 +194,8 @@ async function callOpenRouter(
   model?: string,
   chatMessages?: { role: string; content: string }[]
 ): Promise<string> {
-  // Use env var for API key
   const apiKey = process.env.OPENROUTER_API_KEY || "";
   const baseUrl = process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1";
-  // Use openrouter/auto which picks any available free model automatically
   const selectedModel = model || process.env.OPENROUTER_MODEL || "openrouter/auto";
 
   if (!apiKey) {
@@ -211,42 +209,72 @@ async function callOpenRouter(
         { role: "user", content: userPrompt },
       ];
 
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "https://toolifia.com",
-      "X-Title": "Toolifia AI Tools",
-    },
-    body: JSON.stringify({
-      model: selectedModel,
-      messages: messagesPayload,
-      temperature: 0.7,
-      max_tokens: 1500,
-    }),
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 20000);
 
-  if (!response.ok) {
-    const errText = await response.text();
-    if (model !== process.env.OPENROUTER_FALLBACK_MODEL) {
-      // Try fallbacks in sequence: deepseek → mistral → qwen
+  try {
+    const response = await fetch(`${baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "https://toolifia.vercel.app",
+        "X-Title": "Toolifia AI Tools",
+      },
+      body: JSON.stringify({
+        model: selectedModel,
+        messages: messagesPayload,
+        temperature: 0.7,
+        max_tokens: 1500,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const errText = await response.text().catch(() => "");
+      console.warn(`[ai-provider] OpenRouter error with model ${selectedModel}:`, response.status, errText);
+
+      // Active working free models sequence on OpenRouter
       const fallbacks = [
-        process.env.OPENROUTER_FALLBACK_MODEL,
-        "deepseek/deepseek-r1-0528:free",
-        "mistralai/mistral-7b-instruct:free",
-        "qwen/qwen-2.5-7b-instruct:free",
-      ].filter(Boolean) as string[];
-      const nextModel = fallbacks.find((m) => m !== model) || "mistralai/mistral-7b-instruct:free";
-      return callOpenRouter(systemPrompt, userPrompt, nextModel, chatMessages);
+        "openrouter/auto",
+        "minimax/minimax-m3:free",
+        "nvidia/nemotron-3.5-lightning:free",
+        "inclusionai/ling-3.0-flash-fin:free",
+      ];
+      const nextIndex = fallbacks.indexOf(selectedModel) + 1;
+      if (nextIndex > 0 && nextIndex < fallbacks.length) {
+        return callOpenRouter(systemPrompt, userPrompt, fallbacks[nextIndex], chatMessages);
+      }
+      throw new Error(`OpenRouter API error ${response.status}: ${errText}`);
     }
-    throw new Error(`OpenRouter API error ${response.status}: ${errText}`);
-  }
 
-  const data = (await response.json()) as {
-    choices: { message: { content: string } }[];
-  };
-  return data.choices?.[0]?.message?.content?.trim() ?? "";
+    const data = (await response.json()) as {
+      choices: { message: { content: string } }[];
+    };
+    let content = data.choices?.[0]?.message?.content?.trim() ?? "";
+
+    // Clean up reasoning/thinking tags (e.g. <think>...</think> or "Here's a thinking process:")
+    content = content.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+    if (content.startsWith("Here's a thinking process:") || content.startsWith("Here is a thinking process:")) {
+      const parts = content.split(/\n\s*\n/);
+      if (parts.length > 2) {
+        content = parts.slice(2).join("\n\n").trim();
+      }
+    }
+
+    return content;
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    if (err.name === "AbortError") {
+      console.warn("[ai-provider] Request timed out, switching to fallback model...");
+      const fallbacks = ["minimax/minimax-m3:free", "nvidia/nemotron-3.5-lightning:free"];
+      if (model !== fallbacks[0]) {
+        return callOpenRouter(systemPrompt, userPrompt, fallbacks[0], chatMessages);
+      }
+    }
+    throw err;
+  }
 }
 
 // ── Local Fallback (no API key or network error) ──────────────────────────────
