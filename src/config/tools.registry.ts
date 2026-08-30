@@ -46,7 +46,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "ai-video-generator",
     name: "Free AI Video Generator — Text to Video Online (No Signup)",
-    category: "video-tools",
+    category: "ai-tools",
     description: "Generate real AI videos from text prompts for free. Create cinematic clips, anime scenes, 3D animations, and drone footage with professional camera motion. No signup required. Higgsfield-style AI video generation powered by Kling, Wan, and MiniMax AI models.",
     icon: "Video",
     featured: true,
@@ -267,7 +267,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "email-writer",
     name: "AI Email Writer & Assistant",
-    category: "writing-tools",
+    category: "ai-tools",
     description: "Draft persuasive outreach emails, professional replies, or cold pitches in seconds.",
     icon: "Mail",
     featured: true,
@@ -286,7 +286,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "cover-letter-generator",
     name: "AI Cover Letter Generator",
-    category: "writing-tools",
+    category: "ai-tools",
     description: "Generate tailored, professional cover letters for any job application in seconds using AI.",
     icon: "FileText",
     featured: true,
@@ -305,7 +305,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "grammar-checker",
     name: "AI Grammar & Spell Checker",
-    category: "writing-tools",
+    category: "ai-tools",
     description: "Detect and fix grammar errors, spelling mistakes, punctuation issues, and style problems instantly.",
     icon: "CheckSquare",
     featured: true,
@@ -324,7 +324,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "blog-intro-generator",
     name: "Blog Intro & Hook Generator",
-    category: "writing-tools",
+    category: "ai-tools",
     description: "Generate magnetic blog post introductions that hook readers and reduce bounce rate instantly.",
     icon: "Zap",
     featured: false,
@@ -343,7 +343,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "social-bio-writer",
     name: "Social Media Bio Generator",
-    category: "writing-tools",
+    category: "ai-tools",
     description: "Create punchy, professional bios for Twitter/X, LinkedIn, Instagram, and TikTok profiles.",
     icon: "UserCheck",
     featured: false,
@@ -741,7 +741,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "jwt-decoder",
     name: "JWT Token Decoder & Inspector",
-    category: "developer-tools",
+    category: "security-tools",
     description: "Decode and inspect JSON Web Tokens (JWT) — view header, payload claims, and expiry status.",
     icon: "KeySquare",
     featured: false,
@@ -781,7 +781,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "json-formatter",
     name: "JSON Formatter, Validator & Minifier",
-    category: "json-tools",
+    category: "developer-tools",
     description: "Format, validate, beautify, and minify JSON data with error highlights and tree structure.",
     icon: "Braces",
     featured: true,
@@ -800,7 +800,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "json-to-csv",
     name: "JSON to CSV Converter",
-    category: "json-tools",
+    category: "developer-tools",
     description: "Convert JSON arrays to CSV spreadsheet format instantly with custom delimiter and header options.",
     icon: "Table",
     featured: false,
@@ -819,7 +819,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "json-to-yaml",
     name: "JSON to YAML Converter",
-    category: "json-tools",
+    category: "developer-tools",
     description: "Convert JSON configuration files to YAML format and vice versa for DevOps and configuration management.",
     icon: "FileJson",
     featured: false,
@@ -840,7 +840,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "html-formatter",
     name: "HTML Code Formatter & Beautifier",
-    category: "html-tools",
+    category: "developer-tools",
     description: "Format messy HTML code with proper indentation, tag alignment, and clean structure.",
     icon: "Code",
     featured: false,
@@ -859,7 +859,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "html-to-markdown",
     name: "HTML to Markdown Converter",
-    category: "html-tools",
+    category: "developer-tools",
     description: "Convert HTML code into clean Markdown syntax for documentation, README files, and static site generators.",
     icon: "FileDown",
     featured: false,
@@ -878,7 +878,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "html-entity-encoder",
     name: "HTML Entity Encoder & Decoder",
-    category: "html-tools",
+    category: "security-tools",
     description: "Encode special characters into HTML entities and decode HTML entities back to readable characters.",
     icon: "Code2",
     featured: false,
@@ -937,7 +937,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "css-minifier",
     name: "CSS Minifier & Compressor",
-    category: "css-tools",
+    category: "developer-tools",
     description: "Compress and minify CSS files by removing whitespace, comments, and redundant rules to reduce file size.",
     icon: "Minimize2",
     featured: false,
@@ -977,7 +977,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "js-minifier",
     name: "JavaScript Minifier & Compressor",
-    category: "javascript-tools",
+    category: "developer-tools",
     description: "Minify JavaScript code by removing whitespace, comments, and shortening variable names for production.",
     icon: "FileCode2",
     featured: false,
@@ -996,7 +996,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "js-formatter",
     name: "JavaScript Formatter & Beautifier",
-    category: "javascript-tools",
+    category: "developer-tools",
     description: "Beautify and format minified or poorly indented JavaScript code to readable clean format.",
     icon: "AlignLeft",
     featured: false,
@@ -1057,7 +1057,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "base64-encoder",
     name: "Base64 Encoder & Decoder",
-    category: "encoding-tools",
+    category: "security-tools",
     description: "Encode text or binary data into Base64 strings, or decode Base64 back to plain text.",
     icon: "Binary",
     featured: true,
@@ -1076,7 +1076,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "url-encoder",
     name: "URL Encoder & Decoder",
-    category: "encoding-tools",
+    category: "security-tools",
     description: "Percent-encode special characters in URLs or decode encoded URL strings back to readable format.",
     icon: "Link2",
     featured: false,
@@ -1097,7 +1097,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "hash-generator",
     name: "Cryptographic Hash Generator (MD5, SHA-256)",
-    category: "hash-tools",
+    category: "security-tools",
     description: "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes instantly from any text string.",
     icon: "Lock",
     featured: true,
@@ -1196,7 +1196,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "color-picker",
     name: "Color Picker, HEX/RGB/HSL & Palette Generator",
-    category: "color-tools",
+    category: "image-tools",
     description: "Pick colors, convert formats (HEX, RGB, HSL), calculate WCAG contrast ratios, and generate palettes.",
     icon: "Droplet",
     featured: true,
@@ -1215,7 +1215,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "color-palette-generator",
     name: "AI Color Palette Generator",
-    category: "color-tools",
+    category: "css-tools",
     description: "Generate beautiful 5-color harmonious palettes from a base color — complementary, triadic, analogous & more.",
     icon: "Swatch",
     featured: false,
@@ -1236,7 +1236,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "lorem-ipsum-generator",
     name: "Lorem Ipsum Placeholder Generator",
-    category: "generators",
+    category: "text-tools",
     description: "Generate classic filler text by paragraphs, words, sentences, or lists for UI designs and mockups.",
     icon: "AlignLeft",
     featured: false,
@@ -1274,7 +1274,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "random-number-generator",
     name: "Random Number Generator",
-    category: "generators",
+    category: "productivity-tools",
     description: "Generate one or multiple truly random numbers within any custom range with seed and exclusion options.",
     icon: "Dices",
     featured: false,
@@ -1293,7 +1293,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "password-generator-random",
     name: "Random Word & Passphrase Generator",
-    category: "generators",
+    category: "security-tools",
     description: "Generate memorable passphrases from random English words — easier to remember than complex passwords.",
     icon: "Wand2",
     featured: false,
@@ -1314,7 +1314,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "hashtag-generator",
     name: "AI Hashtag Generator",
-    category: "social-media-tools",
+    category: "productivity-tools",
     description: "Generate high-reach hashtags for Instagram, TikTok, Twitter, and LinkedIn based on your topic or post.",
     icon: "Hash",
     featured: true,
@@ -1333,7 +1333,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "youtube-thumbnail-downloader",
     name: "YouTube Thumbnail Downloader",
-    category: "social-media-tools",
+    category: "image-tools",
     description: "Download any YouTube video thumbnail in all available resolutions (SD, HD, Full HD, Maxres) instantly.",
     icon: "Youtube",
     featured: false,
@@ -1352,7 +1352,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "twitter-character-counter",
     name: "Twitter / X Character Counter",
-    category: "social-media-tools",
+    category: "text-tools",
     description: "Count characters for Twitter/X posts with thread numbering, link handling, and engagement tips.",
     icon: "Twitter",
     featured: false,
@@ -1392,7 +1392,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "note-taking-tool",
     name: "Quick Notes & Sticky Notes",
-    category: "productivity-tools",
+    category: "text-tools",
     description: "Take quick notes, checklists, and sticky-note memos that auto-save in your browser locally.",
     icon: "StickyNote",
     featured: false,
@@ -1411,7 +1411,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "reading-time-calculator",
     name: "Reading Time Calculator",
-    category: "productivity-tools",
+    category: "text-tools",
     description: "Calculate exact reading time for any article or blog post at custom words-per-minute speeds.",
     icon: "BookOpen",
     featured: false,
@@ -1432,7 +1432,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "percentage-calculator",
     name: "Universal Percentage Calculator",
-    category: "math-tools",
+    category: "calculator-tools",
     description: "Calculate percentage change, percentage of a number, percentage increase/decrease, and discount values.",
     icon: "Calculator",
     featured: true,
@@ -1451,7 +1451,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "scientific-calculator",
     name: "Online Scientific Calculator",
-    category: "math-tools",
+    category: "calculator-tools",
     description: "Perform trigonometric (sin, cos, tan), logarithmic (log, ln), exponential, and algebraic calculations.",
     icon: "Atom",
     featured: false,
@@ -1470,7 +1470,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "fraction-calculator",
     name: "Fraction Calculator & Simplifier",
-    category: "math-tools",
+    category: "calculator-tools",
     description: "Add, subtract, multiply, and divide fractions with automatic simplification and mixed number conversion.",
     icon: "Divide",
     featured: false,
@@ -1491,7 +1491,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "bmi-calculator",
     name: "Body Mass Index (BMI) Calculator",
-    category: "health-calculators",
+    category: "calculator-tools",
     description: "Calculate your Body Mass Index (BMI), ideal weight range, and WHO health categories.",
     icon: "HeartPulse",
     featured: true,
@@ -1510,7 +1510,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "age-calculator",
     name: "Exact Age Calculator",
-    category: "health-calculators",
+    category: "calculator-tools",
     description: "Calculate your exact age down to years, months, weeks, days, hours, and minutes based on birthdate.",
     icon: "Calendar",
     featured: true,
@@ -1529,7 +1529,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "calorie-calculator",
     name: "Daily Calorie & TDEE Calculator",
-    category: "health-calculators",
+    category: "calculator-tools",
     description: "Calculate your Total Daily Energy Expenditure (TDEE) and recommended calorie intake based on activity level.",
     icon: "Flame",
     featured: false,
@@ -1550,7 +1550,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "emi-calculator",
     name: "EMI & Loan Mortgage Calculator",
-    category: "finance-tools",
+    category: "calculator-tools",
     description: "Calculate Equated Monthly Installments (EMI), total interest payable, and total loan payment breakdown.",
     icon: "DollarSign",
     featured: true,
@@ -1569,7 +1569,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "compound-interest-calculator",
     name: "Compound Interest Calculator",
-    category: "finance-tools",
+    category: "calculator-tools",
     description: "Calculate compound interest growth over time with principal, rate, compounding frequency, and time inputs.",
     icon: "TrendingUp",
     featured: false,
@@ -1588,7 +1588,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "gst-tax-calculator",
     name: "GST & Tax Calculator",
-    category: "finance-tools",
+    category: "calculator-tools",
     description: "Calculate GST, VAT, or sales tax amounts to add or remove from prices with multiple rate support.",
     icon: "Receipt",
     featured: false,
@@ -1609,7 +1609,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "unit-converter",
     name: "Universal Unit Converter",
-    category: "unit-converters",
+    category: "converter-tools",
     description: "Convert units of Length, Weight/Mass, Temperature, Area, Volume, and Digital Data Storage.",
     icon: "ArrowLeftRight",
     featured: true,
@@ -1628,7 +1628,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "currency-converter",
     name: "Live Currency Converter",
-    category: "unit-converters",
+    category: "converter-tools",
     description: "Convert between 160+ world currencies with daily updated exchange rates for travel and business.",
     icon: "Banknote",
     featured: false,
@@ -1649,7 +1649,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "gpa-calculator",
     name: "GPA Calculator",
-    category: "student-tools",
+    category: "calculator-tools",
     description: "Calculate your GPA (Grade Point Average) with weighted course credits for US, UK, or custom grading systems.",
     icon: "GraduationCap",
     featured: false,
@@ -1668,7 +1668,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "citation-generator",
     name: "Academic Citation Generator",
-    category: "student-tools",
+    category: "text-tools",
     description: "Generate properly formatted APA, MLA, Chicago, and Harvard citations for books, websites, and journals.",
     icon: "Quote",
     featured: false,
@@ -1765,7 +1765,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "html-entity-encoder",
     name: "HTML Entity Encoder & Decoder",
-    category: "developer-tools",
+    category: "security-tools",
     description: "Safely encode special characters (&, <, >, \", ') to HTML entities and decode encoded string payloads to prevent XSS vulnerabilities.",
     icon: "Code",
     featured: false,
@@ -1822,7 +1822,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "readability-score-checker",
     name: "Readability Score & Grade Level Checker",
-    category: "writing-tools",
+    category: "text-tools",
     description: "Analyze text readability using Flesch-Kincaid, Gunning Fog Index, and Coleman-Liau formulas to optimize content for your target audience.",
     icon: "BookOpenCheck",
     featured: false,
@@ -1879,7 +1879,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "social-hashtag-generator",
     name: "Social Media Hashtag Generator",
-    category: "social-media-tools",
+    category: "productivity-tools",
     description: "Discover trending, high-reach hashtags for Instagram, TikTok, LinkedIn, and Twitter/X based on your topic or niche.",
     icon: "Hash",
     featured: false,
@@ -2010,7 +2010,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "aspect-ratio-calculator",
     name: "Aspect Ratio Calculator",
-    category: "image-tools",
+    category: "calculator-tools",
     description: "Calculate missing dimensions (width or height) while preserving aspect ratios like 16:9, 4:3, 1:1, or custom proportions.",
     icon: "Scaling",
     featured: false,
@@ -2029,7 +2029,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "hex-to-rgb-converter",
     name: "HEX to RGB & HSL Color Converter",
-    category: "color-tools",
+    category: "converter-tools",
     description: "Convert HEX color codes to RGB, RGBA, HSL, and HSV formats with live color picker preview and CSS snippet generator.",
     icon: "Palette",
     featured: false,
@@ -2048,7 +2048,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "loan-payoff-calculator",
     name: "Loan Payoff & Amortization Calculator",
-    category: "math-tools",
+    category: "calculator-tools",
     description: "Calculate monthly loan payments, total interest costs, and extra payment payoff acceleration schedules.",
     icon: "Calculator",
     featured: true,
@@ -2067,7 +2067,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "time-zone-converter",
     name: "World Time Zone Converter & Meeting Planner",
-    category: "utility-tools",
+    category: "converter-tools",
     description: "Convert time across global time zones (UTC, EST, PST, GMT, IST, JST) and find overlapping meeting hours across regions.",
     icon: "Globe",
     featured: true,
@@ -2257,7 +2257,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "html-entity-encoder-decoder",
     name: "HTML Entity Encoder & Decoder",
-    category: "developer-tools",
+    category: "security-tools",
     description: "Encode special characters into HTML entities (&lt;, &gt;, &amp;) or decode entity strings back to readable HTML.",
     icon: "Code",
     featured: false,
@@ -2276,7 +2276,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "random-number-generator",
     name: "Random Number Generator (RNG)",
-    category: "generator-tools",
+    category: "productivity-tools",
     description: "Generate cryptographically secure or pseudo-random numbers within any minimum and maximum custom range.",
     icon: "Dices",
     featured: false,
@@ -2295,7 +2295,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "color-palette-generator",
     name: "AI Color Palette Generator",
-    category: "generator-tools",
+    category: "css-tools",
     description: "Generate harmonious color palettes for web design, apps, and branding. Export HEX, RGB, HSL, and Tailwind CSS classes.",
     icon: "Palette",
     featured: true,
@@ -2314,7 +2314,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "gradient-generator",
     name: "CSS Gradient Generator",
-    category: "generator-tools",
+    category: "css-tools",
     description: "Design linear, radial, and conic CSS background gradients visually and copy production-ready CSS code.",
     icon: "Sparkles",
     featured: true,
@@ -2409,7 +2409,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "time-zone-converter-pro",
     name: "Global Time Zone Converter",
-    category: "productivity-tools",
+    category: "converter-tools",
     description: "Compare world clock times across multiple global cities simultaneously with interactive time sliders.",
     icon: "Clock",
     featured: false,
@@ -2599,7 +2599,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "px-to-rem-converter",
     name: "PX to REM Converter (CSS Units)",
-    category: "developer-tools",
+    category: "converter-tools",
     description: "Convert pixel (px) font sizes and spacing to CSS REM and EM units based on root font size.",
     icon: "Type",
     featured: false,
@@ -2618,7 +2618,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "em-to-px-converter",
     name: "EM to PX Converter",
-    category: "developer-tools",
+    category: "converter-tools",
     description: "Convert EM units to exact pixels (PX) based on parent element font size specifications.",
     icon: "ArrowLeftRight",
     featured: false,
@@ -2637,7 +2637,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "css-clip-path-generator",
     name: "CSS Clip-Path Generator",
-    category: "generator-tools",
+    category: "css-tools",
     description: "Create geometric shapes (triangles, polygons, circles, stars) using CSS `clip-path` with drag points.",
     icon: "Crop",
     featured: false,
@@ -2732,7 +2732,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "subdomain-finder",
     name: "Subdomain Finder & Enumeration Tool",
-    category: "security-tools",
+    category: "seo-tools",
     description: "Discover public subdomains and DNS record structures for security research and domain auditing.",
     icon: "Globe",
     featured: false,
@@ -2751,7 +2751,7 @@ export const TOOLS: ToolDef[] = [
   {
     slug: "dns-lookup-tool",
     name: "DNS Record Lookup Tool (A, MX, CNAME, TXT, NS)",
-    category: "developer-tools",
+    category: "seo-tools",
     description: "Query global DNS servers for domain A, AAAA, MX, TXT, CNAME, and NS record configurations.",
     icon: "Server",
     featured: false,
