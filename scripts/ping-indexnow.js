@@ -1,4 +1,4 @@
-﻿const https = require("https");
+const https = require("https");
 const { URL } = require("url");
 
 const INDEXNOW_KEY = "2032946dbd1548d89436c5306cc46231";
@@ -17,6 +17,12 @@ const urlList = [
   SITE_URL,
   `${SITE_URL}/tools`,
   `${SITE_URL}/blog`,
+  `${SITE_URL}/about`,
+  `${SITE_URL}/contact`,
+  `${SITE_URL}/privacy`,
+  `${SITE_URL}/terms`,
+  `${SITE_URL}/cookie-policy`,
+  `${SITE_URL}/disclaimer`,
   `${SITE_URL}/category/ai-tools`,
   `${SITE_URL}/category/seo-tools`,
   `${SITE_URL}/category/developer-tools`,
