@@ -28,11 +28,11 @@ const DEV_TOOLS     = TOOLS.filter((t) => t.category === "developer-tools").slic
 const CALC_TOOLS    = TOOLS.filter((t) => t.category === "calculator-tools").slice(0, 4);
 
 const homeFaqs = [
-  { question: "Are all tools on Toolifia 100% free to use?", answer: "Yes — every single tool is completely free. No hidden subscriptions, no paywalls, no credit card ever required." },
-  { question: "Do I need to create an account or sign in?", answer: "No registration whatsoever. Open any tool and start using it instantly — your browser is all you need." },
-  { question: "Is my data safe and private?", answer: "Absolutely. Most tools (calculators, encoders, formatters) process data entirely inside your browser — nothing is sent to our servers." },
-  { question: "Can I use Toolifia tools via a REST API?", answer: "Yes! Every tool page includes a developer API tab so you can integrate any utility programmatically into your own apps." },
-  { question: "How is Toolifia different from Toolify.ai?", answer: "Toolify is a directory that redirects you to external paid tools. Toolifia hosts real, working tools that run directly in your browser — no redirects, no payments, no limits." },
+  { question: "Are tools on Toolifia free to use?", answer: "Yes — Toolifia does not charge a subscription for its tools. All utilities are free to use with zero mandatory signups. Some specialized tools (such as AI video generation) support connecting a free third-party API key for high-capacity rendering." },
+  { question: "Do I need to create an account or sign in?", answer: "No registration is required. You can open any tool and start using it immediately in your browser." },
+  { question: "How does Toolifia handle data privacy and security?", answer: "Many Toolifia tools (calculators, encoders, formatters, text tools) process data 100% locally in your browser. Tools utilizing external neural models communicate over encrypted connections with zero persistent data storage." },
+  { question: "How does the AI Text Humanizer improve text?", answer: "It restructures clauses, balances sentence lengths (burstiness), and replaces repetitive vocabulary to create natural, engaging human prose while preserving the core message." },
+  { question: "How is Toolifia different from tool directories?", answer: "Unlike link directories that redirect you to third-party subscription paywalls, Toolifia provides actual functional software tools that run directly on-site." },
 ];
 
 // Reusable section label component
@@ -261,26 +261,63 @@ export default function HomePage() {
         {/* ── Divider ── */}
         <hr className="section-divider" />
 
-        {/* ══════════ SOCIAL PROOF STARS ══════════ */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {[
-            { quote: "Finally — real tools that work without redirecting me somewhere else. Toolifia is my daily go-to.", user: "Sarah M.", role: "Content Creator", rating: 5 },
-            { quote: "The AI humanizer alone is worth bookmarking this site. Bypasses GPTZero every single time.", user: "Dev K.", role: "SEO Specialist", rating: 5 },
-            { quote: "300+ tools, no account, no paywalls. This is what the internet should always have been.", user: "James T.", role: "Web Developer", rating: 5 },
-          ].map(({ quote, user, role, rating }) => (
-            <div key={user} className="glass-card p-6 rounded-2xl space-y-4">
-              <div className="flex gap-0.5">
-                {Array.from({ length: rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-              <p className="text-sm text-slate-300 leading-relaxed">"{quote}"</p>
-              <div>
-                <div className="text-sm font-bold text-white">{user}</div>
-                <div className="text-xs text-slate-500">{role}</div>
-              </div>
+        {/* ══════════ BUILT FOR MODERN WORKFLOWS ══════════ */}
+        <section className="space-y-8">
+          <div className="text-center space-y-2 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 text-violet-400 text-xs font-mono border border-violet-500/20">
+              <Sparkles className="w-3.5 h-3.5" /> Built for Modern Digital Workflows
             </div>
-          ))}
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+              Engineered for Creators, Developers &amp; Marketers
+            </h2>
+            <p className="text-sm text-slate-400">
+              Purpose-built utilities to streamline your daily tasks without bloat or paywalls.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {[
+              {
+                icon: BookOpen,
+                title: "For Content Creators & Writers",
+                desc: "Refine draft flow with our AI Text Humanizer, calculate word density, format markdown, and generate compelling social captions.",
+                badge: "Writing Suite",
+                color: "text-violet-400",
+                bg: "bg-violet-500/10 border-violet-500/20"
+              },
+              {
+                icon: Cpu,
+                title: "For Software Engineers",
+                desc: "Format JSON, decode Base64, generate cryptographic hashes, test regular expressions, and parse JWTs—100% client-side.",
+                badge: "Developer Utilities",
+                color: "text-cyan-400",
+                bg: "bg-cyan-500/10 border-cyan-500/20"
+              },
+              {
+                icon: Zap,
+                title: "For SEO Specialists & Marketers",
+                desc: "Build Google-compliant JSON-LD schemas, generate Open Graph meta tags, check keyword density, and inspect robots.txt rules.",
+                badge: "SEO & Growth",
+                color: "text-emerald-400",
+                bg: "bg-emerald-500/10 border-emerald-500/20"
+              },
+            ].map(({ icon: Icon, title, desc, badge, color, bg }) => (
+              <div key={title} className="glass-card p-6 rounded-2xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${bg}`}>
+                    <Icon className={`w-5 h-5 ${color}`} />
+                  </div>
+                  <span className={`text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full border ${bg} ${color}`}>
+                    {badge}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white mb-2">{title}</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* ── Divider ── */}
@@ -326,23 +363,23 @@ export default function HomePage() {
         <section className="glass-card rounded-3xl p-8 sm:p-12 border border-white/[0.08] space-y-10">
           <div className="border-b border-white/[0.08] pb-6">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3">
-              Toolifia — The Complete Free Browser Utilities &amp; AI Toolkit Platform
+              Toolifia — Free Browser Utilities &amp; Digital Toolkit
             </h2>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
-              Toolifia provides over 300+ web-native utilities designed for software developers, technical SEO specialists, digital marketers, content creators, and students. Every utility operates 100% free of charge with zero mandatory registration, no subscription paywalls, and complete client-side data privacy.
+              Toolifia provides over 300+ web-native utilities designed for software developers, technical SEO specialists, digital marketers, content creators, and students. Tools operate free of charge with zero mandatory registration and transparent data handling.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <article className="space-y-4">
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-violet-400" /> Next-Generation AI Suite
+                <Sparkles className="w-5 h-5 text-violet-400" /> AI Writing &amp; Media Tools
               </h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Our suite of artificial intelligence tools includes an advanced <strong>AI Video Generator</strong> powered by Kling 2.1, Wan, and MiniMax architecture, capable of converting descriptive text prompts into high-definition 1080p MP4 video clips. Furthermore, our <strong>AI Text Humanizer</strong> algorithms reframe AI-generated prose from GPT-4, Claude 3.5, and Gemini into natural human cadence, passing detectors like GPTZero and Turnitin while preserving semantic meaning.
+                Our suite of artificial intelligence tools includes an <strong>AI Video Generator</strong> supporting modern diffusion and video models (such as Kling 2.1 and Wan) for creative visual production. Furthermore, our <strong>AI Text Humanizer</strong> rewrites robotic drafts into natural, engaging, and varied prose, enhancing readability while preserving the original meaning.
               </p>
               <p className="text-sm text-slate-400 leading-relaxed">
-                For job seekers and professionals, our AI Resume Builder and Cover Letter Generator craft tailored, ATS-compliant CV documents optimized for automated recruitment filters.
+                For job seekers and professionals, our AI Resume Builder and Cover Letter Generator craft tailored, structured CV documents formatted for professional clarity.
               </p>
             </article>
 
@@ -366,7 +403,7 @@ export default function HomePage() {
                 Web developers can format, validate, and minify complex JSON, HTML, CSS, and JavaScript payloads instantly. Security features include client-side <strong>MD5, SHA-256, and SHA-512 Hash Generators</strong>, cryptographically strong UUID/GUID generators, Base64 encoders/decoders, JWT token decoders, and customizable random password generators.
               </p>
               <p className="text-sm text-slate-400 leading-relaxed">
-                All developer conversions run within your local browser execution context — zero sensitive tokens or source payloads are ever logged to external database nodes.
+                Client-side developer utilities run within your local browser execution context — source payloads are not stored or logged to external database nodes.
               </p>
             </article>
 
@@ -375,41 +412,41 @@ export default function HomePage() {
                 <ShieldCheck className="w-5 h-5 text-emerald-400" /> Financial, Health &amp; Unit Calculators
               </h3>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Perform complex mathematical operations with our <strong>Loan &amp; EMI Calculator</strong>, Compound Interest Growth Estimator, Scientific Function Calculator, Percentage Calculator, and GPA Calculator. Health modules include Body Mass Index (BMI) assessment, TDEE Calorie calculators, and precise Age calculators.
+                Perform mathematical calculations with our <strong>Loan &amp; EMI Calculator</strong>, Compound Interest Growth Estimator, Scientific Function Calculator, Percentage Calculator, and GPA Calculator. Health modules include Body Mass Index (BMI) assessment, TDEE Calorie calculators, and Age calculators.
               </p>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Our unit converter engine handles digital storage, speed, mass, length, temperature (Celsius, Fahrenheit, Kelvin), binary-to-hexadecimal, and currency conversions with microsecond latency.
+                Our unit converter engine handles digital storage, speed, mass, length, temperature (Celsius, Fahrenheit, Kelvin), binary-to-hexadecimal, and currency conversions with fast client-side performance.
               </p>
             </article>
           </div>
 
           <div className="border-t border-white/[0.08] pt-8 space-y-6">
             <h3 className="text-xl font-bold text-white">
-              Why Toolifia is the Best Alternative to Legacy Tool Directories
+              Why Choose Toolifia for Online Utilities
             </h3>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Unlike legacy directory websites (such as Toolify or Futurepedia) that operate primarily as link portals redirecting users to external subscription paywalls, <strong>Toolifia hosts actual working tools directly on-site</strong>. Users enjoy unlimited execution, responsive mobile layout compatibility, dark mode UI theme support, zero intrusive popunder scripts, and programmatic REST API endpoint access for custom application integration.
+              Unlike directories that act as simple link lists redirecting users to external subscription paywalls, <strong>Toolifia hosts working tools directly on-site</strong>. Users enjoy fast execution, responsive mobile layouts, dark mode UI theme support, and transparent data privacy practices.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
               <div className="space-y-2 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
                 <h4 className="text-base font-bold text-violet-300">Client-Side Processing</h4>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Converters, formatters, and calculators execute 100% inside your browser using modern WebAssembly and JavaScript engines. No sensitive data is transferred to remote servers.
+                  Converters, formatters, and calculators execute in your browser sandbox using modern JavaScript engines without sending file contents to remote servers.
                 </p>
               </div>
 
               <div className="space-y-2 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                <h4 className="text-base font-bold text-cyan-300">Zero Paywalls or Accounts</h4>
+                <h4 className="text-base font-bold text-cyan-300">No Account Friction</h4>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Enjoy unrestricted access to all 300+ utilities without creating an account, filling out credit card forms, or hitting arbitrary daily submission caps.
+                  Access tools without mandatory email registration, credit card requirements, or artificial paywalls.
                 </p>
               </div>
 
               <div className="space-y-2 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                <h4 className="text-base font-bold text-emerald-300">Developer API Integration</h4>
+                <h4 className="text-base font-bold text-emerald-300">Developer Documentation</h4>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Every tool includes a dedicated JSON API tab with cURL examples, allowing software engineers to integrate Toolifia utilities into automated CI/CD pipelines.
+                  Every tool includes educational guides, technical explanations, and REST API documentation to facilitate workflow integration.
                 </p>
               </div>
             </div>
@@ -420,9 +457,9 @@ export default function HomePage() {
               </h3>
 
               <div className="space-y-4 text-sm text-slate-400 leading-relaxed">
-                <h4 className="text-base font-semibold text-slate-200">1. AI Text Humanizer &amp; Content Detection Methodology</h4>
+                <h4 className="text-base font-semibold text-slate-200">1. AI Text Humanizer &amp; Content Refinement</h4>
                 <p>
-                  Artificial intelligence detection tools like GPTZero, Originality.ai, Turnitin, and CopyLeaks analyze two primary linguistic metrics: perplexity (randomness of word choice) and burstiness (variation in sentence structure length). AI language models tend to generate uniform sentence lengths with predictable vocabulary sequences. Toolifia&apos;s AI Humanizer analyzes input text, restructures clauses, injects varied syntactic patterns, and applies contextual synonym replacement. This lowers predictability metrics while preserving the core factual intent, producing human-like prose that passes detection scanners consistently.
+                  Natural writing combines varied sentence lengths (burstiness) and rich, context-appropriate vocabulary (perplexity). Toolifia&apos;s AI Humanizer analyzes draft text, restructures awkward phrasing, injects syntactic diversity, and removes repetitive transitional filler. This transforms mechanical drafts into fluid, engaging prose suitable for human readers.
                 </p>
 
                 <h4 className="text-base font-semibold text-slate-200">2. Technical SEO &amp; Schema Generator Implementation</h4>

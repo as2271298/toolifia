@@ -1,4 +1,4 @@
-﻿import { constructMetadata } from "@/lib/seo";
+import { constructMetadata } from "@/lib/seo";
 import { siteConfig } from "@/config/site.config";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { Sparkles, ShieldCheck, Zap, Heart, Users, Globe2, Cpu, Award } from "lucide-react";
@@ -68,41 +68,59 @@ export default function AboutPage() {
       <div className="p-8 sm:p-12 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-8 text-slate-300 text-sm sm:text-base leading-relaxed">
         <section className="space-y-4">
           <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
-            <Globe2 className="w-6 h-6 text-violet-400" /> Our Story & Mission
+            <Globe2 className="w-6 h-6 text-violet-400" /> Who We Are &amp; Why We Built Toolifia
           </h2>
           <p>
-            {siteConfig.name} was created with a clear objective: to solve the frustration of modern online tool directories that redirect users through endless ads, mandatory account signups, and monthly subscriptions just to format a piece of JSON or calculate a loan.
+            {siteConfig.name} was founded by a team of software engineers, technical SEO practitioners, and digital creators who were tired of bloated web utility sites. Too many online directories act merely as affiliate links or require aggressive paywalls, intrusive pop-unders, and mandatory account signups just to format a block of JSON, compute a loan amortization, or adjust sentence flow.
           </p>
           <p>
-            We built a platform where developers, content creators, marketers, students, and everyday internet users can access reliable, enterprise-grade utilities in a clean, distraction-free environment.
+            We built Toolifia as an open, accessible software toolkit where utilities run directly in your browser. Whether you are debugging an API payload at 2 AM or drafting an article, Toolifia provides reliable, fast tools with zero friction.
           </p>
         </section>
 
         <section className="space-y-4 border-t border-slate-800 pt-8">
           <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
-            <Cpu className="w-6 h-6 text-cyan-400" /> Technology & Infrastructure
+            <Cpu className="w-6 h-6 text-cyan-400" /> Engineering &amp; Data Ethics
           </h2>
           <p>
-            Our architecture is built on cutting-edge web technologies including Next.js App Router, TypeScript, Tailwind CSS, and WebAssembly. Wherever possible, computation is performed client-side to minimize network hops and protect user privacy.
+            Our core engineering principle is <strong>client-side first</strong>. Most utilities—including code formatters, unit converters, hash generators, regex testers, and math calculators—execute entirely within your web browser sandbox using modern JavaScript and WebAssembly.
           </p>
           <p>
-            For AI-powered tools such as our AI Text Humanizer, AI Content Detector, and Prompt Generator, we integrate state-of-the-art neural models over encrypted, ephemeral connections with zero persistent data storage.
+            For tools requiring external neural processing (such as AI writing aids or video generation models), requests are sent over encrypted TLS connections to dedicated API endpoints. We never store, log, or resell your prompt inputs or generated text for model training.
           </p>
         </section>
 
         <section className="space-y-4 border-t border-slate-800 pt-8">
           <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
-            <Award className="w-6 h-6 text-amber-400" /> Editorial Standards & Quality
+            <Award className="w-6 h-6 text-amber-400" /> Tool Testing &amp; Accuracy Standards
           </h2>
           <p>
-            Every tool in our catalog is continuously tested for mathematical precision, standard compliance (RFC specifications for JSON/UUID/Base64), and browser compatibility across mobile, tablet, and desktop devices.
+            Every utility on Toolifia undergoes rigorous validation before release:
+          </p>
+          <ul className="list-disc pl-5 space-y-2 text-slate-400 text-sm">
+            <li><strong>Specification Compliance:</strong> Developer tools conform to official RFC standards (e.g. RFC 8259 for JSON, RFC 4122 for UUIDs, RFC 4648 for Base64).</li>
+            <li><strong>Mathematical Verification:</strong> Financial and scientific calculators are audited against standard amortization and compounding algorithms.</li>
+            <li><strong>Cross-Browser Testing:</strong> All interfaces are tested on Chromium, Safari, Firefox, and mobile viewport devices for responsive, crash-free performance.</li>
+          </ul>
+        </section>
+
+        <section className="space-y-4 border-t border-slate-800 pt-8">
+          <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
+            <Users className="w-6 h-6 text-emerald-400" /> Contact &amp; Community Feedback
+          </h2>
+          <p>
+            Toolifia is continuously maintained and improved based on user feedback. If you discover a bug, have an idea for a new tool, or need technical assistance, we welcome your direct communication.
           </p>
           <p>
-            Have feedback, a feature suggestion, or want to report an issue? Reach out to our engineering team directly via our{" "}
+            Visit our{" "}
             <Link href="/contact" className="text-violet-400 font-bold hover:underline">
-              Contact Us page
-            </Link>
-            .
+              Contact &amp; Support Hub
+            </Link>{" "}
+            or email our engineering team directly at{" "}
+            <a href="mailto:support@toolifia.com" className="text-cyan-400 font-semibold hover:underline">
+              support@toolifia.com
+            </a>
+            . We typically respond within 24–48 business hours.
           </p>
         </section>
       </div>

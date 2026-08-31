@@ -52,10 +52,10 @@ export function ToolWrapper({
       <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <Breadcrumb items={breadcrumbs} />
 
-        {/* Header Header Info */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 mb-8 border-b border-slate-200 dark:border-slate-800">
+        {/* Header Info */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 mb-6 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
               <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
                 {tool.category.replace("-", " ")}
               </span>
@@ -78,6 +78,59 @@ export function ToolWrapper({
             <ShareButtons title={tool.name} url={`${siteConfig.url}/tool/${tool.slug}`} />
           </div>
         </div>
+
+        {/* Execution & Trust Badges Bar */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-violet-500/10 text-violet-500 flex items-center justify-center shrink-0">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div className="text-xs">
+              <div className="font-bold text-slate-900 dark:text-white">Execution Mode</div>
+              <div className="text-slate-500 dark:text-slate-400">
+                {tool.category === "ai-tools"
+                  ? "Encrypted API Processing"
+                  : "100% Client-Side In-Browser"}
+              </div>
+            </div>
+          </div>
+
+          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-4 h-4" />
+            </div>
+            <div className="text-xs">
+              <div className="font-bold text-slate-900 dark:text-white">Data Privacy</div>
+              <div className="text-slate-500 dark:text-slate-400">Zero Persistent Storage</div>
+            </div>
+          </div>
+
+          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center shrink-0">
+              <Code className="w-4 h-4" />
+            </div>
+            <div className="text-xs">
+              <div className="font-bold text-slate-900 dark:text-white">Access Policy</div>
+              <div className="text-slate-500 dark:text-slate-400">Free · No Signup Required</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Health / Financial Disclaimer Alert for Calculators */}
+        {(tool.category === "calculator-tools" ||
+          tool.slug.includes("calculator") ||
+          tool.slug.includes("loan") ||
+          tool.slug.includes("bmi") ||
+          tool.slug.includes("interest") ||
+          tool.slug.includes("tax")) && (
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 dark:text-amber-300 flex items-start gap-3 mb-6">
+            <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+            <div>
+              <span className="font-bold">Informational Disclaimer: </span>
+              This calculator provides mathematical estimates for educational and informational purposes only. It should not be considered professional financial, medical, nutritional, legal, or investment advice.
+            </div>
+          </div>
+        )}
 
         {/* Tool vs API Mode Switch */}
         <div className="flex items-center gap-2 mb-6 border-b border-slate-200 dark:border-slate-800">
@@ -190,6 +243,18 @@ export function ToolWrapper({
                 <li key={i}>• {mistake}</li>
               ))}
             </ul>
+          </section>
+
+          {/* Data Handling & Privacy Transparency */}
+          <section className="p-6 sm:p-8 rounded-3xl bg-slate-900/40 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Data Handling &amp; Privacy Notice
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              {tool.category === "ai-tools"
+                ? "This tool transmits your prompt or text over an encrypted TLS connection to perform the requested AI operation. Toolifia does not log, retain, or use your submitted content for machine learning training."
+                : "This utility executes entirely client-side in your web browser. No text, calculations, or uploaded data are sent to our servers or stored in any database."}
+            </p>
           </section>
 
           {/* FAQ Section */}

@@ -159,12 +159,12 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
   },
   "ai-humanizer": {
     title: "AI Text Humanizer — Free Online | Toolifia",
-    description: "Humanize AI text and bypass AI detectors for free. Transform ChatGPT, Claude & Gemini text into undetectable human writing.",
-    keywords: "ai humanizer free, bypass ai detector, humanize chatgpt, make ai text human, undetectable ai, ai content humanizer"
+    description: "Rewrite AI-generated drafts into natural, human-like writing with improved sentence flow, burstiness, and readability. Free online.",
+    keywords: "ai humanizer free, ai text rewriter, natural language enhancer, humanize chatgpt, make ai text human, ai writing assistant"
   },
   "ai-detector": {
     title: "AI Content Detector — Free Online | Toolifia",
-    description: "Detect AI-generated content for free. Check if text was written by ChatGPT, Claude, or Gemini. Works with GPTZero & Turnitin.",
+    description: "Analyze text for AI probability and phrasing patterns. Check perplexity and structural signatures from ChatGPT, Claude, or Gemini.",
     keywords: "ai content detector free, detect chatgpt writing, ai detector no signup, chatgpt detector, ai writing detector"
   },
   "json-formatter": {

@@ -34,8 +34,8 @@ const FLOATING_CHIPS = [
 const STATS = [
   { value: "300+", label: "Free Tools", Icon: Zap, color: "#a78bfa" },
   { value: "Zero", label: "Signup Needed", Icon: Shield, color: "#10b981" },
-  { value: "10M+", label: "Monthly Users", Icon: Globe, color: "#06b6d4" },
-  { value: "4.9★", label: "User Rating", Icon: Star, color: "#f59e0b" },
+  { value: "100%", label: "Free To Use", Icon: Globe, color: "#06b6d4" },
+  { value: "12+", label: "Tool Categories", Icon: Star, color: "#f59e0b" },
 ];
 
 export function AnimatedHero() {
