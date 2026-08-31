@@ -32,12 +32,10 @@ export default function ContactPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
         <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
-          <Mail className="w-6 h-6 text-brand-500 mx-auto" />
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white">Email Support</h3>
+          <MessageSquare className="w-6 h-6 text-brand-500 mx-auto" />
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white">Online Support</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            <a href="mailto:support@toolifia.com" className="text-brand-600 dark:text-brand-400 font-semibold hover:underline">
-              support@toolifia.com
-            </a>
+            Submit your inquiry directly using the form below.
           </p>
           <p className="text-[11px] text-slate-400">Response within 24–48h</p>
         </div>
@@ -61,7 +59,7 @@ export default function ContactPage() {
         <ul className="list-disc pl-5 space-y-1.5 leading-relaxed">
           <li><strong>API Integration:</strong> For questions about our tool REST endpoints, check the "REST API Docs" tab on individual tool pages for live cURL samples.</li>
           <li><strong>Data Inquiries &amp; Privacy:</strong> Most utilities operate entirely client-side. We do not store or retain user data. For full details, review our <a href="/privacy" className="text-brand-500 font-semibold hover:underline">Privacy Policy</a>.</li>
-          <li><strong>Copyright &amp; DMCA:</strong> To submit an intellectual property inquiry, include the URL and specific details in your email with the subject line "DMCA Notice".</li>
+          <li><strong>Copyright &amp; DMCA:</strong> To submit an intellectual property inquiry, include the URL and specific details in the message form below.</li>
         </ul>
       </div>
 

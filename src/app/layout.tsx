@@ -27,7 +27,7 @@ export default function RootLayout({
     logo: `${siteConfig.url}/favicon.ico`,
     contactPoint: {
       "@type": "ContactPoint",
-      email: siteConfig.contactEmail,
+      url: `${siteConfig.url}/contact`,
       contactType: "customer support",
       availableLanguage: "English",
     },

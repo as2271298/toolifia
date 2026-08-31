@@ -116,11 +116,7 @@ export default function AboutPage() {
             <Link href="/contact" className="text-violet-400 font-bold hover:underline">
               Contact &amp; Support Hub
             </Link>{" "}
-            or email our engineering team directly at{" "}
-            <a href="mailto:support@toolifia.com" className="text-cyan-400 font-semibold hover:underline">
-              support@toolifia.com
-            </a>
-            . We typically respond within 24–48 business hours.
+            to submit feedback, feature requests, or report technical issues. We typically review and respond to inquiries within 24–48 business hours.
           </p>
         </section>
       </div>

@@ -64,5 +64,5 @@ export const siteConfig: SiteConfig = {
     defaultProvider: "gemini",
     maxTokens: 2048,
   },
-  contactEmail: "support@toolifia.com",
+  contactEmail: "",
 };

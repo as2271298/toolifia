@@ -5,7 +5,7 @@ import { Code, Check, AlertCircle } from "lucide-react";
 export function RegexTester() {
   const [pattern, setPattern] = useState("(\\w+)@(\\w+\\.\\w+)");
   const [flags, setFlags] = useState("g");
-  const [testText, setTestText] = useState("Contact us at support@example.com or sales@toolifia.com for help.");
+  const [testText, setTestText] = useState("Contact us at support@example.com or info@example.com for help.");
 
   let matches: RegExpExecArray[] = [];
   let error = "";
