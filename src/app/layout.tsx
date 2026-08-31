@@ -41,33 +41,6 @@ export default function RootLayout({
     ].filter(Boolean),
   };
 
-  // LocalBusiness schema — satisfies local business & address audit checks
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: siteConfig.name,
-    image: `${siteConfig.url}/favicon.ico`,
-    url: siteConfig.url,
-    telephone: "+1-800-555-0199",
-    priceRange: "$0",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Online SaaS Platform",
-      addressLocality: "San Francisco",
-      addressRegion: "CA",
-      postalCode: "94105",
-      addressCountry: "US",
-    },
-    sameAs: [
-      siteConfig.links.twitter,
-      siteConfig.links.linkedin,
-      siteConfig.links.github,
-      siteConfig.links.facebook,
-      siteConfig.links.instagram,
-      siteConfig.links.youtube,
-    ].filter(Boolean),
-  };
-
   // WebSite schema — enables Google Sitelinks Searchbox
   const websiteSchema = {
     "@context": "https://schema.org",
@@ -93,12 +66,6 @@ export default function RootLayout({
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "12847",
-      bestRating: "5",
     },
     url: siteConfig.url,
   };
@@ -147,7 +114,7 @@ export default function RootLayout({
         />
 
         {/* Structured Data */}
-        <JsonLd data={[orgSchema, localBusinessSchema, websiteSchema, appSchema]} />
+        <JsonLd data={[orgSchema, websiteSchema, appSchema]} />
       </head>
       <body className="min-h-screen flex flex-col bg-[#04050a] text-white antialiased selection:bg-violet-500 selection:text-white">
         <Header />
