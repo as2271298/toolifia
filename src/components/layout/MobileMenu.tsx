@@ -49,18 +49,32 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
           Home
         </Link>
         <Link
+          href="/tools"
+          onClick={onClose}
+          className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 text-white font-medium text-sm"
+        >
+          All Tools (130+)
+        </Link>
+        <Link
           href="/blog"
           onClick={onClose}
           className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 text-white font-medium text-sm"
         >
-          Blog & Articles
+          Blog & Guides
         </Link>
         <Link
-          href="/admin"
+          href="/about"
           onClick={onClose}
           className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 text-white font-medium text-sm"
         >
-          Admin Hub
+          About Us
+        </Link>
+        <Link
+          href="/contact"
+          onClick={onClose}
+          className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 text-white font-medium text-sm"
+        >
+          Contact Support
         </Link>
 
         <div className="pt-4 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">

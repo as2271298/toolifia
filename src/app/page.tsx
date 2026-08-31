@@ -6,8 +6,6 @@ import { CategoryCard } from "@/components/common/CategoryCard";
 import { FAQAccordion } from "@/components/common/FAQAccordion";
 import { NewsletterForm } from "@/components/common/NewsletterForm";
 import { AnimatedHero } from "@/components/home/AnimatedHero";
-import { PosterAd } from "@/components/monetization/PosterAd";
-import { AdBanner } from "@/components/monetization/AdBanner";
 import { constructMetadata } from "@/lib/seo";
 import {
   Zap, ShieldCheck, CheckCircle2, ArrowRight,
@@ -101,11 +99,6 @@ export default function HomePage() {
       {/* ══════════ HERO ══════════ */}
       <AnimatedHero />
 
-      {/* ── Ad: Below Hero ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0">
-        <AdBanner slot="headerBanner" variant="leaderboard" />
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 py-20">
 
         {/* ══════════ FEATURED TOOLS ══════════ */}
@@ -120,11 +113,6 @@ export default function HomePage() {
             {FEATURED_TOOLS.map((tool) => <ToolCard key={tool.slug} tool={tool} />)}
           </div>
         </section>
-
-        {/* ── Ads: After Featured Tools ── */}
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="violet" />
-        <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -141,11 +129,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Ad: After Trending Tools ── */}
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="amber" />
-        <AdBanner slot="toolFooterBanner" variant="leaderboard" />
-
         {/* ── Divider ── */}
         <hr className="section-divider" />
 
@@ -161,12 +144,6 @@ export default function HomePage() {
             {featuredCategories.map((cat) => <CategoryCard key={cat.slug} category={cat} />)}
           </div>
         </section>
-
-        {/* ── Ads: After Categories Grid ── */}
-        <AdBanner slot="sidebarBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="cyan" />
-        <AdBanner slot="headerBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="violet" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -186,11 +163,6 @@ export default function HomePage() {
             <ToolSection title="Calculators"           emoji="🧮" tools={CALC_TOOLS} href="/category/calculator-tools" />
           </div>
         </section>
-
-        {/* ── Banner Ad: After Tool Ecosystem ── */}
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="amber" />
-        <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -234,11 +206,6 @@ export default function HomePage() {
             </div>
           ))}
         </section>
-
-        {/* ── Banner Ad: After Feature Highlights ── */}
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="dark" />
-        <AdBanner slot="toolFooterBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -291,11 +258,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Banner Ad: After Comparison Table ── */}
-        <AdBanner slot="sidebarBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="emerald" />
-        <AdBanner slot="headerBanner" variant="leaderboard" />
-
         {/* ── Divider ── */}
         <hr className="section-divider" />
 
@@ -320,11 +282,6 @@ export default function HomePage() {
             </div>
           ))}
         </section>
-
-        {/* ── Banner Ad: After Social Proof Stars ── */}
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="violet" />
-        <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
         {/* ── Divider ── */}
         <hr className="section-divider" />
@@ -364,11 +321,6 @@ export default function HomePage() {
             <FAQAccordion items={homeFaqs} />
           </div>
         </section>
-
-        {/* ── Ads after FAQ ── */}
-        <AdBanner slot="toolFooterBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="cyan" />
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
 
         {/* ══════════ SEO TEXT BLOCK & DETAILED KNOWLEDGE GUIDE ══════════ */}
         <section className="glass-card rounded-3xl p-8 sm:p-12 border border-white/[0.08] space-y-10">
@@ -496,11 +448,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        {/* ── Banner Ad: Before Newsletter ── */}
-        <AdBanner slot="sidebarBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="amber" />
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
 
         {/* ══════════ NEWSLETTER ══════════ */}
         <section className="relative overflow-hidden rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-600/10 via-violet-500/5 to-transparent p-8 md:p-12 text-center space-y-6">

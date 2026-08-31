@@ -117,23 +117,65 @@ export default function PrivacyPolicyPage() {
 
         <section className="space-y-3">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-            4. Third-Party Analytics & Advertising
+            4. Google AdSense & Third-Party Advertising
           </h2>
           <p>
-            To keep {siteConfig.name} 100% free for all users worldwide, we may display non-intrusive advertisements (Google AdSense) or use privacy-compliant web analytics. These partners may use cookies to serve relevant ads based on prior visits to our site. You may opt out of personalized advertising by visiting Google Ads Settings.
+            {siteConfig.name} is supported by advertising to provide free services to users. We use Google AdSense and third-party advertising partners:
+          </p>
+          <ul className="list-disc pl-5 space-y-2 text-slate-600 dark:text-slate-400">
+            <li>
+              Third-party vendors, including Google, use cookies to serve ads based on a user&apos;s prior visits to this website or other websites.
+            </li>
+            <li>
+              Google&apos;s use of advertising cookies enables it and its partners to serve ads to users based on their visit to this site and/or other sites on the Internet.
+            </li>
+            <li>
+              Users may opt out of personalized advertising by visiting{" "}
+              <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-brand-500 font-semibold hover:underline">
+                Google Ads Settings
+              </a>{" "}
+              or by visiting{" "}
+              <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer" className="text-brand-500 font-semibold hover:underline">
+                www.aboutads.info
+              </a>.
+            </li>
+          </ul>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            5. GDPR & European Privacy Rights (EEA/UK)
+          </h2>
+          <p>
+            If you are a resident of the European Economic Area (EEA) or the United Kingdom (UK), you have certain data protection rights under the General Data Protection Regulation (GDPR), including:
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-slate-600 dark:text-slate-400">
+            <li>The right to access, update, or delete the information we have on you.</li>
+            <li>The right of rectification if your information is inaccurate or incomplete.</li>
+            <li>The right to object to our processing of your personal data.</li>
+            <li>The right to data portability and restriction of processing.</li>
+          </ul>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            6. California Consumer Privacy Act (CCPA / CPRA)
+          </h2>
+          <p>
+            Under the CCPA, California residents have the right to know what personal information is collected, request deletion of personal information, and opt out of the sale of personal information. {siteConfig.name} does <strong>not</strong> sell any personal information or prompt contents to third parties.
           </p>
         </section>
 
         <section className="space-y-3">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-            5. Contact Privacy Team
+            7. Contact Privacy Team
           </h2>
           <p>
             If you have questions or concerns regarding this Privacy Policy, please use our{" "}
             <a href="/contact" className="text-brand-600 dark:text-brand-400 font-bold hover:underline">
               Contact page
             </a>{" "}
-            to reach our team.
+            to reach our data protection officer.
           </p>
         </section>
       </div>

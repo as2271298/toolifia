@@ -164,9 +164,9 @@ function RenderMarkdownBlocks({ text }: { text: string }) {
     if (line.startsWith("# ")) {
       flushList();
       elements.push(
-        <h1 key={i} className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white pt-6 pb-2 tracking-tight">
+        <h2 key={i} className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white pt-6 pb-2 tracking-tight">
           {formatInline(line.replace("# ", ""))}
-        </h1>
+        </h2>
       );
       continue;
     }

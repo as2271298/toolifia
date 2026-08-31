@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site.config";
 import { ToolDef } from "@/config/tools.registry";
 
 export function constructMetadata({
-  title = `${siteConfig.name} - ${siteConfig.tagline}`,
+  title = `${siteConfig.name} — Free AI Tools & Utilities Online`,
   description = siteConfig.description,
   image = siteConfig.ogImage,
   canonicalUrl,

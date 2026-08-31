@@ -54,8 +54,10 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   const post = await getPostBySlug(params.slug);
   if (!post) return constructMetadata();
 
+  const truncatedTitle = post.title.length > 46 ? `${post.title.slice(0, 46).trim()}...` : post.title;
+
   return constructMetadata({
-    title: `${post.title} | ${siteConfig.name} Blog`,
+    title: `${truncatedTitle} | ${siteConfig.name}`,
     description: post.excerpt,
     canonicalUrl: `${siteConfig.url}/blog/${post.slug}`,
   });

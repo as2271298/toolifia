@@ -116,12 +116,12 @@ export function Footer() {
           {/* Legal & Platform Links */}
           <div>
             <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Platform & Legal
+              Company & Legal
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/blog" className="hover:text-brand-400 transition-colors">
-                  Blog & Tech Guides
+                <Link href="/about" className="hover:text-brand-400 transition-colors font-medium">
+                  About Us
                 </Link>
               </li>
               <li>
@@ -140,8 +140,18 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-brand-400 transition-colors flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-brand-500" /> Admin Portal
+                <Link href="/cookie-policy" className="hover:text-brand-400 transition-colors font-medium">
+                  Cookie Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/disclaimer" className="hover:text-brand-400 transition-colors font-medium">
+                  Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-brand-400 transition-colors">
+                  Blog & Tech Guides
                 </Link>
               </li>
             </ul>

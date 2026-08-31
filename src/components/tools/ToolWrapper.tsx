@@ -8,8 +8,6 @@ import { ShareButtons } from "../common/ShareButtons";
 import { RatingStars } from "../common/RatingStars";
 import { FAQAccordion } from "../common/FAQAccordion";
 import { ToolCard } from "../common/ToolCard";
-import { AdBanner } from "../monetization/AdBanner";
-import { PosterAd } from "../monetization/PosterAd";
 import { JsonLd } from "../seo/JsonLd";
 import {
   generateSoftwareApplicationSchema,
@@ -81,10 +79,6 @@ export function ToolWrapper({
           </div>
         </div>
 
-        {/* ─ Ad: Right below header, above tool tabs ─ */}
-        <AdBanner slot="headerBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" className="mb-2" />
-
         {/* Tool vs API Mode Switch */}
         <div className="flex items-center gap-2 mb-6 border-b border-slate-200 dark:border-slate-800">
           <button
@@ -135,11 +129,6 @@ export function ToolWrapper({
             </pre>
           </div>
         )}
-
-        {/* ─ Ad: Below tool interactive area ─ */}
-        <AdBanner slot="inArticleBanner" variant="leaderboard" />
-        <PosterAd layout="horizontal" theme="violet" className="mb-4" />
-        <AdBanner slot="sidebarBanner" variant="leaderboard" />
 
         {/* Educational SEO & Guide Content */}
         <div className="mt-12 space-y-12">
@@ -205,10 +194,6 @@ export function ToolWrapper({
 
           {/* FAQ Section */}
           <section>
-            {/* Poster ad directly before FAQ for high visibility */}
-            <AdBanner slot="toolFooterBanner" variant="leaderboard" className="mb-4" />
-            <PosterAd layout="horizontal" theme="amber" className="mb-8" />
-            <AdBanner slot="inArticleBanner" variant="leaderboard" className="mb-6" />
             <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">
               Frequently Asked Questions
             </h2>
@@ -241,8 +226,6 @@ export function ToolWrapper({
           {/* Related Tools */}
           {relatedTools.length > 0 && (
             <section className="pt-8 border-t border-slate-200 dark:border-slate-800">
-              <AdBanner slot="sidebarBanner" variant="leaderboard" className="mb-6" />
-              <PosterAd layout="horizontal" theme="cyan" className="mb-6" />
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                 Related {tool.category.replace("-", " ")}
               </h2>
@@ -253,14 +236,6 @@ export function ToolWrapper({
               </div>
             </section>
           )}
-
-          {/* Bottom ad block — last thing before page ends */}
-          <div className="space-y-4 mt-8">
-            <AdBanner slot="inArticleBanner" variant="leaderboard" />
-            <PosterAd layout="horizontal" theme="dark" />
-            <AdBanner slot="toolFooterBanner" variant="leaderboard" />
-            <PosterAd layout="horizontal" theme="emerald" />
-          </div>
         </div>
       </div>
     </>

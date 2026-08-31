@@ -155,12 +155,6 @@ export default function RootLayout({
         <Footer />
         <TrustpilotBadge variant="floating" />
         <ProductHuntBadge variant="floating" />
-
-        {/* Social Bar script (Adsterra) — loaded lazily to maximize mobile performance */}
-        <Script
-          src="https://pl30549940.effectivecpmnetwork.com/c2/b9/7a/c2b97a6f7a2f3d0dfd5d888ca701bdfd.js"
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   );

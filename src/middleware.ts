@@ -46,6 +46,26 @@ function checkRateLimit(key: string, max: number, windowMs: number): boolean {
   return true;
 }
 
+// ── Allowed Search Engine Crawlers & Auditing Bots ──
+const SEARCH_ENGINE_BOTS = [
+  /Googlebot/i,
+  /Google-InspectionTool/i,
+  /Mediapartners-Google/i,
+  /AdsBot-Google/i,
+  /bingbot/i,
+  /Slurp/i,
+  /DuckDuckBot/i,
+  /Baiduspider/i,
+  /Yandex/i,
+  /Screaming Frog/i,
+  /AhrefsBot/i,
+  /SemrushBot/i,
+];
+
+function isSearchBot(ua: string): boolean {
+  return SEARCH_ENGINE_BOTS.some((bot) => bot.test(ua));
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const ua = request.headers.get("user-agent") || "";
@@ -53,6 +73,11 @@ export function middleware(request: NextRequest) {
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
     "unknown";
+
+  // Always allow search engine crawlers and AdSense verification bots
+  if (isSearchBot(ua)) {
+    return NextResponse.next();
+  }
 
   // 1. Block known attack paths
   for (const pattern of BLOCKED_PATH_PATTERNS) {
@@ -70,12 +95,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // 3. Block empty UAs on API routes
-  if (pathname.startsWith("/api/") && (!ua || ua.length < 5)) {
-    return new NextResponse("Bad Request", { status: 400 });
-  }
-
-  // 4. Rate limiting
+  // 3. Rate limiting for non-bots
   const limit = getRateLimit(pathname);
   if (limit) {
     const key = `${ip}:${pathname.split("/").slice(0, 3).join("/")}`;
@@ -99,6 +119,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\.(?:png|jpg|jpeg|gif|svg|ico|webp|avif|woff|woff2|ttf|css|js)).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|avif|woff|woff2|ttf|css|js|txt|xml)).*)",
   ],
 };

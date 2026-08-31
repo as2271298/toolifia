@@ -18,49 +18,49 @@ export async function generateStaticParams() {
 // Custom SEO per category
 const CATEGORY_SEO: Record<string, { title: string; description: string; keywords: string }> = {
   "ai-tools": {
-    title: "Free AI Tools Online — No Signup, No Limits | Toolifia",
-    description: "Explore 50+ free AI tools: AI video generator (Kling 2.1), AI text humanizer, AI content detector, prompt generator, story writer & more. 100% free, runs in-browser. Best Toolify & Futurepedia alternative.",
-    keywords: "free ai tools, ai tools online free, ai humanizer free, ai video generator, ai content detector, best free ai tools 2025, toolify alternative"
+    title: "Free AI Tools Online | Toolifia",
+    description: "Explore 50+ free AI tools: AI video generator, AI text humanizer, AI content detector, prompt generator & story writer. 100% free in-browser.",
+    keywords: "free ai tools, ai tools online free, ai humanizer free, ai video generator, ai content detector, best free ai tools"
   },
   "seo-tools": {
-    title: "Free SEO Tools Online — Meta Tags, Schema, Sitemap | Toolifia",
-    description: "15+ free SEO tools: meta tag generator, JSON-LD schema generator, sitemap builder, robots.txt generator, keyword density checker, Open Graph generator. No account required.",
-    keywords: "free seo tools online, meta tag generator free, schema markup generator, sitemap generator free, robots txt generator, keyword density checker, seo tools no signup"
+    title: "Free SEO Tools Online | Toolifia",
+    description: "Free SEO tools: meta tag generator, JSON-LD schema generator, sitemap builder, robots.txt generator, keyword density checker. No account required.",
+    keywords: "free seo tools online, meta tag generator free, schema markup generator, sitemap generator free, robots txt generator, keyword density checker"
   },
   "developer-tools": {
-    title: "Free Developer Tools Online — JSON, Base64, UUID, Hash | Toolifia",
-    description: "20+ free developer utilities: JSON formatter, Base64 encoder/decoder, UUID generator, MD5/SHA256 hash generator, HTML formatter, regex tester, JWT decoder. No account needed.",
-    keywords: "free developer tools online, json formatter, base64 encoder, uuid generator, hash generator, regex tester, jwt decoder, developer utilities free"
+    title: "Free Developer Tools Online | Toolifia",
+    description: "Free developer utilities: JSON formatter, Base64 encoder, UUID generator, Hash generator, HTML formatter, regex tester. No account needed.",
+    keywords: "free developer tools online, json formatter, base64 encoder, uuid generator, hash generator, regex tester, jwt decoder"
   },
   "calculator-tools": {
-    title: "Free Online Calculators — BMI, Loan, Percentage, Scientific | Toolifia",
-    description: "10+ free online calculators: BMI calculator, loan & EMI calculator, compound interest calculator, scientific calculator, GPA calculator, age calculator, percentage calculator. Instant results.",
-    keywords: "free online calculator, bmi calculator, loan calculator, compound interest calculator, scientific calculator, gpa calculator, age calculator"
+    title: "Free Online Calculators | Toolifia",
+    description: "Free online calculators: BMI calculator, loan & EMI calculator, compound interest calculator, scientific calculator, GPA calculator. Instant results.",
+    keywords: "free online calculator, bmi calculator, loan calculator, compound interest calculator, scientific calculator, gpa calculator"
   },
   "converter-tools": {
-    title: "Free Unit Converter Online — Length, Weight, Temperature, Currency | Toolifia",
-    description: "Convert units instantly for free: length, weight, temperature, speed, currency, binary, hex, roman numerals, and color codes. No account required.",
-    keywords: "free unit converter, length converter, weight converter, temperature converter, currency converter, binary converter, hex converter"
+    title: "Free Unit Converters Online | Toolifia",
+    description: "Convert units instantly for free: length, weight, temperature, speed, currency, binary, hex, and roman numerals. No account required.",
+    keywords: "free unit converter, length converter, weight converter, temperature converter, currency converter, binary converter"
   },
   "text-tools": {
-    title: "Free Text Tools Online — Word Counter, Case Converter, Rewriter | Toolifia",
-    description: "10+ free text utilities: word counter, character counter, case converter, text rewriter, slug generator, Lorem Ipsum generator, markdown editor. Instant results, no signup.",
-    keywords: "free text tools, word counter online, case converter, text rewriter, slug generator, lorem ipsum generator, markdown editor free"
+    title: "Free Text Tools Online | Toolifia",
+    description: "Free text utilities: word counter, character counter, case converter, text rewriter, slug generator, Lorem Ipsum generator. Instant results.",
+    keywords: "free text tools, word counter online, case converter, text rewriter, slug generator, lorem ipsum generator"
   },
   "image-tools": {
-    title: "Free Image Tools Online — QR Code, Color Picker, Image Resizer | Toolifia",
-    description: "Free image utilities: QR code generator, barcode generator, color picker, image resizer. Process images directly in your browser with no upload limits.",
+    title: "Free Image Tools Online | Toolifia",
+    description: "Free image utilities: QR code generator, barcode generator, color picker, image resizer. Process images directly in your browser.",
     keywords: "free image tools online, qr code generator free, color picker online, image resizer free, barcode generator"
   },
   "generator-tools": {
-    title: "Free Online Generators — Password, UUID, Lorem Ipsum, Color Palette | Toolifia",
-    description: "Free generator tools: random password generator, UUID generator, Lorem Ipsum text generator, color palette generator, CSS gradient generator. All free, no signup.",
-    keywords: "free online generator, password generator, uuid generator, lorem ipsum generator, color palette generator, css gradient generator"
+    title: "Free Online Generators | Toolifia",
+    description: "Free generator tools: random password generator, UUID generator, Lorem Ipsum text generator, color palette generator. All free, no signup.",
+    keywords: "free online generator, password generator, uuid generator, lorem ipsum generator, color palette generator"
   },
   "security-tools": {
-    title: "Free Security Tools Online — Password Checker, Hash Generator | Toolifia",
-    description: "Free online security tools: password strength checker, random password generator, MD5/SHA256 hash generator. Check password security instantly in your browser.",
-    keywords: "password strength checker, password generator free, hash generator, online security tools, md5 generator, sha256 generator"
+    title: "Free Security Tools Online | Toolifia",
+    description: "Free online security tools: password strength checker, random password generator, MD5/SHA256 hash generator. Check password security instantly.",
+    keywords: "password strength checker, password generator free, hash generator, online security tools, md5 generator"
   },
 };
 
@@ -73,7 +73,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   const toolCount = getToolsForCategory(params.slug, TOOLS).length;
 
   return constructMetadata({
-    title: custom?.title || `${cat.name} — ${toolCount} Free Online Tools | Toolifia`,
+    title: custom?.title || `${cat.name} — ${toolCount} Free Tools | Toolifia`,
     description: custom?.description || `${toolCount} free ${cat.name.toLowerCase()} that work directly in your browser. No signup required. ${cat.description}`,
     canonicalUrl: `${siteConfig.url}/category/${cat.slug}`,
     ...(custom?.keywords ? { keywords: custom.keywords } : {}),

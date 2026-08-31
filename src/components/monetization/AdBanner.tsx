@@ -49,58 +49,6 @@ export function AdBanner({
   variant = "native",
   theme,
 }: AdBannerProps) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   if (!siteConfig.monetization.enableAds) return null;
-
-  const height = VARIANT_HEIGHT[variant];
-
-  // ── SSR / pre-hydration: reserve space to avoid CLS ─────────────────────────
-  if (!mounted) {
-    return (
-      <div
-        className={`w-full my-4 rounded-2xl bg-slate-900/40 border border-slate-800/50 ${className}`}
-        style={{ height }}
-        aria-hidden="true"
-      />
-    );
-  }
-
-  return (
-    <div
-      className={`w-full my-4 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/90 shadow-xl ${className}`}
-      style={{ height: height + 32 /* +32 for label padding */ }}
-      aria-label="Advertisement"
-    >
-      {/* Label row */}
-      <div className="flex items-center justify-between px-4 pt-2 pb-1 text-[10px] font-bold tracking-widest text-slate-500 uppercase">
-        <span>Sponsored Advertisement</span>
-        <a
-          href={SMARTLINK_URL}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="flex items-center gap-1 hover:text-violet-400 transition-colors"
-        >
-          Featured Offer <ExternalLink className="w-2.5 h-2.5" />
-        </a>
-      </div>
-
-      {/* ── Iframe: isolated context with loading="lazy" for max Mobile PageSpeed ── */}
-      <iframe
-        srcDoc={NATIVE_AD_HTML}
-        width="100%"
-        height={height}
-        loading="lazy"
-        scrolling="no"
-        frameBorder="0"
-        title="Advertisement"
-        style={{ display: "block", border: "none" }}
-        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-      />
-    </div>
-  );
+  return null;
 }

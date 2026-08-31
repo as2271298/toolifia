@@ -51,8 +51,8 @@ export const siteConfig: SiteConfig = {
     youtube: "",
   },
   monetization: {
-    adsensePublisherId: process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-0000000000000000",
-    enableAds: true,
+    adsensePublisherId: process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-7118968206723457",
+    enableAds: false,
     slots: {
       headerBanner: "1234567890",
       sidebarBanner: "0987654321",

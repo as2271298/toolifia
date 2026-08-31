@@ -376,7 +376,7 @@ function TemplateCleanGray({ cv, photo }: { cv: CvData; photo?: string | null })
             <PhotoPlaceholder initials={cv.name} size={76} photo={photo} />
           )}
           <div style={{ flex:1 }}>
-            <h1 style={{ fontSize:32, fontWeight:900, color:"#111827", margin:0, letterSpacing:-0.5 }}>{cv.name}</h1>
+            <div role="heading" aria-level={2} style={{ fontSize:32, fontWeight:900, color:"#111827", margin:0, letterSpacing:-0.5 }}>{cv.name}</div>
             <p style={{ fontSize:13, color:GRAY, margin:"6px 0 0", lineHeight:1.6 }}>{cv.summary.slice(0,250)}</p>
           </div>
         </div>
@@ -485,7 +485,7 @@ function TemplateExecutiveBold({ cv, photo }: { cv: CvData; photo?: string | nul
         <div style={{ display:"flex", alignItems:"center", gap:24 }}>
           <PhotoPlaceholder initials={cv.name} size={96} bg="rgba(255,255,255,0.1)" photo={photo} />
           <div>
-            <h1 style={{ fontSize:34, fontWeight:900, margin:0, letterSpacing:-0.5 }}>{cv.name}</h1>
+            <div role="heading" aria-level={2} style={{ fontSize:34, fontWeight:900, margin:0, letterSpacing:-0.5 }}>{cv.name}</div>
             <div style={{ fontSize:14, color:GOLD, marginTop:6, letterSpacing:2, textTransform:"uppercase", fontWeight:700 }}>{cv.title}</div>
             <div style={{ display:"flex", flexWrap:"wrap", gap:16, marginTop:10 }}>
               {[cv.contact.email, cv.contact.phone, cv.contact.location, cv.contact.linkedin].filter(Boolean).map((c, i) => (

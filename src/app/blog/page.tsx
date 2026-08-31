@@ -10,10 +10,10 @@ import { AdBanner } from "@/components/monetization/AdBanner";
 export const revalidate = 60; // Revalidate blog page every 60 seconds
 
 export const metadata = constructMetadata({
-  title: "Free AI Tools Blog — Guides, Tutorials & SEO Tips | Toolifia",
-  description: "Guides on AI video generation, AI text humanization, technical SEO, JSON-LD schema, and developer tools. Learn how to use free online tools effectively — no signup needed.",
+  title: "Blog & Guides — Free AI & Web Tools | Toolifia",
+  description: "Guides on AI video generation, AI text humanization, technical SEO, JSON-LD schema, and developer tools. Learn how to use free online tools effectively.",
   canonicalUrl: `${siteConfig.url}/blog`,
-  keywords: "ai tools guide, free ai tools tutorial, ai video generator guide, higgsfield alternative guide, ai humanizer guide, technical seo guide, json-ld schema tutorial",
+  keywords: "ai tools guide, free ai tools tutorial, ai video generator guide, higgsfield alternative guide, ai humanizer guide, technical seo guide",
 });
 
 export default async function BlogIndexPage() {

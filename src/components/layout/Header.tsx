@@ -10,7 +10,8 @@ import { Grid, Menu, ChevronDown, Zap, BookOpen, Shield } from "lucide-react";
 const NAV_LINKS = [
   { href: "/tools", label: "All Tools", highlight: true },
   { href: "/blog", label: "Blog", icon: BookOpen },
-  { href: "/privacy", label: "Privacy", icon: Shield },
+  { href: "/about", label: "About", icon: Shield },
+  { href: "/contact", label: "Contact", icon: Shield },
 ];
 
 export function Header() {
