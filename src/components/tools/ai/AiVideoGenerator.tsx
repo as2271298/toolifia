@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   Video, Film, Sparkles, Download, RefreshCw, Camera,
   Check, Copy, Wand2, Key, Play, Pause,
-  AlertCircle, Dices, Eye, ShieldCheck
+  AlertCircle, Dices, ExternalLink, ShieldAlert, Cpu
 } from "lucide-react";
 
 interface VideoStyle {
@@ -43,20 +43,6 @@ const INSPIRATION_PROMPTS = [
   "A high-speed cyber motorcycle racing through Tokyo highways leaving neon light trails"
 ];
 
-const DEFAULT_API_KEY = "";
-
-interface GenerationResult {
-  id: string;
-  prompt: string;
-  style: string;
-  motion: string;
-  aspectRatio: string;
-  duration: number;
-  frames: string[];
-  videoUrl?: string | null;
-  timestamp: string;
-}
-
 export function AiVideoGenerator() {
   const [prompt, setPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("cinematic");
@@ -64,46 +50,29 @@ export function AiVideoGenerator() {
   const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16" | "1:1">("16:9");
   const [duration, setDuration] = useState("5");
 
-  // API Key Management (Pre-configured with User Key)
-  const [apiKey, setApiKey] = useState(DEFAULT_API_KEY);
+  // Engines: "google-veo" (Google AI Studio) vs "fal-ai" (Kling 2.1 / Wan 2.1)
+  const [selectedEngine, setSelectedEngine] = useState<"google-veo" | "fal-ai">("google-veo");
+  const [customKey, setCustomKey] = useState("");
   const [showKeyModal, setShowKeyModal] = useState(false);
-  const [showKeyPlain, setShowKeyPlain] = useState(false);
 
-  // Generation States
+  // Status
   const [status, setStatus] = useState<"idle" | "generating" | "done" | "error">("idle");
   const [progress, setProgress] = useState(0);
   const [statusMessage, setStatusMessage] = useState("");
   const [isEnhancing, setIsEnhancing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [currentResult, setCurrentResult] = useState<GenerationResult | null>(null);
-  const [recentGenerations, setRecentGenerations] = useState<GenerationResult[]>([]);
+  const [errorDetails, setErrorDetails] = useState<{ title: string; desc: string; link?: string; linkText?: string } | null>(null);
 
-  // Video & Canvas Animation Player
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [playbackTime, setPlaybackTime] = useState(0);
+  // Generated Real Video URL
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const animationFrameId = useRef<number | null>(null);
-  const loadedImagesRef = useRef<HTMLImageElement[]>([]);
-  const recordingRef = useRef<MediaRecorder | null>(null);
-  const recordedChunksRef = useRef<Blob[]>([]);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    // Load custom key from storage if user customized it
-    const storedKey = localStorage.getItem("toolifia_gemini_api_key");
-    if (storedKey) {
-      setApiKey(storedKey);
-    }
-  }, []);
-
-  const saveCustomKey = (newKey: string) => {
-    setApiKey(newKey);
-    if (newKey.trim() && newKey !== DEFAULT_API_KEY) {
-      localStorage.setItem("toolifia_gemini_api_key", newKey);
-    } else {
-      localStorage.removeItem("toolifia_gemini_api_key");
-    }
-  };
+    const savedFal = localStorage.getItem("toolifia_fal_key");
+    const savedGemini = localStorage.getItem("toolifia_gemini_api_key");
+    if (selectedEngine === "fal-ai" && savedFal) setCustomKey(savedFal);
+    if (selectedEngine === "google-veo" && savedGemini) setCustomKey(savedGemini);
+  }, [selectedEngine]);
 
   const handleRandomPrompt = () => {
     const random = INSPIRATION_PROMPTS[Math.floor(Math.random() * INSPIRATION_PROMPTS.length)];
@@ -124,37 +93,40 @@ export function AiVideoGenerator() {
         setPrompt(data.enhancedPrompt);
       }
     } catch {
-      setPrompt(`${prompt.trim()}, highly detailed cinematic shot, dynamic lighting, 8k resolution, volumetric fog, Unreal Engine 5 render style`);
+      setPrompt(`${prompt.trim()}, highly detailed cinematic film shot, 35mm anamorphic lens, 8k resolution, volumetric atmospheric lighting`);
     }
     setIsEnhancing(false);
   };
 
   const startGeneration = async () => {
     if (!prompt.trim()) {
-      setError("Please enter a prompt to generate your AI video.");
+      setErrorDetails({
+        title: "Prompt Required",
+        desc: "Please describe the scene you want to generate in the prompt box above."
+      });
       return;
     }
 
     setStatus("generating");
-    setError(null);
-    setProgress(5);
-    setStatusMessage("Connecting to Google Veo 3.1 Video Engine...");
+    setErrorDetails(null);
+    setProgress(10);
+    setStatusMessage(`Connecting to ${selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1 Video Engine"}...`);
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        if (prev < 25) {
-          setStatusMessage("Analyzing prompt & camera motion vectors...");
-          return prev + 4;
-        } else if (prev < 60) {
-          setStatusMessage("Synthesizing 8K cinematic temporal keyframes...");
+        if (prev < 30) {
+          setStatusMessage("Synthesizing camera trajectory & motion dynamics...");
+          return prev + 5;
+        } else if (prev < 70) {
+          setStatusMessage("Rendering 3D temporal video frames...");
           return prev + 3;
-        } else if (prev < 88) {
-          setStatusMessage("Encoding high-definition 60FPS video stream...");
-          return prev + 2;
+        } else if (prev < 92) {
+          setStatusMessage("Encoding final MP4 video stream...");
+          return prev + 1;
         }
         return prev;
       });
-    }, 450);
+    }, 600);
 
     try {
       const res = await fetch("/api/video/generate", {
@@ -162,234 +134,131 @@ export function AiVideoGenerator() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt,
+          engine: selectedEngine,
           style: selectedStyle,
           motion: cameraMotion,
           aspectRatio,
           duration,
-          apiKey,
+          apiKey: customKey,
         }),
       });
 
       clearInterval(progressInterval);
+      const data = await res.json();
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || "Failed to generate video");
+      if (!res.ok || !data.success) {
+        setStatus("error");
+        if (data.errorType === "VEO_QUOTA_EXHAUSTED") {
+          setErrorDetails({
+            title: "Google Veo Quota Limit (Billing Required)",
+            desc: "Google AI Studio offers free tier for Gemini text and multimodal chat models, but Google Veo (Video Generation) requires a Google Cloud project with Billing enabled. Free-tier Google keys currently have a Veo video quota of 0 requests/min.",
+            link: "https://aistudio.google.com/",
+            linkText: "Link Billing in Google AI Studio →"
+          });
+        } else if (data.errorType === "FAL_KEY_MISSING") {
+          setErrorDetails({
+            title: "Fal.ai Key Required for Kling 2.1",
+            desc: "To generate real MP4 videos with Kling 2.1 or Wan 2.1, get a free key from Fal.ai (includes $10 free trial credits, no card required).",
+            link: "https://fal.ai/dashboard/keys",
+            linkText: "Get Free Fal.ai Key ($10 Credits) →"
+          });
+        } else {
+          setErrorDetails({
+            title: "Generation Failed",
+            desc: data.error || "Failed to generate video. Please verify your API key and quota status."
+          });
+        }
+        return;
       }
 
-      const data = await res.json();
-      setProgress(100);
-      setStatusMessage("Video rendering complete!");
-
-      const newResult: GenerationResult = {
-        id: `vid_${Date.now()}`,
-        prompt: data.prompt,
-        style: data.style,
-        motion: data.motion,
-        aspectRatio: data.aspectRatio,
-        duration: data.duration,
-        frames: data.frames || [],
-        videoUrl: data.videoUrl || null,
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      };
-
-      setCurrentResult(newResult);
-      setRecentGenerations((prev) => [newResult, ...prev.slice(0, 5)]);
-
-      await preloadFrames(newResult.frames);
-
-      setStatus("done");
-      setIsPlaying(true);
-      setPlaybackTime(0);
+      // If video URL returned directly
+      if (data.videoUrl) {
+        setProgress(100);
+        setVideoUrl(data.videoUrl);
+        setStatus("done");
+      } else if (data.statusUrl && selectedEngine === "fal-ai") {
+        // Poll Fal.ai status
+        setStatusMessage("Waiting for Kling 2.1 GPU queue...");
+        await pollFalVideo(data.statusUrl, data.responseUrl);
+      } else {
+        setStatus("error");
+        setErrorDetails({
+          title: "Processing in Queue",
+          desc: "Video task submitted to Google Veo queue. Final rendering may take 1-2 minutes depending on server load."
+        });
+      }
     } catch (err: any) {
       clearInterval(progressInterval);
       setStatus("error");
-      setError(err.message || "An error occurred during video generation. Please try again.");
-    }
-  };
-
-  const preloadFrames = (frameUrls: string[]): Promise<void> => {
-    return new Promise((resolve) => {
-      let loaded = 0;
-      const images: HTMLImageElement[] = [];
-
-      if (!frameUrls || frameUrls.length === 0) {
-        resolve();
-        return;
-      }
-
-      frameUrls.forEach((url, index) => {
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.src = url;
-        img.onload = () => {
-          images[index] = img;
-          loaded++;
-          if (loaded === frameUrls.length) {
-            loadedImagesRef.current = images;
-            resolve();
-          }
-        };
-        img.onerror = () => {
-          loaded++;
-          if (loaded === frameUrls.length) {
-            loadedImagesRef.current = images.filter(Boolean);
-            resolve();
-          }
-        };
+      setErrorDetails({
+        title: "Connection Error",
+        desc: err.message || "Could not reach the video generation server. Please try again."
       });
-    });
+    }
   };
 
-  // ── Canvas Motion Video Engine ─────────────────────────────────────────────
-  useEffect(() => {
-    if (status !== "done" || !canvasRef.current || loadedImagesRef.current.length === 0) return;
+  const pollFalVideo = async (statusUrl: string, responseUrl: string) => {
+    let attempts = 0;
+    const maxAttempts = 40;
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const interval = setInterval(async () => {
+      attempts++;
+      try {
+        const checkRes = await fetch(statusUrl, {
+          headers: { Authorization: `Key ${customKey}` }
+        });
+        const statusData = await checkRes.json();
 
-    let startTime = performance.now();
-    const videoDuration = (currentResult?.duration || 5) * 1000;
+        if (statusData.status === "COMPLETED") {
+          clearInterval(interval);
+          const resultRes = await fetch(responseUrl, {
+            headers: { Authorization: `Key ${customKey}` }
+          });
+          const resultData = await resultRes.json();
+          const finalUrl = resultData.video?.url || resultData.output?.video_url;
 
-    const renderLoop = (now: number) => {
-      if (!isPlaying) {
-        animationFrameId.current = requestAnimationFrame(renderLoop);
-        return;
+          if (finalUrl) {
+            setVideoUrl(finalUrl);
+            setProgress(100);
+            setStatus("done");
+          } else {
+            throw new Error("No video output returned from model");
+          }
+        } else if (statusData.status === "FAILED") {
+          clearInterval(interval);
+          setStatus("error");
+          setErrorDetails({
+            title: "Kling 2.1 Model Error",
+            desc: statusData.error || "The video generation job failed on the GPU node."
+          });
+        }
+      } catch (e: any) {
+        if (attempts >= maxAttempts) {
+          clearInterval(interval);
+          setStatus("error");
+          setErrorDetails({
+            title: "Timeout",
+            desc: "Video generation took longer than expected. Please try again."
+          });
+        }
       }
+    }, 2500);
+  };
 
-      const elapsed = (now - startTime) % videoDuration;
-      const progressRatio = elapsed / videoDuration;
-      setPlaybackTime(elapsed / 1000);
-
-      const images = loadedImagesRef.current;
-      if (images.length === 0) return;
-
-      const numImages = images.length;
-      const segment = 1 / (numImages - 1 || 1);
-      const imgIdx = Math.min(Math.floor(progressRatio / segment), numImages - 2);
-      const subProgress = (progressRatio - imgIdx * segment) / segment;
-
-      const imgA = images[imgIdx] || images[0];
-      const imgB = images[imgIdx + 1] || images[images.length - 1];
-
-      const width = canvas.width;
-      const height = canvas.height;
-
-      ctx.clearRect(0, 0, width, height);
-      ctx.save();
-
-      const motionType = currentResult?.motion || "slow-zoom";
-      let scale = 1.0;
-      let panX = 0;
-      let panY = 0;
-
-      if (motionType === "slow-zoom") {
-        scale = 1.0 + progressRatio * 0.18;
-      } else if (motionType === "drone-fly") {
-        scale = 1.0 + Math.sin(progressRatio * Math.PI) * 0.22;
-        panY = Math.sin(progressRatio * Math.PI * 2) * 15;
-      } else if (motionType === "pan") {
-        panX = (progressRatio - 0.5) * 50;
-      } else if (motionType === "handheld") {
-        panX = Math.sin(progressRatio * 15) * 6;
-        panY = Math.cos(progressRatio * 12) * 6;
-      } else {
-        scale = 1.0 + progressRatio * 0.12;
-      }
-
-      ctx.translate(width / 2 + panX, height / 2 + panY);
-      ctx.scale(scale, scale);
-      ctx.translate(-width / 2, -height / 2);
-
-      if (imgA) {
-        ctx.globalAlpha = 1.0;
-        ctx.drawImage(imgA, 0, 0, width, height);
-      }
-
-      if (imgB && imgA !== imgB) {
-        ctx.globalAlpha = subProgress;
-        ctx.drawImage(imgB, 0, 0, width, height);
-      }
-
-      // Vignette atmosphere
-      ctx.globalAlpha = 0.25;
-      const vignette = ctx.createRadialGradient(
-        width / 2, height / 2, width * 0.3,
-        width / 2, height / 2, width * 0.7
-      );
-      vignette.addColorStop(0, "rgba(0,0,0,0)");
-      vignette.addColorStop(1, "rgba(0,0,0,0.85)");
-      ctx.fillStyle = vignette;
-      ctx.fillRect(0, 0, width, height);
-
-      ctx.restore();
-
-      animationFrameId.current = requestAnimationFrame(renderLoop);
-    };
-
-    animationFrameId.current = requestAnimationFrame(renderLoop);
-
-    return () => {
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
-      }
-    };
-  }, [status, isPlaying, currentResult]);
-
-  // ── Download Video (Captures Canvas Stream to WebM/MP4) ────────────────────
   const handleDownload = () => {
-    if (!canvasRef.current) return;
-    const canvas = canvasRef.current;
-
-    try {
-      const stream = (canvas as any).captureStream(30);
-      recordedChunksRef.current = [];
-
-      const mimeType = MediaRecorder.isTypeSupported("video/webm;codecs=vp9")
-        ? "video/webm;codecs=vp9"
-        : "video/webm";
-
-      const mediaRecorder = new MediaRecorder(stream, { mimeType });
-      recordingRef.current = mediaRecorder;
-
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          recordedChunksRef.current.push(e.data);
-        }
-      };
-
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `toolifia_veo_${Date.now()}.webm`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      };
-
-      mediaRecorder.start();
-
-      setTimeout(() => {
-        if (mediaRecorder.state === "recording") {
-          mediaRecorder.stop();
-        }
-      }, (currentResult?.duration || 5) * 1000);
-    } catch {
-      const dataUrl = canvas.toDataURL("image/png");
-      const a = document.createElement("a");
-      a.href = dataUrl;
-      a.download = `toolifia_ai_frame_${Date.now()}.png`;
-      a.click();
-    }
+    if (!videoUrl) return;
+    const a = document.createElement("a");
+    a.href = videoUrl;
+    a.download = `toolifia_ai_video_${Date.now()}.mp4`;
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   const copyPrompt = () => {
-    if (currentResult?.prompt) {
-      navigator.clipboard.writeText(currentResult.prompt);
+    if (prompt) {
+      navigator.clipboard.writeText(prompt);
       setCopiedPrompt(true);
       setTimeout(() => setCopiedPrompt(false), 2000);
     }
@@ -397,38 +266,60 @@ export function AiVideoGenerator() {
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Top Banner: Engine & Key Status */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-md">
+      {/* Top Banner: Engine Switcher & Status */}
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
             <Video className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-white">Google Veo 3.1 AI Video Engine</h2>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                API Connected
+              <h2 className="text-sm font-bold text-white">AI Video Generator (Real MP4 Video)</h2>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px] font-bold">
+                {selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1 Standard"}
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Active Key: <code className="text-rose-300 font-mono text-[11px]">{apiKey ? "Custom Key Active" : "Server Pre-Configured"}</code>
+              Generates actual playable, downloadable high-definition MP4 videos from text prompts.
             </p>
           </div>
         </div>
 
-        <button
-          onClick={() => setShowKeyModal(true)}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-all"
-        >
-          <Key className="w-3.5 h-3.5 text-rose-400" />
-          API Key Settings
-        </button>
+        {/* Engine Toggle Buttons */}
+        <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
+          <button
+            onClick={() => setSelectedEngine("google-veo")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              selectedEngine === "google-veo"
+                ? "bg-rose-600 text-white shadow-md"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Cpu className="w-3.5 h-3.5" /> Google Veo 3.1
+          </button>
+          <button
+            onClick={() => setSelectedEngine("fal-ai")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              selectedEngine === "fal-ai"
+                ? "bg-rose-600 text-white shadow-md"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Film className="w-3.5 h-3.5" /> Kling 2.1 (Free Trial)
+          </button>
+          <button
+            onClick={() => setShowKeyModal(true)}
+            className="px-2.5 py-1.5 rounded-xl text-slate-400 hover:text-white text-xs border border-slate-800 hover:border-slate-700 transition-colors"
+            title="Configure API Key"
+          >
+            <Key className="w-3.5 h-3.5 text-rose-400" />
+          </button>
+        </div>
       </div>
 
       {/* Main Studio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Video Controls & Prompt (7 Cols) */}
+        {/* Left: Video Parameters & Prompt (7 Cols) */}
         <div className="lg:col-span-7 space-y-6">
           {/* Prompt Box */}
           <div className="space-y-2.5">
@@ -442,7 +333,6 @@ export function AiVideoGenerator() {
                   onClick={handleRandomPrompt}
                   type="button"
                   className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white px-2.5 py-1 rounded-lg hover:bg-slate-800 transition-colors"
-                  title="Random prompt idea"
                 >
                   <Dices className="w-3.5 h-3.5" /> Random Idea
                 </button>
@@ -462,7 +352,7 @@ export function AiVideoGenerator() {
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Describe your scene in detail... (e.g. An astronaut exploring an ancient alien temple on Mars in dramatic cinematic lighting)"
+                placeholder="Describe your video scene... (e.g. A cyber samurai walking through a rainy neon city in slow motion with lens flares)"
                 rows={4}
                 className="w-full rounded-2xl border border-slate-700/80 bg-slate-900/90 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-all resize-none font-sans"
               />
@@ -472,10 +362,10 @@ export function AiVideoGenerator() {
             </div>
           </div>
 
-          {/* Video Style Selector */}
+          {/* Visual Style Selector */}
           <div className="space-y-3">
             <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Visual Art Style
+              Cinematic Style
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
               {VIDEO_STYLES.map((style) => (
@@ -590,44 +480,73 @@ export function AiVideoGenerator() {
               {status === "generating" ? (
                 <>
                   <RefreshCw className="w-5 h-5 animate-spin" />
-                  Synthesizing Video ({progress}%)...
+                  Generating Real Video ({progress}%)...
                 </>
               ) : (
                 <>
                   <Video className="w-5 h-5" />
-                  Generate AI Video with Google Veo
+                  Generate Real MP4 Video ({selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1"})
                 </>
               )}
             </button>
           </div>
 
-          {error && (
-            <div className="p-4 rounded-2xl bg-rose-950/40 border border-rose-800/60 text-rose-300 text-xs flex items-start gap-2.5">
-              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold">Generation Note</p>
-                <p className="mt-0.5 text-rose-400/90">{error}</p>
+          {/* Detailed Error / Explanations Banner */}
+          {errorDetails && (
+            <div className="p-5 rounded-3xl bg-amber-950/40 border border-amber-800/60 text-amber-200 text-xs space-y-3">
+              <div className="flex items-start gap-2.5">
+                <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-sm text-white">{errorDetails.title}</h4>
+                  <p className="mt-1 text-amber-300/90 leading-relaxed">{errorDetails.desc}</p>
+                </div>
               </div>
+
+              {errorDetails.link && (
+                <div className="pt-1 flex flex-wrap gap-2">
+                  <a
+                    href={errorDetails.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold hover:bg-amber-400 transition-colors shadow-sm"
+                  >
+                    {errorDetails.linkText || "Open Dashboard →"}
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  {selectedEngine === "google-veo" && (
+                    <button
+                      onClick={() => {
+                        setSelectedEngine("fal-ai");
+                        setErrorDetails(null);
+                      }}
+                      className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold border border-slate-700 transition-colors"
+                    >
+                      Switch to Kling 2.1 (Free Credits) →
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        {/* Right Column: Interactive Video Player & Output (5 Cols) */}
+        {/* Right: Actual HTML5 Video Player (5 Cols) */}
         <div className="lg:col-span-5 space-y-4">
           <div className="rounded-3xl bg-slate-900/90 border border-slate-800 p-4 shadow-2xl backdrop-blur-md space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-300 flex items-center gap-2">
                 <Film className="w-4 h-4 text-rose-400" />
-                Video Output Screen
+                MP4 Video Screen
               </span>
-              {status === "done" && (
+              {status === "done" && videoUrl && (
                 <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                  Ready · {currentResult?.duration}s @ 60FPS
+                  Real MP4 Ready
                 </span>
               )}
             </div>
 
-            {/* Player Container */}
+            {/* Video Container */}
             <div
               className={`relative rounded-2xl overflow-hidden bg-black border border-slate-800 flex items-center justify-center shadow-inner ${
                 aspectRatio === "9:16" ? "aspect-[9/16] max-h-[520px] mx-auto" : aspectRatio === "1:1" ? "aspect-square" : "aspect-video"
@@ -641,7 +560,7 @@ export function AiVideoGenerator() {
                   </div>
                   <div className="space-y-1 max-w-xs">
                     <p className="text-sm font-bold text-white">{statusMessage}</p>
-                    <p className="text-xs text-slate-400 font-mono">{progress}% completed</p>
+                    <p className="text-xs text-slate-400 font-mono">{progress}% rendered</p>
                   </div>
                   <div className="w-4/5 h-2 rounded-full bg-slate-800 overflow-hidden">
                     <div
@@ -650,63 +569,40 @@ export function AiVideoGenerator() {
                     />
                   </div>
                 </div>
-              ) : status === "done" ? (
-                <div className="relative w-full h-full group">
-                  <canvas
-                    ref={canvasRef}
-                    width={aspectRatio === "9:16" ? 720 : aspectRatio === "1:1" ? 1024 : 1280}
-                    height={aspectRatio === "9:16" ? 1280 : aspectRatio === "1:1" ? 1024 : 720}
-                    onClick={() => setIsPlaying(!isPlaying)}
-                    className="w-full h-full object-cover cursor-pointer"
-                  />
-
-                  {/* Player Overlay Controls */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-4 pointer-events-none">
-                    <div className="flex justify-between items-center">
-                      <span className="bg-black/60 text-white text-[10px] font-mono px-2 py-1 rounded-lg backdrop-blur-sm">
-                        Google Veo 3.1 Mode
-                      </span>
-                    </div>
-
-                    <div className="pointer-events-auto space-y-2">
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => setIsPlaying(!isPlaying)}
-                          className="w-8 h-8 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md text-white flex items-center justify-center transition-colors"
-                        >
-                          {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-                        </button>
-                        <span className="text-xs font-mono text-white">
-                          {playbackTime.toFixed(1)}s / {currentResult?.duration}.0s
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              ) : status === "done" && videoUrl ? (
+                <video
+                  ref={videoRef}
+                  src={videoUrl}
+                  controls
+                  autoPlay
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <div className="p-8 text-center flex flex-col items-center justify-center space-y-3 text-slate-500">
                   <div className="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-rose-500">
                     <Video className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-300">Ready to Generate</h3>
+                    <h3 className="text-sm font-bold text-slate-300">No Video Generated Yet</h3>
                     <p className="text-xs text-slate-500 max-w-xs mt-1">
-                      Enter your scene prompt and click Generate to produce high-resolution AI video footage.
+                      Describe your scene on the left and click Generate to produce a full playable MP4 video.
                     </p>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Action Bar (When Done) */}
-            {status === "done" && (
+            {/* Action Buttons when Video is Ready */}
+            {status === "done" && videoUrl && (
               <div className="space-y-3 pt-2">
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleDownload}
                     className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 transition-all active:scale-[0.98]"
                   >
-                    <Download className="w-4 h-4" /> Download Video (MP4/WebM)
+                    <Download className="w-4 h-4" /> Download MP4 Video
                   </button>
                   <button
                     onClick={startGeneration}
@@ -726,40 +622,10 @@ export function AiVideoGenerator() {
               </div>
             )}
           </div>
-
-          {/* Recent Generations Shelf */}
-          {recentGenerations.length > 0 && (
-            <div className="space-y-2">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Recent Generations ({recentGenerations.length})
-              </h4>
-              <div className="grid grid-cols-3 gap-2">
-                {recentGenerations.map((gen) => (
-                  <button
-                    key={gen.id}
-                    onClick={() => {
-                      setCurrentResult(gen);
-                      setStatus("done");
-                      preloadFrames(gen.frames);
-                    }}
-                    className="group relative rounded-xl overflow-hidden border border-slate-800 aspect-video bg-slate-900 hover:border-rose-500 transition-all"
-                  >
-                    {gen.frames[0] && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={gen.frames[0]} alt={gen.prompt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    )}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <Play className="w-5 h-5 text-white fill-white" />
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      {/* API Key Modal / Drawer */}
+      {/* API Key Modal */}
       {showKeyModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="w-full max-w-md rounded-3xl bg-slate-900 border border-slate-800 p-6 text-white shadow-2xl space-y-4">
@@ -769,8 +635,10 @@ export function AiVideoGenerator() {
                   <Key className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white">Google Veo API Settings</h3>
-                  <p className="text-[11px] text-slate-400">Google AI Studio Authentication</p>
+                  <h3 className="text-sm font-bold text-white">API Key Settings</h3>
+                  <p className="text-[11px] text-slate-400">
+                    {selectedEngine === "google-veo" ? "Google AI Studio Key" : "Fal.ai API Key"}
+                  </p>
                 </div>
               </div>
               <button
@@ -783,53 +651,32 @@ export function AiVideoGenerator() {
 
             <div className="space-y-2">
               <label className="text-xs font-semibold text-slate-300">
-                Active Gemini / Veo API Key
+                {selectedEngine === "google-veo" ? "Google Gemini / Veo API Key" : "Fal.ai API Key (Kling 2.1)"}
               </label>
-              <div className="relative">
-                <input
-                  type={showKeyPlain ? "text" : "password"}
-                  value={apiKey}
-                  onChange={(e) => saveCustomKey(e.target.value)}
-                  placeholder="Enter custom Gemini or Veo API key..."
-                  className="w-full rounded-xl bg-slate-950 border border-slate-800 px-3.5 py-2.5 text-xs text-white pr-10 font-mono focus:outline-none focus:ring-1 focus:ring-rose-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowKeyPlain(!showKeyPlain)}
-                  className="absolute right-3 top-2.5 text-slate-400 hover:text-white"
-                >
-                  <Eye className="w-4 h-4" />
-                </button>
-              </div>
+              <input
+                type="password"
+                value={customKey}
+                onChange={(e) => {
+                  setCustomKey(e.target.value);
+                  if (selectedEngine === "fal-ai") localStorage.setItem("toolifia_fal_key", e.target.value);
+                  if (selectedEngine === "google-veo") localStorage.setItem("toolifia_gemini_api_key", e.target.value);
+                }}
+                placeholder={selectedEngine === "google-veo" ? "Pre-configured server key active (or enter custom key)..." : "Enter Fal.ai key (e.g. xxxxxxxx-xxxx-xxxx...)"}
+                className="w-full rounded-xl bg-slate-950 border border-slate-800 px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-rose-500"
+              />
               <p className="text-[11px] text-slate-400">
-                The server is pre-configured with Google AI Studio authentication. You can optionally supply your own key to override.
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-1.5 text-xs text-slate-300">
-              <div className="flex items-center gap-1.5 font-bold text-emerald-400">
-                <ShieldCheck className="w-4 h-4" /> Client & Server Encrypted
-              </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                Keys are transmitted strictly via secure TLS to Google Generative Language endpoints.
+                {selectedEngine === "google-veo"
+                  ? "Your Google AI Studio key is configured on the server. Make sure billing is enabled on your Google Cloud project for Veo 3.1 video access."
+                  : "Fal.ai provides $10 free credits upon signup for Kling 2.1 and Wan 2.1 video generation."}
               </p>
             </div>
 
             <div className="flex justify-end gap-2 pt-2">
               <button
-                onClick={() => {
-                  saveCustomKey(DEFAULT_API_KEY);
-                  setShowKeyModal(false);
-                }}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300"
-              >
-                Reset Default
-              </button>
-              <button
                 onClick={() => setShowKeyModal(false)}
                 className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-bold text-white shadow-md shadow-rose-500/20"
               >
-                Save & Close
+                Done
               </button>
             </div>
           </div>

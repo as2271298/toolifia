@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 60; // 60 seconds max execution time for video generation
 
@@ -10,14 +10,13 @@ export async function POST(req: NextRequest) {
     const {
       prompt,
       action,
+      engine = "google-veo", // "google-veo" | "fal-ai"
       style = "cinematic",
       motion = "slow-zoom",
       aspectRatio = "16:9",
       duration = "5",
-      apiKey = DEFAULT_GEMINI_KEY,
+      apiKey = "",
     } = body;
-
-    const activeKey = (apiKey && apiKey.trim()) || DEFAULT_GEMINI_KEY;
 
     // ── Prompt Enhancement Action ───────────────────────────────────────────
     if (action === "enhance") {
@@ -25,7 +24,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Missing prompt to enhance" }, { status: 400 });
       }
 
-      const enhanced = `${prompt.trim()}, highly detailed cinematic shot, dynamic lighting, 8k resolution, volumetric fog, Unreal Engine 5 render style, photorealistic textures, masterwork cinematography, 35mm lens, depth of field`;
+      const enhanced = `${prompt.trim()}, highly detailed cinematic film shot, dynamic lighting, 8k resolution, volumetric atmosphere, masterwork cinematography, 35mm anamorphic lens, shallow depth of field, photorealistic textures`;
 
       return NextResponse.json({
         success: true,
@@ -35,7 +34,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
-      return NextResponse.json({ error: "Please provide a video prompt" }, { status: 400 });
+      return NextResponse.json({ error: "Please enter a scene prompt to generate a video" }, { status: 400 });
     }
 
     const cleanPrompt = prompt.trim();
@@ -58,13 +57,19 @@ export async function POST(req: NextRequest) {
       dolly: "dolly forward push with shallow depth of field",
     };
 
-    const fullPrompt = `${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}, ${motionModifiers[motion] || motionModifiers["slow-zoom"]}, ${duration}s clip, ultra high definition`;
+    const fullPrompt = `${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}, ${motionModifiers[motion] || motionModifiers["slow-zoom"]}, ${duration}s video clip, ultra high definition`;
 
-    // ── Call Google Veo 3.1 ────────────────────────────────────────────────
-    let googleVeoResult: any = null;
-    let usedVeoDirectly = false;
+    // ── Engine 1: Google Veo 3.1 ───────────────────────────────────────────
+    if (engine === "google-veo") {
+      const activeKey = apiKey.trim() || DEFAULT_GEMINI_KEY;
 
-    try {
+      if (!activeKey) {
+        return NextResponse.json(
+          { error: "Missing Google Gemini / Veo API Key. Please provide an active API key in settings." },
+          { status: 400 }
+        );
+      }
+
       const veoUrl = `https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-fast-generate-preview:predictLongRunning?key=${activeKey}`;
 
       const veoPayload = {
@@ -83,65 +88,110 @@ export async function POST(req: NextRequest) {
 
       if (veoRes.ok) {
         const veoData = await veoRes.json();
-        // Check for long-running operation or direct video URI
-        if (veoData.name) {
-          googleVeoResult = {
-            operationName: veoData.name,
-            status: "processing",
-          };
-          usedVeoDirectly = true;
-        } else if (veoData.videoUri || veoData.predictions?.[0]?.videoUri) {
-          googleVeoResult = {
-            videoUrl: veoData.videoUri || veoData.predictions[0].videoUri,
-            status: "completed",
-          };
-          usedVeoDirectly = true;
-        }
-      } else {
-        const errJson = await veoRes.json().catch(() => ({}));
-        console.warn("[Veo API Notice]", veoRes.status, errJson?.error?.message || "Veo quota waitlist");
+        const videoUri =
+          veoData.videoUri ||
+          veoData.predictions?.[0]?.videoUri ||
+          veoData.response?.videoUri;
+
+        return NextResponse.json({
+          success: true,
+          videoUrl: videoUri,
+          operationName: veoData.name || null,
+          model: "Google Veo 3.1 Fast",
+          engine: "google-veo",
+          prompt: cleanPrompt,
+          aspectRatio,
+          duration,
+        });
       }
-    } catch (veoErr) {
-      console.warn("[Veo Connection Error]", (veoErr as Error).message);
+
+      const errJson = await veoRes.json().catch(() => ({}));
+      const errMsg = errJson?.error?.message || "";
+
+      if (veoRes.status === 429 || errMsg.includes("quota") || errMsg.includes("RESOURCE_EXHAUSTED")) {
+        return NextResponse.json(
+          {
+            success: false,
+            errorType: "VEO_QUOTA_EXHAUSTED",
+            error: "Google Veo Quota Exceeded (Billing Required)",
+            details:
+              "Google AI Studio allows free access for text models, but video generation (Google Veo 3.1) requires a Google Cloud Project with active billing enabled. On free-tier Google keys, Veo video generation has a quota of 0 requests/min.",
+            actionUrl: "https://aistudio.google.com/",
+            suggestion:
+              "To generate real MP4 videos with Google Veo, link a billing account in Google AI Studio, or switch to the Fal.ai engine (Kling 2.1 / Wan 2.1) which gives free trial credits upon signup.",
+          },
+          { status: 429 }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Google Veo Error (${veoRes.status}): ${errMsg || "Failed to generate video"}`,
+        },
+        { status: veoRes.status }
+      );
     }
 
-    // ── Generate Visual Animation Keyframes ─────────────────────────────
-    // High-resolution artistic frame generation for the client video canvas
-    const encodedPrompt = encodeURIComponent(cleanPrompt);
-    const aspectDims =
-      aspectRatio === "9:16"
-        ? { w: 720, h: 1280 }
-        : aspectRatio === "1:1"
-        ? { w: 1024, h: 1024 }
-        : { w: 1280, h: 720 };
+    // ── Engine 2: Fal.ai (Kling 2.1 / Wan 2.1) ─────────────────────────────
+    if (engine === "fal-ai") {
+      const falKey = apiKey.trim() || process.env.FAL_KEY || "";
 
-    const seedBase = Math.floor(Math.random() * 100000);
-    const frames = [
-      `https://image.pollinations.ai/prompt/${encodedPrompt}%20${encodeURIComponent(styleModifiers[style] || "")}%20shot%20opening?width=${aspectDims.w}&height=${aspectDims.h}&seed=${seedBase}&nologo=true`,
-      `https://image.pollinations.ai/prompt/${encodedPrompt}%20${encodeURIComponent(styleModifiers[style] || "")}%20shot%20dynamic%20motion?width=${aspectDims.w}&height=${aspectDims.h}&seed=${seedBase + 1}&nologo=true`,
-      `https://image.pollinations.ai/prompt/${encodedPrompt}%20${encodeURIComponent(styleModifiers[style] || "")}%20shot%20climactic%20perspective?width=${aspectDims.w}&height=${aspectDims.h}&seed=${seedBase + 2}&nologo=true`,
-    ];
+      if (!falKey) {
+        return NextResponse.json(
+          {
+            success: false,
+            errorType: "FAL_KEY_MISSING",
+            error: "Missing Fal.ai API Key",
+            details: "Fal.ai provides $10 in free credits upon signing up. Please enter your Fal.ai API key to generate real MP4 videos with Kling 2.1 or Wan 2.1.",
+            actionUrl: "https://fal.ai/dashboard/keys",
+          },
+          { status: 400 }
+        );
+      }
 
-    return NextResponse.json({
-      success: true,
-      prompt: cleanPrompt,
-      fullPrompt,
-      style,
-      motion,
-      aspectRatio,
-      duration: parseInt(duration, 10) || 5,
-      model: usedVeoDirectly ? "Google Veo 3.1 Fast" : "Google Veo AI Engine (Veo 3.1 Mode)",
-      usedGoogleKey: activeKey ? `${activeKey.slice(0, 6)}...${activeKey.slice(-4)}` : "Configured",
-      videoUrl: googleVeoResult?.videoUrl || null,
-      operationName: googleVeoResult?.operationName || null,
-      frames,
-      aspectDims,
-      timestamp: new Date().toISOString(),
-    });
-  } catch (error) {
-    console.error("[video-generator] Internal Error:", error);
+      // Submit job to Fal.ai Kling 2.1
+      const submitRes = await fetch("https://queue.fal.run/fal-ai/kling-video/v2.1/standard/text-to-video", {
+        method: "POST",
+        headers: {
+          Authorization: `Key ${falKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: fullPrompt,
+          duration: parseInt(duration, 10) || 5,
+          aspect_ratio: aspectRatio === "9:16" ? "9:16" : aspectRatio === "1:1" ? "1:1" : "16:9",
+          negative_prompt: "blurry, low quality, distorted, artifacts",
+        }),
+      });
+
+      if (!submitRes.ok) {
+        const errJson = await submitRes.json().catch(() => ({}));
+        return NextResponse.json(
+          {
+            success: false,
+            error: `Fal.ai Error (${submitRes.status}): ${errJson?.detail || errJson?.message || "Failed to start generation"}`,
+          },
+          { status: submitRes.status }
+        );
+      }
+
+      const submitData = await submitRes.json();
+      return NextResponse.json({
+        success: true,
+        requestId: submitData.request_id,
+        statusUrl: submitData.status_url,
+        responseUrl: submitData.response_url,
+        engine: "fal-ai",
+        model: "Kling 2.1 Standard",
+      });
+    }
+
+    return NextResponse.json({ error: "Unsupported video generation engine" }, { status: 400 });
+  } catch (error: any) {
+    console.error("[video-generator] Server Error:", error);
     return NextResponse.json(
-      { error: "Internal error processing video generation request" },
+      { error: "Internal server error during video generation request" },
       { status: 500 }
     );
   }
