@@ -1,8 +1,58 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 60; // 60 seconds max execution time for video generation
 
 const DEFAULT_GEMINI_KEY = process.env.GEMINI_API_KEY || "";
+const DEFAULT_JSON2VIDEO_KEY = process.env.JSON2VIDEO_API_KEY || "";
+
+// ── GET: Poll Generation Status ──────────────────────────────────────────────
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const projectId = searchParams.get("project");
+    const engine = searchParams.get("engine") || "json2video";
+    const apiKey = searchParams.get("apiKey") || "";
+
+    if (!projectId) {
+      return NextResponse.json({ error: "Missing project ID parameter" }, { status: 400 });
+    }
+
+    if (engine === "json2video") {
+      const activeKey = apiKey.trim() || DEFAULT_JSON2VIDEO_KEY;
+      if (!activeKey) {
+        return NextResponse.json({ error: "Missing JSON2Video API key" }, { status: 400 });
+      }
+
+      const pollRes = await fetch(`https://api.json2video.com/v2/movies?project=${projectId}`, {
+        headers: { "x-api-key": activeKey },
+      });
+
+      if (!pollRes.ok) {
+        const err = await pollRes.json().catch(() => ({}));
+        return NextResponse.json(
+          { error: err?.message || "Failed to check movie status" },
+          { status: pollRes.status }
+        );
+      }
+
+      const pollData = await pollRes.json();
+      const movie = pollData.movie || {};
+      return NextResponse.json({
+        success: true,
+        status: movie.status || "running",
+        videoUrl: movie.url || null,
+        message: movie.message || null,
+      });
+    }
+
+    return NextResponse.json({ error: "Unsupported engine for status polling" }, { status: 400 });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error?.message || "Failed to check generation status" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,12 +60,14 @@ export async function POST(req: NextRequest) {
     const {
       prompt,
       action,
-      engine = "google-veo", // "google-veo" | "fal-ai"
+      engine = "json2video", // "json2video" | "google-veo" | "fal-ai"
       style = "cinematic",
       motion = "slow-zoom",
       aspectRatio = "16:9",
       duration = "5",
       apiKey = "",
+      narration = "",
+      showTitle = false,
     } = body;
 
     // ── Prompt Enhancement Action ───────────────────────────────────────────
@@ -25,11 +77,13 @@ export async function POST(req: NextRequest) {
       }
 
       const enhanced = `${prompt.trim()}, highly detailed cinematic film shot, dynamic lighting, 8k resolution, volumetric atmosphere, masterwork cinematography, 35mm anamorphic lens, shallow depth of field, photorealistic textures`;
+      const generatedNarration = `Witness the scene: ${prompt.trim().replace(/[.]+$/, "")}.`;
 
       return NextResponse.json({
         success: true,
         originalPrompt: prompt,
         enhancedPrompt: enhanced,
+        suggestedNarration: generatedNarration,
       });
     }
 
@@ -59,7 +113,174 @@ export async function POST(req: NextRequest) {
 
     const fullPrompt = `${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}, ${motionModifiers[motion] || motionModifiers["slow-zoom"]}, ${duration}s video clip, ultra high definition`;
 
-    // ── Engine 1: Google Veo 3.1 ───────────────────────────────────────────
+    // ── Engine 1: JSON2Video (Real MP4 Video Engine) ─────────────────────────
+    if (engine === "json2video") {
+      const activeKey = apiKey.trim() || DEFAULT_JSON2VIDEO_KEY;
+
+      if (!activeKey) {
+        return NextResponse.json(
+          {
+            success: false,
+            errorType: "JSON2VIDEO_KEY_MISSING",
+            error: "JSON2Video API Key Required",
+            details: "Please configure JSON2VIDEO_API_KEY in server environment or enter it in settings.",
+          },
+          { status: 400 }
+        );
+      }
+
+      const resolutionMap: Record<string, string> = {
+        "16:9": "hd",
+        "9:16": "instagram-story",
+        "1:1": "squared",
+      };
+      const resVal = resolutionMap[aspectRatio] || "hd";
+
+      const motionMap: Record<string, { zoom: number; pan: string }> = {
+        "slow-zoom": { zoom: 3, pan: "center" },
+        "drone-fly": { zoom: 4, pan: "top-right" },
+        "360-orbit": { zoom: 2, pan: "left" },
+        pan: { zoom: 1, pan: "right" },
+        handheld: { zoom: 2, pan: "bottom-left" },
+        dolly: { zoom: 5, pan: "center" },
+      };
+      const motionConfig = motionMap[motion] || { zoom: 3, pan: "center" };
+
+      const dimMap: Record<string, { w: number; h: number }> = {
+        "16:9": { w: 1280, h: 720 },
+        "9:16": { w: 720, h: 1280 },
+        "1:1": { w: 1080, h: 1080 },
+      };
+      const dims = dimMap[aspectRatio] || { w: 1280, h: 720 };
+      const seed = Math.floor(Math.random() * 1000000);
+      const visualPrompt = encodeURIComponent(`${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}`);
+      const imageUrl = `https://image.pollinations.ai/prompt/${visualPrompt}?width=${dims.w}&height=${dims.h}&seed=${seed}&nologo=true`;
+
+      const durNum = Math.min(Math.max(parseInt(duration, 10) || 5, 3), 10);
+
+      const sceneElements: any[] = [
+        {
+          type: "image",
+          src: imageUrl,
+          duration: durNum,
+          zoom: motionConfig.zoom,
+          pan: motionConfig.pan,
+        },
+      ];
+
+      if (narration && typeof narration === "string" && narration.trim()) {
+        sceneElements.push({
+          type: "voice",
+          text: narration.trim(),
+          voice: "en-US-JennyNeural",
+          model: "azure",
+        });
+      }
+
+      if (showTitle) {
+        sceneElements.push({
+          type: "text",
+          text: cleanPrompt.length > 45 ? `${cleanPrompt.slice(0, 42)}...` : cleanPrompt,
+          duration: durNum,
+          settings: {
+            "font-size": aspectRatio === "9:16" ? "24px" : "32px",
+            color: "#ffffff",
+            "background-color": "rgba(0, 0, 0, 0.65)",
+            padding: "8px 20px",
+            "border-radius": "10px",
+          },
+          position: "bottom-center",
+          y: -30,
+        });
+      }
+
+      const moviePayload = {
+        resolution: resVal,
+        quality: "high",
+        scenes: [
+          {
+            duration: durNum,
+            elements: sceneElements,
+          },
+        ],
+      };
+
+      const renderRes = await fetch("https://api.json2video.com/v2/movies", {
+        method: "POST",
+        headers: {
+          "x-api-key": activeKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(moviePayload),
+      });
+
+      if (!renderRes.ok) {
+        const errJson = await renderRes.json().catch(() => ({}));
+        return NextResponse.json(
+          {
+            success: false,
+            error: `JSON2Video Render Error (${renderRes.status}): ${errJson?.message || "Failed to submit video render job"}`,
+          },
+          { status: renderRes.status }
+        );
+      }
+
+      const renderData = await renderRes.json();
+      const projectId = renderData.project;
+
+      if (!projectId) {
+        return NextResponse.json({ error: "Failed to obtain project ID from renderer" }, { status: 500 });
+      }
+
+      // Fast-poll server side for up to 6 seconds
+      for (let i = 0; i < 2; i++) {
+        await new Promise((r) => setTimeout(r, 3000));
+        try {
+          const pollRes = await fetch(`https://api.json2video.com/v2/movies?project=${projectId}`, {
+            headers: { "x-api-key": activeKey },
+          });
+          if (pollRes.ok) {
+            const pollData = await pollRes.json();
+            if (pollData.movie?.status === "done" && pollData.movie?.url) {
+              return NextResponse.json({
+                success: true,
+                status: "done",
+                videoUrl: pollData.movie.url,
+                projectId,
+                engine: "json2video",
+                model: "JSON2Video Fast MP4",
+                prompt: cleanPrompt,
+                aspectRatio,
+                duration: durNum,
+              });
+            } else if (pollData.movie?.status === "error") {
+              return NextResponse.json(
+                {
+                  success: false,
+                  error: `Video Rendering Error: ${pollData.movie.message || "Failed during rendering"}`,
+                },
+                { status: 500 }
+              );
+            }
+          }
+        } catch {
+          // fall through to client polling
+        }
+      }
+
+      return NextResponse.json({
+        success: true,
+        status: "running",
+        projectId,
+        engine: "json2video",
+        model: "JSON2Video Fast MP4",
+        prompt: cleanPrompt,
+        aspectRatio,
+        duration: durNum,
+      });
+    }
+
+    // ── Engine 2: Google Veo 3.1 ───────────────────────────────────────────
     if (engine === "google-veo") {
       const activeKey = apiKey.trim() || DEFAULT_GEMINI_KEY;
 
@@ -118,7 +339,7 @@ export async function POST(req: NextRequest) {
               "Google AI Studio allows free access for text models, but video generation (Google Veo 3.1) requires a Google Cloud Project with active billing enabled. On free-tier Google keys, Veo video generation has a quota of 0 requests/min.",
             actionUrl: "https://aistudio.google.com/",
             suggestion:
-              "To generate real MP4 videos with Google Veo, link a billing account in Google AI Studio, or switch to the Fal.ai engine (Kling 2.1 / Wan 2.1) which gives free trial credits upon signup.",
+              "Switch to the default Fast MP4 Engine (JSON2Video) which is active and generates real MP4 videos instantly.",
           },
           { status: 429 }
         );
@@ -133,7 +354,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Engine 2: Fal.ai (Kling 2.1 / Wan 2.1) ─────────────────────────────
+    // ── Engine 3: Fal.ai (Kling 2.1 / Wan 2.1) ─────────────────────────────
     if (engine === "fal-ai") {
       const falKey = apiKey.trim() || process.env.FAL_KEY || "";
 
@@ -150,7 +371,6 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Submit job to Fal.ai Kling 2.1
       const submitRes = await fetch("https://queue.fal.run/fal-ai/kling-video/v2.1/standard/text-to-video", {
         method: "POST",
         headers: {

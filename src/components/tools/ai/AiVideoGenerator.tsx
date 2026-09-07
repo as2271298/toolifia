@@ -4,7 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   Video, Film, Sparkles, Download, RefreshCw, Camera,
   Check, Copy, Wand2, Key, Play, Pause,
-  AlertCircle, Dices, ExternalLink, ShieldAlert, Cpu
+  AlertCircle, Dices, ExternalLink, ShieldAlert, Cpu,
+  Volume2, VolumeX, Type, Zap
 } from "lucide-react";
 
 interface VideoStyle {
@@ -50,10 +51,15 @@ export function AiVideoGenerator() {
   const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16" | "1:1">("16:9");
   const [duration, setDuration] = useState("5");
 
-  // Engines: "google-veo" (Google AI Studio) vs "fal-ai" (Kling 2.1 / Wan 2.1)
-  const [selectedEngine, setSelectedEngine] = useState<"google-veo" | "fal-ai">("google-veo");
+  // Engines: "json2video" (Fast MP4 Engine) | "google-veo" (Google AI Studio) | "fal-ai" (Kling 2.1)
+  const [selectedEngine, setSelectedEngine] = useState<"json2video" | "google-veo" | "fal-ai">("json2video");
   const [customKey, setCustomKey] = useState("");
   const [showKeyModal, setShowKeyModal] = useState(false);
+
+  // Narration & Title Options
+  const [narrationEnabled, setNarrationEnabled] = useState(true);
+  const [narrationText, setNarrationText] = useState("");
+  const [showTitle, setShowTitle] = useState(false);
 
   // Status
   const [status, setStatus] = useState<"idle" | "generating" | "done" | "error">("idle");
@@ -68,8 +74,10 @@ export function AiVideoGenerator() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
+    const savedJson2Video = localStorage.getItem("toolifia_json2video_key");
     const savedFal = localStorage.getItem("toolifia_fal_key");
     const savedGemini = localStorage.getItem("toolifia_gemini_api_key");
+    if (selectedEngine === "json2video" && savedJson2Video) setCustomKey(savedJson2Video);
     if (selectedEngine === "fal-ai" && savedFal) setCustomKey(savedFal);
     if (selectedEngine === "google-veo" && savedGemini) setCustomKey(savedGemini);
   }, [selectedEngine]);
@@ -92,6 +100,9 @@ export function AiVideoGenerator() {
       if (data.enhancedPrompt) {
         setPrompt(data.enhancedPrompt);
       }
+      if (data.suggestedNarration) {
+        setNarrationText(data.suggestedNarration);
+      }
     } catch {
       setPrompt(`${prompt.trim()}, highly detailed cinematic film shot, 35mm anamorphic lens, 8k resolution, volumetric atmospheric lighting`);
     }
@@ -109,24 +120,34 @@ export function AiVideoGenerator() {
 
     setStatus("generating");
     setErrorDetails(null);
-    setProgress(10);
-    setStatusMessage(`Connecting to ${selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1 Video Engine"}...`);
+    setProgress(15);
+    setStatusMessage(
+      selectedEngine === "json2video"
+        ? "Synthesizing cinematic visuals & camera trajectory..."
+        : selectedEngine === "google-veo"
+        ? "Connecting to Google Veo 3.1..."
+        : "Connecting to Kling 2.1 Video Engine..."
+    );
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        if (prev < 30) {
-          setStatusMessage("Synthesizing camera trajectory & motion dynamics...");
-          return prev + 5;
-        } else if (prev < 70) {
-          setStatusMessage("Rendering 3D temporal video frames...");
-          return prev + 3;
+        if (prev < 40) {
+          setStatusMessage("Composing 3D camera pan & Ken Burns zoom...");
+          return prev + 6;
+        } else if (prev < 75) {
+          setStatusMessage(
+            narrationEnabled
+              ? "Synthesizing neural voiceover & audio stream..."
+              : "Rendering temporal video frames..."
+          );
+          return prev + 4;
         } else if (prev < 92) {
-          setStatusMessage("Encoding final MP4 video stream...");
-          return prev + 1;
+          setStatusMessage("Encoding final MP4 video stream on cloud CDN...");
+          return prev + 2;
         }
         return prev;
       });
-    }, 600);
+    }, 700);
 
     try {
       const res = await fetch("/api/video/generate", {
@@ -140,6 +161,8 @@ export function AiVideoGenerator() {
           aspectRatio,
           duration,
           apiKey: customKey,
+          narration: narrationEnabled ? (narrationText.trim() || prompt.trim()) : "",
+          showTitle,
         }),
       });
 
@@ -162,6 +185,13 @@ export function AiVideoGenerator() {
             link: "https://fal.ai/dashboard/keys",
             linkText: "Get Free Fal.ai Key ($10 Credits) →"
           });
+        } else if (data.errorType === "JSON2VIDEO_KEY_MISSING") {
+          setErrorDetails({
+            title: "Fast MP4 Engine Key Needed",
+            desc: "Please provide a valid JSON2Video API key or configure it in server settings.",
+            link: "https://json2video.com/",
+            linkText: "Get Free JSON2Video Key →"
+          });
         } else {
           setErrorDetails({
             title: "Generation Failed",
@@ -176,6 +206,10 @@ export function AiVideoGenerator() {
         setProgress(100);
         setVideoUrl(data.videoUrl);
         setStatus("done");
+      } else if (data.projectId && selectedEngine === "json2video") {
+        // Poll JSON2Video status
+        setStatusMessage("Encoding video on cloud render cluster...");
+        await pollJson2Video(data.projectId);
       } else if (data.statusUrl && selectedEngine === "fal-ai") {
         // Poll Fal.ai status
         setStatusMessage("Waiting for Kling 2.1 GPU queue...");
@@ -184,7 +218,7 @@ export function AiVideoGenerator() {
         setStatus("error");
         setErrorDetails({
           title: "Processing in Queue",
-          desc: "Video task submitted to Google Veo queue. Final rendering may take 1-2 minutes depending on server load."
+          desc: "Video task submitted to queue. Final rendering may take a moment depending on server load."
         });
       }
     } catch (err: any) {
@@ -195,6 +229,47 @@ export function AiVideoGenerator() {
         desc: err.message || "Could not reach the video generation server. Please try again."
       });
     }
+  };
+
+  const pollJson2Video = async (projectId: string) => {
+    let attempts = 0;
+    const maxAttempts = 25;
+
+    const interval = setInterval(async () => {
+      attempts++;
+      try {
+        const queryUrl = `/api/video/generate?project=${encodeURIComponent(projectId)}&engine=json2video${
+          customKey ? `&apiKey=${encodeURIComponent(customKey)}` : ""
+        }`;
+        const checkRes = await fetch(queryUrl);
+        const pollData = await checkRes.json();
+
+        if (pollData.status === "done" && pollData.videoUrl) {
+          clearInterval(interval);
+          setVideoUrl(pollData.videoUrl);
+          setProgress(100);
+          setStatus("done");
+        } else if (pollData.status === "error") {
+          clearInterval(interval);
+          setStatus("error");
+          setErrorDetails({
+            title: "Render Error",
+            desc: pollData.message || "The video rendering job failed on the engine."
+          });
+        } else {
+          setProgress((prev) => Math.min(prev + 2, 96));
+        }
+      } catch (e: any) {
+        if (attempts >= maxAttempts) {
+          clearInterval(interval);
+          setStatus("error");
+          setErrorDetails({
+            title: "Timeout",
+            desc: "Video generation took longer than expected. Please try again."
+          });
+        }
+      }
+    }, 2500);
   };
 
   const pollFalVideo = async (statusUrl: string, responseUrl: string) => {
@@ -275,8 +350,8 @@ export function AiVideoGenerator() {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-bold text-white">AI Video Generator (Real MP4 Video)</h2>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px] font-bold">
-                {selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1 Standard"}
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] font-bold">
+                {selectedEngine === "json2video" ? "⚡ Fast MP4 Engine (Active)" : selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1 Standard"}
               </span>
             </div>
             <p className="text-xs text-slate-400">
@@ -287,6 +362,16 @@ export function AiVideoGenerator() {
 
         {/* Engine Toggle Buttons */}
         <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
+          <button
+            onClick={() => setSelectedEngine("json2video")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              selectedEngine === "json2video"
+                ? "bg-rose-600 text-white shadow-md"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-300" /> Fast MP4 (Real)
+          </button>
           <button
             onClick={() => setSelectedEngine("google-veo")}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
@@ -305,7 +390,7 @@ export function AiVideoGenerator() {
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            <Film className="w-3.5 h-3.5" /> Kling 2.1 (Free Trial)
+            <Film className="w-3.5 h-3.5" /> Kling 2.1
           </button>
           <button
             onClick={() => setShowKeyModal(true)}
@@ -360,6 +445,47 @@ export function AiVideoGenerator() {
                 {prompt.length} chars
               </span>
             </div>
+          </div>
+
+          {/* Narration & Subtitle Options */}
+          <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => setNarrationEnabled(!narrationEnabled)}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                  narrationEnabled
+                    ? "bg-rose-500/10 border-rose-500/40 text-rose-300"
+                    : "bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                {narrationEnabled ? <Volume2 className="w-3.5 h-3.5 text-rose-400" /> : <VolumeX className="w-3.5 h-3.5" />}
+                <span>AI Voiceover Narration: {narrationEnabled ? "Enabled (Azure Neural TTS)" : "Off"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowTitle(!showTitle)}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                  showTitle
+                    ? "bg-rose-500/10 border-rose-500/40 text-rose-300"
+                    : "bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                <Type className="w-3.5 h-3.5" />
+                <span>Subtitle Overlay: {showTitle ? "On" : "Off"}</span>
+              </button>
+            </div>
+
+            {narrationEnabled && (
+              <input
+                type="text"
+                value={narrationText}
+                onChange={(e) => setNarrationText(e.target.value)}
+                placeholder="Optional voiceover narration script (or leave empty to narrate your prompt automatically)..."
+                className="w-full rounded-xl bg-slate-950 border border-slate-800 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-rose-500 font-sans"
+              />
+            )}
           </div>
 
           {/* Visual Style Selector */}
@@ -480,12 +606,12 @@ export function AiVideoGenerator() {
               {status === "generating" ? (
                 <>
                   <RefreshCw className="w-5 h-5 animate-spin" />
-                  Generating Real Video ({progress}%)...
+                  Generating Real MP4 Video ({progress}%)...
                 </>
               ) : (
                 <>
-                  <Video className="w-5 h-5" />
-                  Generate Real MP4 Video ({selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1"})
+                  <Zap className="w-5 h-5 text-amber-300" />
+                  Generate Real MP4 Video ({selectedEngine === "json2video" ? "Fast MP4 Engine" : selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1"})
                 </>
               )}
             </button>
@@ -514,15 +640,15 @@ export function AiVideoGenerator() {
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
 
-                  {selectedEngine === "google-veo" && (
+                  {selectedEngine !== "json2video" && (
                     <button
                       onClick={() => {
-                        setSelectedEngine("fal-ai");
+                        setSelectedEngine("json2video");
                         setErrorDetails(null);
                       }}
-                      className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold border border-slate-700 transition-colors"
+                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-indigo-600 text-white font-bold transition-all shadow-md flex items-center gap-1.5"
                     >
-                      Switch to Kling 2.1 (Free Credits) →
+                      <Zap className="w-3.5 h-3.5 text-amber-300" /> Switch to Fast MP4 Engine (Active Key) →
                     </button>
                   )}
                 </div>
@@ -637,7 +763,11 @@ export function AiVideoGenerator() {
                 <div>
                   <h3 className="text-sm font-bold text-white">API Key Settings</h3>
                   <p className="text-[11px] text-slate-400">
-                    {selectedEngine === "google-veo" ? "Google AI Studio Key" : "Fal.ai API Key"}
+                    {selectedEngine === "json2video"
+                      ? "Fast MP4 Engine (Pre-configured)"
+                      : selectedEngine === "google-veo"
+                      ? "Google AI Studio Key"
+                      : "Fal.ai API Key"}
                   </p>
                 </div>
               </div>
@@ -651,21 +781,34 @@ export function AiVideoGenerator() {
 
             <div className="space-y-2">
               <label className="text-xs font-semibold text-slate-300">
-                {selectedEngine === "google-veo" ? "Google Gemini / Veo API Key" : "Fal.ai API Key (Kling 2.1)"}
+                {selectedEngine === "json2video"
+                  ? "JSON2Video API Key"
+                  : selectedEngine === "google-veo"
+                  ? "Google Gemini / Veo API Key"
+                  : "Fal.ai API Key (Kling 2.1)"}
               </label>
               <input
                 type="password"
                 value={customKey}
                 onChange={(e) => {
                   setCustomKey(e.target.value);
+                  if (selectedEngine === "json2video") localStorage.setItem("toolifia_json2video_key", e.target.value);
                   if (selectedEngine === "fal-ai") localStorage.setItem("toolifia_fal_key", e.target.value);
                   if (selectedEngine === "google-veo") localStorage.setItem("toolifia_gemini_api_key", e.target.value);
                 }}
-                placeholder={selectedEngine === "google-veo" ? "Pre-configured server key active (or enter custom key)..." : "Enter Fal.ai key (e.g. xxxxxxxx-xxxx-xxxx...)"}
+                placeholder={
+                  selectedEngine === "json2video"
+                    ? "Pre-configured server key active (or enter custom key)..."
+                    : selectedEngine === "google-veo"
+                    ? "Pre-configured server key active (or enter custom key)..."
+                    : "Enter Fal.ai key (e.g. xxxxxxxx-xxxx-xxxx...)"
+                }
                 className="w-full rounded-xl bg-slate-950 border border-slate-800 px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-rose-500"
               />
               <p className="text-[11px] text-slate-400">
-                {selectedEngine === "google-veo"
+                {selectedEngine === "json2video"
+                  ? "Server key is active and configured. You do not need to enter a key unless you want to use your own personal JSON2Video account."
+                  : selectedEngine === "google-veo"
                   ? "Your Google AI Studio key is configured on the server. Make sure billing is enabled on your Google Cloud project for Veo 3.1 video access."
                   : "Fal.ai provides $10 free credits upon signup for Kling 2.1 and Wan 2.1 video generation."}
               </p>
