@@ -158,34 +158,44 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     keywords: "ai image generator free, text to image AI, midjourney alternative free, stable diffusion online free, ai art generator"
   },
   "ai-humanizer": {
-    title: "AI Text Humanizer — Free Online | Toolifia",
-    description: "Rewrite AI-generated drafts into natural, human-like writing with improved sentence flow, burstiness, and readability. Free online.",
-    keywords: "ai humanizer free, ai text rewriter, natural language enhancer, humanize chatgpt, make ai text human, ai writing assistant"
+    title: "AI Humanizer Free No Sign Up — Humanize AI Text Online | Toolifia",
+    description: "Free AI text humanizer with no sign up required. Humanize AI text, rewrite robotic phrasing into natural prose, and improve flow. 100% free online tool.",
+    keywords: "ai humanizer free no sign up, ai humanizer without changing text free, how can i humanize ai text for free, ai humanizer for free, ai humanizer free unlimited word count, ai humanizer tool free online"
   },
   "ai-detector": {
-    title: "AI Content Detector — Free Online | Toolifia",
-    description: "Analyze text for AI probability and phrasing patterns. Check perplexity and structural signatures from ChatGPT, Claude, or Gemini.",
-    keywords: "ai content detector free, detect chatgpt writing, ai detector no signup, chatgpt detector, ai writing detector"
+    title: "AI Content Detector Free Online — Check ChatGPT Writing | Toolifia",
+    description: "Free online AI content detector and humanizer. Analyze text for AI probability, perplexity, and phrasing patterns instantly. Accurate and 100% free with no signup.",
+    keywords: "ai content detector free online, ai content detector and humanizer free, what is the best free ai content detector, ai content detector free no sign up, ai content detector tools free"
   },
   "json-formatter": {
-    title: "JSON Formatter & Validator | Toolifia",
-    description: "Format, validate, and pretty-print JSON online for free. Instant JSON formatter with syntax highlighting and minification.",
-    keywords: "json formatter online free, json validator, pretty print json, json beautifier, format json online, json minifier"
+    title: "JSON Formatter Online Free — Pretty Print & Beautify JSON | Toolifia",
+    description: "Free online JSON formatter, beautifier, and validator with no login required. Format, pretty-print, validate, and minify JSON code instantly in your browser.",
+    keywords: "json formatter online free, json formatter free online, json formatter online free no login, how to json format in notepad ++, json beautifier free online"
   },
   "meta-tag-generator": {
-    title: "Meta Tag Generator for SEO | Toolifia",
-    description: "Generate perfect HTML meta tags for SEO. Build meta title, meta description, robots, canonical tags, and Open Graph cards.",
-    keywords: "meta tag generator free, seo meta tags, title tag generator, meta description generator, open graph generator"
+    title: "Meta Description & Title Checker Free — SEO Tag Generator | Toolifia",
+    description: "Free meta title and description checker & generator. Build HTML meta tags, Open Graph cards, and preview search snippets. 100% free SEO tool.",
+    keywords: "meta description length checker free, meta title and description checker free, meta description checker free, title tag and meta description length tools, meta description checker online"
   },
   "meta-title-length-checker": {
-    title: "Meta Title Length Checker | Toolifia",
-    description: "Check meta title and description character length & pixel width for Google SERP with live search snippet preview.",
-    keywords: "meta title checker, meta description length, meta title length checker, seo title length checker, meta length"
+    title: "Meta Title Length Checker Online Free — SERP Character & Pixel Tool | Toolifia",
+    description: "Free online meta title length checker with live Google SERP preview. Check meta title and description character limits and pixel width. 100% free online.",
+    keywords: "meta title length checker online, meta title and description length checker, what is meta title character limit, meta title length in pixels, recommended meta title length for seo"
   },
   "keyword-density-checker": {
-    title: "Keyword Density Analyzer | Toolifia",
-    description: "Analyze keyword density, frequency ratios, and 1/2/3-word n-grams online for free. Prevent keyword stuffing for Google SEO.",
-    keywords: "keyword density tool, keyword density analyzer tool, keyword density, analyze keyword density, keyword density tool seo"
+    title: "Keyword Density Checker Online Free — SEO Content Analyzer | Toolifia",
+    description: "Free online keyword density checker and analysis tool. Calculate keyword frequency, ratios, and avoid over-optimization penalties instantly with no signup.",
+    keywords: "keyword density checker online free, keyword density tool free, keyword density analyzer free, what is keyword density checker, keyword density checker tools"
+  },
+  "subdomain-finder": {
+    title: "Subdomain Finder Online Free — Enumerate & Scan Subdomains | Toolifia",
+    description: "Free online subdomain finder and scanner. Discover active subdomains, IP addresses, and public DNS records instantly for any domain. 100% free with no signup.",
+    keywords: "subdomain finder online free, subdomain finder free api, how does a subdomain finder work, free subdomain scanner, subdomain lookup free, subdomain scanner online free"
+  },
+  "base64-encoder": {
+    title: "Base64 Encoder Online Free — Text & Image to Base64 Tool | Toolifia",
+    description: "Free online Base64 encoder and decoder. Encode text, images, and files into Base64 format instantly. 100% client-side with zero data uploads.",
+    keywords: "base64 encoder online free, base64 image encoder free, base64 encoder and decoder online, how to base64 encode a string, base64 encoder free"
   },
   "open-graph-validator": {
     title: "Open Graph Tag Validator | Toolifia",
@@ -218,9 +228,9 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     keywords: "password generator free, random password generator, strong password generator, secure password maker"
   },
   "bmi-calculator": {
-    title: "Free BMI Calculator Online | Toolifia",
-    description: "Calculate your BMI (Body Mass Index) instantly for free. Supports metric and imperial units with category classification.",
-    keywords: "bmi calculator free, body mass index calculator, bmi calculator online, calculate bmi, bmi checker"
+    title: "BMI Calculator Online Free — Body Mass Index by Age & Gender | Toolifia",
+    description: "Free online BMI calculator for men, women, and kids. Calculate body mass index by age, gender, height (kg/cm or lbs/inches) instantly.",
+    keywords: "bmi calculator online free, bmi calculator by age and gender, is bmi calculator free, which bmi calculator is most accurate, bmi calculator in kg and cm, bmi calculator app free"
   },
   "word-counter": {
     title: "Word & Character Counter | Toolifia",
@@ -253,9 +263,9 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     keywords: "markdown editor online free, live markdown preview, cross-platform markdown editor, online md editor"
   },
   "loan-calculator": {
-    title: "Loan & EMI Calculator Online | Toolifia",
-    description: "Calculate monthly loan EMIs, interest rates & repayment schedules instantly. 100% free online EMI tool.",
-    keywords: "loan calculator free, emi calculator online, loan interest calculator, calculate emi free"
+    title: "Loan EMI Calculator Online Free — Monthly EMI & Loan Schedule | Toolifia",
+    description: "Free online loan EMI calculator. Calculate monthly loan EMIs, interest rates, and full repayment schedules with extra payment options. 100% free.",
+    keywords: "loan emi calculator online free, loan emi calculator app free download, personal loan emi calculator free, home loan emi calculator free, loan comparison calculator with extra payments"
   }
 };
 
