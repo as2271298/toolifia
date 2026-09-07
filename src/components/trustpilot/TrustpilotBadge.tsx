@@ -86,7 +86,7 @@ export function TrustpilotBadge({ variant = "header", className = "" }: Trustpil
             </div>
 
             <p className="text-xs text-slate-400 max-w-md">
-              Rated <strong className="text-white font-semibold">4.9 / 5 Stars</strong> by over 10,000+ happy creators, developers, and marketers worldwide.
+              Read community reviews, user ratings, and feedback for Toolifia&apos;s 130+ free online tools.
             </p>
 
             <div className="flex items-center justify-center sm:justify-start gap-1 text-[#00b67a] pt-1">

@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { TrustpilotBadge } from "@/components/trustpilot/TrustpilotBadge";
 import { ProductHuntBadge } from "@/components/producthunt/ProductHuntBadge";
+import { CookieConsent } from "@/components/common/CookieConsent";
 import { constructMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site.config";
@@ -122,6 +123,7 @@ export default function RootLayout({
         <Footer />
         <TrustpilotBadge variant="floating" />
         <ProductHuntBadge variant="floating" />
+        <CookieConsent />
       </body>
     </html>
   );
