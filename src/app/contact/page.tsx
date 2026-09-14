@@ -30,14 +30,25 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
         <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
-          <MessageSquare className="w-6 h-6 text-brand-500 mx-auto" />
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white">Online Support</h3>
+          <Mail className="w-6 h-6 text-brand-500 mx-auto" />
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white">Direct Email</h3>
+          <a
+            href="mailto:toolifia.ai@gmail.com"
+            className="text-xs text-brand-600 dark:text-brand-400 font-semibold hover:underline block break-all"
+          >
+            toolifia.ai@gmail.com
+          </a>
+          <p className="text-[11px] text-slate-400">Response within 24–48h</p>
+        </div>
+        <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
+          <MessageSquare className="w-6 h-6 text-indigo-500 mx-auto" />
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white">Online Form</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400">
             Submit your inquiry directly using the form below.
           </p>
-          <p className="text-[11px] text-slate-400">Response within 24–48h</p>
+          <p className="text-[11px] text-slate-400">Instant submission</p>
         </div>
         <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
           <Zap className="w-6 h-6 text-amber-500 mx-auto" />
@@ -53,13 +64,33 @@ export default function ContactPage() {
         </div>
       </div>
 
+      {/* Direct Email Callout Banner */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-brand-500/10 via-purple-500/5 to-slate-900/10 border border-brand-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-brand-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-brand-500/20">
+            <Mail className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">Prefer sending an email directly?</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Reach our team anytime for partnerships, API inquiries, or general support.</p>
+          </div>
+        </div>
+        <a
+          href="mailto:toolifia.ai@gmail.com"
+          className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-lg shadow-brand-500/20 transition-all shrink-0"
+        >
+          toolifia.ai@gmail.com
+        </a>
+      </div>
+
       {/* Structured Inquiries Guide */}
       <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-600 dark:text-slate-400 space-y-3">
         <h2 className="text-base font-bold text-slate-900 dark:text-white">Before You Contact Us</h2>
         <ul className="list-disc pl-5 space-y-1.5 leading-relaxed">
+          <li><strong>Direct Correspondence:</strong> You can write to our engineering and editorial team directly at <a href="mailto:toolifia.ai@gmail.com" className="text-brand-500 font-semibold hover:underline">toolifia.ai@gmail.com</a>.</li>
           <li><strong>API Integration:</strong> For questions about our tool REST endpoints, check the "REST API Docs" tab on individual tool pages for live cURL samples.</li>
           <li><strong>Data Inquiries &amp; Privacy:</strong> Most utilities operate entirely client-side. We do not store or retain user data. For full details, review our <a href="/privacy" className="text-brand-500 font-semibold hover:underline">Privacy Policy</a>.</li>
-          <li><strong>Copyright &amp; DMCA:</strong> To submit an intellectual property inquiry, include the URL and specific details in the message form below.</li>
+          <li><strong>Copyright &amp; DMCA:</strong> To submit an intellectual property inquiry, send documentation directly to <a href="mailto:toolifia.ai@gmail.com" className="text-brand-500 font-semibold hover:underline">toolifia.ai@gmail.com</a> or use the message form below.</li>
         </ul>
       </div>
 

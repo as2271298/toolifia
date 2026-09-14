@@ -4,7 +4,7 @@ import { CATEGORIES } from "@/config/categories.registry";
 import { Logo } from "../common/Logo";
 import { TrustpilotBadge } from "../trustpilot/TrustpilotBadge";
 import { ProductHuntBadge } from "../producthunt/ProductHuntBadge";
-import { Github, Twitter, Linkedin, Heart, ShieldCheck, Facebook, Instagram, Youtube } from "lucide-react";
+import { Github, Twitter, Linkedin, Heart, ShieldCheck, Facebook, Instagram, Youtube, Mail } from "lucide-react";
 
 export function Footer() {
   return (
@@ -153,6 +153,15 @@ export function Footer() {
                 <Link href="/blog" className="hover:text-brand-400 transition-colors">
                   Blog & Tech Guides
                 </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:toolifia.ai@gmail.com"
+                  className="hover:text-brand-400 transition-colors flex items-center gap-1.5"
+                >
+                  <Mail className="w-3 h-3 shrink-0" />
+                  toolifia.ai@gmail.com
+                </a>
               </li>
             </ul>
           </div>
