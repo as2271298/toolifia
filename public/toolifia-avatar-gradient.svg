@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <linearGradient id="vibrantBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4338ca" />
+      <stop offset="35%" stop-color="#6366f1" />
+      <stop offset="70%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#c026d3" />
+    </linearGradient>
+
+    <radialGradient id="vibrantHighlight" cx="35%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25" />
+      <stop offset="60%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+
+    <filter id="vibrantShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#1e1b4b" flood-opacity="0.5" />
+    </filter>
+
+    <filter id="whiteGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <clipPath id="circleClip2">
+    <circle cx="540" cy="540" r="540" />
+  </clipPath>
+
+  <g clip-path="url(#circleClip2)">
+    <!-- Base Gradient Background -->
+    <circle cx="540" cy="540" r="540" fill="url(#vibrantBg)" />
+
+    <!-- Top-Left Soft Light Refraction -->
+    <circle cx="540" cy="540" r="540" fill="url(#vibrantHighlight)" />
+
+    <!-- Subtle Outer Border Accent -->
+    <circle cx="540" cy="540" r="520" fill="none" stroke="#ffffff" stroke-width="12" opacity="0.3" />
+
+    <!-- Monogram T -->
+    <g filter="url(#vibrantShadow)">
+      <!-- T Stem -->
+      <path d="M540 280 v520" stroke="#ffffff" stroke-width="88" stroke-linecap="round" />
+      <!-- T Crossbar -->
+      <path d="M290 280 h500" stroke="#ffffff" stroke-width="88" stroke-linecap="round" />
+    </g>
+
+    <!-- Top-Right Sparkle -->
+    <g filter="url(#whiteGlow)">
+      <path d="M780 440 Q 820 440 820 400 Q 820 440 860 440 Q 820 440 820 480 Q 820 440 780 440 Z" fill="#67e8f9" />
+      <circle cx="820" cy="440" r="8" fill="#ffffff" />
+    </g>
+
+    <!-- Bottom-Left Sparkle -->
+    <g filter="url(#whiteGlow)">
+      <path d="M260 620 Q 290 620 290 590 Q 290 620 320 620 Q 290 620 290 650 Q 290 620 260 620 Z" fill="#fbcfe8" />
+      <circle cx="290" cy="620" r="6" fill="#ffffff" />
+    </g>
+
+    <!-- Micro accent -->
+    <circle cx="730" cy="270" r="10" fill="#ffffff" opacity="0.9" filter="url(#whiteGlow)" />
+  </g>
+</svg>

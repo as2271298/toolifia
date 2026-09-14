@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <!-- Outer Ring Gradient -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="35%" stop-color="#8b5cf6" />
+      <stop offset="70%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <!-- Deep Midnight Background -->
+    <radialGradient id="bgDark" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="45%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <!-- Subtle Inner Glow -->
+    <radialGradient id="centerGlow" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.35" />
+      <stop offset="60%" stop-color="#8b5cf6" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Drop Shadow Filter for Monogram -->
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#4f46e5" flood-opacity="0.6" />
+    </filter>
+
+    <filter id="sparkleGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Clip path ensuring exact circular crop -->
+  <clipPath id="circleClip">
+    <circle cx="540" cy="540" r="540" />
+  </clipPath>
+
+  <g clip-path="url(#circleClip)">
+    <!-- Base Background Circle -->
+    <circle cx="540" cy="540" r="540" fill="url(#bgDark)" />
+
+    <!-- Ambient Center Light -->
+    <circle cx="540" cy="500" r="460" fill="url(#centerGlow)" />
+
+    <!-- Outer Neon Ring (Inset slightly so it never gets clipped) -->
+    <circle cx="540" cy="540" r="508" fill="none" stroke="url(#ringGrad)" stroke-width="24" opacity="0.9" />
+
+    <!-- Subtle Inner Border -->
+    <circle cx="540" cy="540" r="488" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.12" />
+
+    <!-- Monogram Group (Centered with generous breathing room for social circles) -->
+    <g filter="url(#shadow)">
+      <!-- T Stem -->
+      <path d="M540 280 v520" stroke="#ffffff" stroke-width="84" stroke-linecap="round" />
+      <!-- T Crossbar -->
+      <path d="M290 280 h500" stroke="#ffffff" stroke-width="84" stroke-linecap="round" />
+    </g>
+
+    <!-- Top-Right AI Sparkle (Neon Violet/Cyan) -->
+    <g filter="url(#sparkleGlow)">
+      <path d="M780 440 Q 820 440 820 400 Q 820 440 860 440 Q 820 440 820 480 Q 820 440 780 440 Z" fill="#38bdf8" />
+      <circle cx="820" cy="440" r="8" fill="#ffffff" />
+    </g>
+
+    <!-- Bottom-Left AI Sparkle (Emerald/Mint) -->
+    <g filter="url(#sparkleGlow)">
+      <path d="M260 620 Q 290 620 290 590 Q 290 620 320 620 Q 290 620 290 650 Q 290 620 260 620 Z" fill="#a78bfa" />
+      <circle cx="290" cy="620" r="6" fill="#ffffff" />
+    </g>
+
+    <!-- Mini Star Accent -->
+    <circle cx="730" cy="270" r="10" fill="#f472b6" opacity="0.9" filter="url(#sparkleGlow)" />
+  </g>
+</svg>
