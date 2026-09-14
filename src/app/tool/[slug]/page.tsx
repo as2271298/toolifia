@@ -21,6 +21,7 @@ import { AiVideoGenerator } from "@/components/tools/ai/AiVideoGenerator";
 
 // SEO Suite
 import { MetaTagGenerator } from "@/components/tools/seo/MetaTagGenerator";
+import { AeoGenerator } from "@/components/tools/seo/AeoGenerator";
 import { SchemaGenerator } from "@/components/tools/seo/SchemaGenerator";
 import { RobotsGenerator } from "@/components/tools/seo/RobotsGenerator";
 import { SitemapGenerator } from "@/components/tools/seo/SitemapGenerator";
@@ -147,6 +148,17 @@ export async function generateStaticParams() {
 
 // Custom per-tool SEO overrides for top Google rankings
 const CUSTOM_METADATA: Record<string, { title: string; description: string; keywords: string }> = {
+  "prompt-generator": {
+    title: "AI Prompt Engineering Studio Free — ChatGPT, Claude & Midjourney | Toolifia",
+    description: "Free enterprise AI prompt generator and optimizer. Build prompts using CRISPE, Chain-of-Thought, Midjourney v6 parameters, and Kling AI Video dynamics. No signup required.",
+    keywords: "prompt generator free, ai prompt engineering tool, chatgpt prompt generator, midjourney prompt builder, prompt optimizer free, claude prompt generator"
+  },
+  "aeo-generator": {
+    title: "Answer Engine Optimizer (AEO) — Rank in Perplexity & ChatGPT Search | Toolifia",
+    description: "Free Answer Engine Optimization (AEO) tool. Generate AI search answer capsules, empirical RAG data anchors, and JSON-LD schema for Perplexity and Google AI Overviews.",
+    keywords: "aeo generator, answer engine optimization tool, perplexity seo generator, chatgpt search ranking tool, google ai overviews optimization, schema generator aeo"
+  },
+
   "ai-video-generator": {
     title: "AI Video Generator — Free Online | Toolifia",
     description: "Generate cinematic AI videos from text prompts for free. No signup, no watermark, no credit card. Download MP4 video.",
@@ -301,6 +313,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ tool?: any }>> = {
   "blog-intro-generator": BlogIntroGenerator,
   "social-bio-writer": SocialBioWriter,
   "meta-tag-generator": MetaTagGenerator,
+  "aeo-generator": AeoGenerator,
   "schema-generator": SchemaGenerator,
   "robots-generator": RobotsGenerator,
   "sitemap-generator": SitemapGenerator,

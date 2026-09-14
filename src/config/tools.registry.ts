@@ -2786,7 +2786,54 @@ export const TOOLS: ToolDef[] = [
     faqs: [
       { question: "How long does DNS propagation take?", answer: "DNS changes typically take 24 to 48 hours to fully propagate worldwide." }
     ]
-  }
+  },
+  {
+    slug: "aeo-generator",
+    name: "Answer Engine Optimizer (AEO) & AI Search Capsule Generator",
+    category: "seo-tools",
+    description: "Generate AI-search-optimized answer capsules and JSON-LD schema to rank and get cited in Perplexity, ChatGPT Search, Claude, and Google AI Overviews.",
+    icon: "Cpu",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 3420,
+    keywords: [
+      "aeo generator",
+      "answer engine optimization",
+      "perplexity seo tool",
+      "ai search optimization",
+      "chatgpt search ranking",
+      "google ai overviews optimization",
+      "answer capsule generator",
+      "schema generator aeo",
+      "generative engine optimization geo"
+    ],
+    features: [
+      "Generates 40–60 word Direct Answer Capsules targeted for AI extraction",
+      "Extracts bulleted empirical data triples for RAG grounding",
+      "Generates valid Schema.org FAQPage and TechArticle JSON-LD structured data",
+      "Real-time AEO Readiness Score and citation audit checklist"
+    ],
+    benefits: [
+      "Capture high-converting citations in Perplexity, ChatGPT Search, and Copilot",
+      "Rank at the top of Google AI Overviews above traditional blue links",
+      "Protect your brand as an authoritative named entity in LLM training datasets"
+    ],
+    howTo: [
+      "Enter your target question or user search query.",
+      "Draft a concise, definitive direct answer capsule (40–60 words).",
+      "Add 3–5 bulleted empirical data points with exact figures or benchmarks.",
+      "Audit your AEO Readiness Score and copy the ready-to-use HTML, Markdown, or JSON-LD schema."
+    ],
+    commonMistakes: [
+      "Writing 200-word introductory fluff instead of leading with the direct answer.",
+      "Using vague pronouns (It, They) in the first sentence instead of explicitly naming the entity."
+    ],
+    faqs: [
+      { question: "What is Answer Engine Optimization (AEO)?", answer: "AEO is the specialized branch of search optimization focused on structuring web content so that AI engines (Perplexity, ChatGPT Search, Google AI Overviews) select and cite your page as their primary factual source." },
+      { question: "How does AEO differ from traditional SEO?", answer: "Traditional SEO focuses on keyword rankings and search engine results page (SERP) click-through rates. AEO focuses on entity recognition, empirical data grounding, direct answer extraction, and RAG citation frequency." }
+    ]
+  },
 ];
 
 
