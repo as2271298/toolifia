@@ -22,6 +22,8 @@ const SEO_PRIORITY_SLUGS = [
   "best-free-ai-video-generator-higgsfield-alternative-2025",
   "how-to-make-ai-videos-for-free-tiktok-reels-shorts",
   "kling-ai-free-online-alternative-toolifia",
+  "answer-engine-optimization-aeo-guide-2026",
+  "advanced-prompt-engineering-examples-frameworks-2026",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
