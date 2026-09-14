@@ -1,7 +1,10 @@
-"use client";
+﻿"use client";
 
-import React, { useState } from "react";
-import { Sparkles, Download, RefreshCw, Image as ImageIcon, Wand2, Sliders, Check, Copy } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+  Sparkles, Download, RefreshCw, Image as ImageIcon, Wand2,
+  Sliders, Check, Copy, Key, Zap, Cpu, AlertCircle, ExternalLink
+} from "lucide-react";
 
 const STYLES = [
   { id: "photorealistic", name: "Photorealistic 8K", icon: "📷", promptSuffix: "photorealistic, 8k resolution, highly detailed, professional photography, studio lighting" },
@@ -22,37 +25,87 @@ export function AiImageGenerator() {
   const [prompt, setPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("photorealistic");
   const [aspectRatio, setAspectRatio] = useState("1:1");
+  const [selectedEngine, setSelectedEngine] = useState<"agnes" | "pollinations">("agnes");
+  const [customKey, setCustomKey] = useState("");
+  const [showKeyModal, setShowKeyModal] = useState(false);
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [seed, setSeed] = useState<number>(() => Math.floor(Math.random() * 1000000));
   const [copied, setCopied] = useState(false);
+  const [errorDetails, setErrorDetails] = useState<{ title: string; desc: string; link?: string; linkText?: string } | null>(null);
 
-  const handleGenerate = () => {
+  useEffect(() => {
+    const savedAgnes = localStorage.getItem("toolifia_agnes_api_key");
+    if (savedAgnes) setCustomKey(savedAgnes);
+  }, []);
+
+  const handleGenerate = async () => {
     if (!prompt.trim()) return;
     setIsGenerating(true);
     setGeneratedImage(null);
+    setErrorDetails(null);
 
     const styleObj = STYLES.find((s) => s.id === selectedStyle);
     const aspectObj = ASPECT_RATIOS.find((a) => a.id === aspectRatio) || ASPECT_RATIOS[0];
     const newSeed = Math.floor(Math.random() * 1000000);
     setSeed(newSeed);
 
-    const fullPrompt = encodeURIComponent(`${prompt.trim()}, ${styleObj?.promptSuffix || ""}`);
-    const imageUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=${aspectObj.width}&height=${aspectObj.height}&seed=${newSeed}&nologo=true`;
+    try {
+      const res = await fetch("/api/image/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: prompt.trim(),
+          engine: selectedEngine,
+          aspectRatio,
+          styleSuffix: styleObj?.promptSuffix || "",
+          apiKey: customKey,
+        }),
+      });
 
-    // Preload image
-    const img = new Image();
-    img.src = imageUrl;
-    img.onload = () => {
-      setGeneratedImage(imageUrl);
-      setIsGenerating(false);
-    };
-    img.onerror = () => {
-      // Fallback generator URL
-      const fallbackUrl = `https://picsum.photos/seed/${newSeed}/${aspectObj.width}/${aspectObj.height}`;
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        if (data.errorType === "AGNES_KEY_MISSING") {
+          setErrorDetails({
+            title: "Agnes AI Key Required",
+            desc: "Agnes provides free API keys for AI image & video generation with agnes-image-2.5-flash. Get your free key at platform.agnes-ai.com, or switch to the Instant Free engine.",
+            link: "https://platform.agnes-ai.com",
+            linkText: "Get Free Agnes Key →",
+          });
+        } else {
+          setErrorDetails({
+            title: "Generation Failed",
+            desc: data.error || "Failed to generate image. You can switch to the Instant Free engine.",
+          });
+        }
+        setIsGenerating(false);
+        return;
+      }
+
+      if (data.imageUrl) {
+        // Preload image
+        const img = new Image();
+        img.src = data.imageUrl;
+        img.onload = () => {
+          setGeneratedImage(data.imageUrl);
+          setIsGenerating(false);
+        };
+        img.onerror = () => {
+          setGeneratedImage(data.imageUrl);
+          setIsGenerating(false);
+        };
+      } else {
+        throw new Error("No image output returned");
+      }
+    } catch (err: any) {
+      // Fallback
+      const fullPrompt = encodeURIComponent(`${prompt.trim()}, ${styleObj?.promptSuffix || ""}`);
+      const fallbackUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=${aspectObj.width}&height=${aspectObj.height}&seed=${newSeed}&nologo=true`;
       setGeneratedImage(fallbackUrl);
       setIsGenerating(false);
-    };
+    }
   };
 
   const handleCopyPrompt = () => {
@@ -64,6 +117,61 @@ export function AiImageGenerator() {
 
   return (
     <div className="space-y-6">
+      {/* Engine Switcher Banner */}
+      <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-white shadow-lg">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold">Image AI Engine:</span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-[10px] font-bold">
+                {selectedEngine === "agnes" ? "Agnes AI (2.5 Flash)" : "Pollinations (Instant Free)"}
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400">
+              {selectedEngine === "agnes"
+                ? "Powered by Agnes AI cloud platform (agnes-image-2.5-flash)"
+                : "Instant diffusion synthesis with zero configuration needed"}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+          <button
+            type="button"
+            onClick={() => setSelectedEngine("agnes")}
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              selectedEngine === "agnes"
+                ? "bg-purple-600 text-white shadow-sm"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Cpu className="w-3.5 h-3.5" /> Agnes 2.5 Flash
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedEngine("pollinations")}
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              selectedEngine === "pollinations"
+                ? "bg-purple-600 text-white shadow-sm"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-300" /> Instant Free
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowKeyModal(true)}
+            className="px-2 py-1 rounded-lg text-slate-400 hover:text-white text-xs border border-slate-800 hover:border-slate-700"
+            title="Configure Agnes API Key"
+          >
+            <Key className="w-3.5 h-3.5 text-purple-400" />
+          </button>
+        </div>
+      </div>
+
       {/* Control Card */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-white shadow-xl space-y-5">
         <div>
@@ -138,12 +246,12 @@ export function AiImageGenerator() {
             {isGenerating ? (
               <>
                 <RefreshCw className="w-4 h-4 animate-spin" />
-                Generating AI Image...
+                Generating AI Image ({selectedEngine === "agnes" ? "Agnes AI" : "Free Engine"})...
               </>
             ) : (
               <>
                 <Sparkles className="w-4 h-4" />
-                Generate AI Image (Free)
+                Generate AI Image ({selectedEngine === "agnes" ? "Agnes 2.5 Flash" : "Instant Free"})
               </>
             )}
           </button>
@@ -158,6 +266,43 @@ export function AiImageGenerator() {
             </button>
           )}
         </div>
+
+        {/* Error / Key Notification */}
+        {errorDetails && (
+          <div className="p-4 rounded-2xl bg-amber-950/40 border border-amber-800/60 text-amber-200 text-xs space-y-2.5">
+            <div className="flex items-start gap-2.5">
+              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <div>
+                <h4 className="font-bold text-white">{errorDetails.title}</h4>
+                <p className="mt-0.5 text-amber-300/90 leading-relaxed">{errorDetails.desc}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {errorDetails.link && (
+                <a
+                  href={errorDetails.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold hover:bg-amber-400 transition-colors"
+                >
+                  {errorDetails.linkText || "Open Agnes Platform →"}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedEngine("pollinations");
+                  setErrorDetails(null);
+                  handleGenerate();
+                }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors shadow-sm"
+              >
+                <Zap className="w-3 h-3 text-amber-300" /> Generate with Instant Free Engine →
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Output Display Card */}
@@ -166,7 +311,7 @@ export function AiImageGenerator() {
           <div className="py-20 flex flex-col items-center justify-center space-y-4">
             <div className="w-16 h-16 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
             <p className="text-purple-300 text-sm font-medium animate-pulse">
-              Synthesizing pixels with Neural AI Diffusion Engine...
+              Synthesizing pixels with {selectedEngine === "agnes" ? "Agnes AI (agnes-image-2.5-flash)" : "Neural AI Diffusion"}...
             </p>
           </div>
         ) : generatedImage ? (
@@ -205,11 +350,71 @@ export function AiImageGenerator() {
             </div>
             <p className="text-sm font-medium text-slate-400">Your AI-generated artwork will appear here</p>
             <p className="text-xs text-slate-600 max-w-sm">
-              Type a prompt above and select your favorite style to create instant photorealistic or artistic images.
+              Type a prompt above and select your favorite style to create instant photorealistic or artistic images with Agnes AI or Instant Free.
             </p>
           </div>
         )}
       </div>
+
+      {/* API Key Modal */}
+      {showKeyModal && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-md rounded-3xl bg-slate-900 border border-slate-800 p-6 text-white shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center">
+                  <Key className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white">Agnes AI Key Settings</h3>
+                  <p className="text-[11px] text-slate-400">Configure your Agnes AI Platform key</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowKeyModal(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-slate-300">Agnes API Key</label>
+              <input
+                type="password"
+                value={customKey}
+                onChange={(e) => {
+                  setCustomKey(e.target.value);
+                  localStorage.setItem("toolifia_agnes_api_key", e.target.value);
+                }}
+                placeholder="Enter Agnes key from platform.agnes-ai.com..."
+                className="w-full rounded-xl bg-slate-950 border border-slate-800 px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-purple-500"
+              />
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Free keys are available instantly from{" "}
+                <a
+                  href="https://platform.agnes-ai.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-purple-400 underline"
+                >
+                  platform.agnes-ai.com
+                </a>
+                . Keys are saved locally in your browser.
+              </p>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                onClick={() => setShowKeyModal(false)}
+                className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white shadow-md"
+              >
+                Save & Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -51,8 +51,8 @@ export function AiVideoGenerator() {
   const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16" | "1:1">("16:9");
   const [duration, setDuration] = useState("5");
 
-  // Engines: "json2video" (Fast MP4 Engine) | "google-veo" (Google AI Studio) | "fal-ai" (Kling 2.1)
-  const [selectedEngine, setSelectedEngine] = useState<"json2video" | "google-veo" | "fal-ai">("json2video");
+  // Engines: "json2video" (Fast MP4 Engine) | "agnes" (Agnes Video 2.5) | "google-veo" (Google AI Studio) | "fal-ai" (Kling 2.1)
+  const [selectedEngine, setSelectedEngine] = useState<"json2video" | "agnes" | "google-veo" | "fal-ai">("json2video");
   const [customKey, setCustomKey] = useState("");
   const [showKeyModal, setShowKeyModal] = useState(false);
 
@@ -75,9 +75,11 @@ export function AiVideoGenerator() {
 
   useEffect(() => {
     const savedJson2Video = localStorage.getItem("toolifia_json2video_key");
+    const savedAgnes = localStorage.getItem("toolifia_agnes_api_key");
     const savedFal = localStorage.getItem("toolifia_fal_key");
     const savedGemini = localStorage.getItem("toolifia_gemini_api_key");
     if (selectedEngine === "json2video" && savedJson2Video) setCustomKey(savedJson2Video);
+    if (selectedEngine === "agnes" && savedAgnes) setCustomKey(savedAgnes);
     if (selectedEngine === "fal-ai" && savedFal) setCustomKey(savedFal);
     if (selectedEngine === "google-veo" && savedGemini) setCustomKey(savedGemini);
   }, [selectedEngine]);
@@ -124,6 +126,8 @@ export function AiVideoGenerator() {
     setStatusMessage(
       selectedEngine === "json2video"
         ? "Synthesizing cinematic visuals & camera trajectory..."
+        : selectedEngine === "agnes"
+        ? "Connecting to Agnes Video 2.5 Flash Engine..."
         : selectedEngine === "google-veo"
         ? "Connecting to Google Veo 3.1..."
         : "Connecting to Kling 2.1 Video Engine..."
@@ -171,7 +175,14 @@ export function AiVideoGenerator() {
 
       if (!res.ok || !data.success) {
         setStatus("error");
-        if (data.errorType === "VEO_QUOTA_EXHAUSTED") {
+        if (data.errorType === "AGNES_KEY_MISSING") {
+          setErrorDetails({
+            title: "Agnes AI Key Required",
+            desc: "Agnes provides free API keys for AI video & image generation. Get your free key at platform.agnes-ai.com, or switch to the Fast MP4 Engine.",
+            link: "https://platform.agnes-ai.com",
+            linkText: "Get Free Agnes Key →",
+          });
+        } else if (data.errorType === "VEO_QUOTA_EXHAUSTED") {
           setErrorDetails({
             title: "Google Veo Quota Limit (Billing Required)",
             desc: "Google AI Studio offers free tier for Gemini text and multimodal chat models, but Google Veo (Video Generation) requires a Google Cloud project with Billing enabled. Free-tier Google keys currently have a Veo video quota of 0 requests/min.",
@@ -210,6 +221,10 @@ export function AiVideoGenerator() {
         // Poll JSON2Video status
         setStatusMessage("Encoding video on cloud render cluster...");
         await pollJson2Video(data.projectId);
+      } else if (data.projectId && selectedEngine === "agnes") {
+        // Poll Agnes status
+        setStatusMessage("Generating video frames on Agnes AI cluster...");
+        await pollAgnesVideo(data.projectId);
       } else if (data.statusUrl && selectedEngine === "fal-ai") {
         // Poll Fal.ai status
         setStatusMessage("Waiting for Kling 2.1 GPU queue...");
@@ -229,6 +244,47 @@ export function AiVideoGenerator() {
         desc: err.message || "Could not reach the video generation server. Please try again."
       });
     }
+  };
+
+  const pollAgnesVideo = async (projectId: string) => {
+    let attempts = 0;
+    const maxAttempts = 35;
+
+    const interval = setInterval(async () => {
+      attempts++;
+      try {
+        const queryUrl = `/api/video/generate?project=${encodeURIComponent(projectId)}&engine=agnes${
+          customKey ? `&apiKey=${encodeURIComponent(customKey)}` : ""
+        }`;
+        const checkRes = await fetch(queryUrl);
+        const pollData = await checkRes.json();
+
+        if (pollData.status === "done" && pollData.videoUrl) {
+          clearInterval(interval);
+          setVideoUrl(pollData.videoUrl);
+          setProgress(100);
+          setStatus("done");
+        } else if (pollData.status === "error") {
+          clearInterval(interval);
+          setStatus("error");
+          setErrorDetails({
+            title: "Agnes Video Error",
+            desc: pollData.message || "The video generation failed on the Agnes AI engine.",
+          });
+        } else {
+          setProgress((prev) => Math.min(prev + 2, 96));
+        }
+      } catch (e: any) {
+        if (attempts >= maxAttempts) {
+          clearInterval(interval);
+          setStatus("error");
+          setErrorDetails({
+            title: "Timeout",
+            desc: "Video generation took longer than expected. Please try again.",
+          });
+        }
+      }
+    }, 2500);
   };
 
   const pollJson2Video = async (projectId: string) => {
@@ -351,7 +407,7 @@ export function AiVideoGenerator() {
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-bold text-white">AI Video Generator (Real MP4 Video)</h2>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] font-bold">
-                {selectedEngine === "json2video" ? "⚡ Fast MP4 Engine (Active)" : selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1 Standard"}
+                {selectedEngine === "json2video" ? "⚡ Fast MP4 Engine (Active)" : selectedEngine === "agnes" ? "Agnes Video 2.5 Flash" : selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1 Standard"}
               </span>
             </div>
             <p className="text-xs text-slate-400">
@@ -371,6 +427,16 @@ export function AiVideoGenerator() {
             }`}
           >
             <Zap className="w-3.5 h-3.5 text-amber-300" /> Fast MP4 (Real)
+          </button>
+          <button
+            onClick={() => setSelectedEngine("agnes")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              selectedEngine === "agnes"
+                ? "bg-rose-600 text-white shadow-md"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-rose-300" /> Agnes Video 2.5
           </button>
           <button
             onClick={() => setSelectedEngine("google-veo")}
@@ -611,7 +677,7 @@ export function AiVideoGenerator() {
               ) : (
                 <>
                   <Zap className="w-5 h-5 text-amber-300" />
-                  Generate Real MP4 Video ({selectedEngine === "json2video" ? "Fast MP4 Engine" : selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1"})
+                  Generate Real MP4 Video ({selectedEngine === "json2video" ? "Fast MP4 Engine" : selectedEngine === "agnes" ? "Agnes Video 2.5" : selectedEngine === "google-veo" ? "Google Veo 3.1" : "Kling 2.1"})
                 </>
               )}
             </button>
@@ -765,6 +831,8 @@ export function AiVideoGenerator() {
                   <p className="text-[11px] text-slate-400">
                     {selectedEngine === "json2video"
                       ? "Fast MP4 Engine (Pre-configured)"
+                      : selectedEngine === "agnes"
+                      ? "Agnes AI Platform Key"
                       : selectedEngine === "google-veo"
                       ? "Google AI Studio Key"
                       : "Fal.ai API Key"}
@@ -783,6 +851,8 @@ export function AiVideoGenerator() {
               <label className="text-xs font-semibold text-slate-300">
                 {selectedEngine === "json2video"
                   ? "JSON2Video API Key"
+                  : selectedEngine === "agnes"
+                  ? "Agnes AI API Key"
                   : selectedEngine === "google-veo"
                   ? "Google Gemini / Veo API Key"
                   : "Fal.ai API Key (Kling 2.1)"}
@@ -793,12 +863,15 @@ export function AiVideoGenerator() {
                 onChange={(e) => {
                   setCustomKey(e.target.value);
                   if (selectedEngine === "json2video") localStorage.setItem("toolifia_json2video_key", e.target.value);
+                  if (selectedEngine === "agnes") localStorage.setItem("toolifia_agnes_api_key", e.target.value);
                   if (selectedEngine === "fal-ai") localStorage.setItem("toolifia_fal_key", e.target.value);
                   if (selectedEngine === "google-veo") localStorage.setItem("toolifia_gemini_api_key", e.target.value);
                 }}
                 placeholder={
                   selectedEngine === "json2video"
                     ? "Pre-configured server key active (or enter custom key)..."
+                    : selectedEngine === "agnes"
+                    ? "Enter Agnes key from platform.agnes-ai.com..."
                     : selectedEngine === "google-veo"
                     ? "Pre-configured server key active (or enter custom key)..."
                     : "Enter Fal.ai key (e.g. xxxxxxxx-xxxx-xxxx...)"
@@ -808,6 +881,8 @@ export function AiVideoGenerator() {
               <p className="text-[11px] text-slate-400">
                 {selectedEngine === "json2video"
                   ? "Server key is active and configured. You do not need to enter a key unless you want to use your own personal JSON2Video account."
+                  : selectedEngine === "agnes"
+                  ? "Agnes AI provides free API keys at platform.agnes-ai.com with support for agnes-video-2.5-flash and agnes-image-2.5-flash."
                   : selectedEngine === "google-veo"
                   ? "Your Google AI Studio key is configured on the server. Make sure billing is enabled on your Google Cloud project for Veo 3.1 video access."
                   : "Fal.ai provides $10 free credits upon signup for Kling 2.1 and Wan 2.1 video generation."}
