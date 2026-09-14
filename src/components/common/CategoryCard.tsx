@@ -30,40 +30,46 @@ export function CategoryCard({ category }: { category: CategoryDef }) {
   const cfg = CATEGORY_CONFIG[category.slug] ?? DEFAULT_CFG;
 
   return (
-    <Link
-      href={`/category/${category.slug}`}
-      className={`group relative flex flex-col justify-between p-5 rounded-2xl bg-white/[0.025] backdrop-blur-sm border transition-all duration-300 overflow-hidden ${cfg.border} ${cfg.glow} hover:-translate-y-1`}
-    >
-      {/* Background gradient fill on hover */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${cfg.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+    <article className="h-full">
+      <Link
+        href={`/category/${category.slug}`}
+        className={`group relative flex flex-col justify-between h-full p-5 rounded-2xl bg-white/[0.025] backdrop-blur-sm border transition-all duration-300 overflow-hidden ${cfg.border} ${cfg.glow} hover:-translate-y-1`}
+        aria-label={`${category.name} tools category`}
+      >
+        {/* Background gradient fill on hover */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${cfg.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
 
-      <div className="relative z-10">
-        {/* Top row: emoji + count */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="w-11 h-11 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-lg">
-            {cfg.emoji}
+        <div className="relative z-10">
+          {/* Top row: emoji + count */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-11 h-11 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-lg" aria-hidden="true">
+              {cfg.emoji}
+            </div>
+            <span className="text-[10px] font-semibold font-mono text-slate-400 bg-white/[0.05] border border-white/[0.08] px-2.5 py-1 rounded-full">
+              {toolsCount > 0 ? `${toolsCount} tools` : "active"}
+            </span>
+            <span className="sr-only">. </span>
           </div>
-          <span className="text-[10px] font-semibold font-mono text-slate-400 bg-white/[0.05] border border-white/[0.08] px-2.5 py-1 rounded-full">
-            {toolsCount > 0 ? `${toolsCount} tools` : "active"}
-          </span>
+
+          {/* Category name */}
+          <h3 className="text-sm font-bold text-white group-hover:text-white transition-colors mb-1.5 leading-snug">
+            {category.name}
+          </h3>
+          <span className="sr-only">. </span>
+
+          {/* Description */}
+          <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+            {category.description}
+          </p>
+          <span className="sr-only">. </span>
         </div>
 
-        {/* Category name */}
-        <h3 className="text-sm font-bold text-white group-hover:text-white transition-colors mb-1.5 leading-snug">
-          {category.name}
-        </h3>
-
-        {/* Description */}
-        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-          {category.description}
-        </p>
-      </div>
-
-      {/* Footer */}
-      <div className="relative z-10 flex items-center gap-1.5 text-xs font-semibold text-slate-400 group-hover:text-white pt-3.5 mt-4 border-t border-white/[0.06] transition-colors duration-200">
-        <span>Explore</span>
-        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
-      </div>
-    </Link>
+        {/* Footer */}
+        <div className="relative z-10 flex items-center gap-1.5 text-xs font-semibold text-slate-400 group-hover:text-white pt-3.5 mt-4 border-t border-white/[0.06] transition-colors duration-200">
+          <span>Explore {category.name}</span>
+          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+        </div>
+      </Link>
+    </article>
   );
 }

@@ -30,62 +30,85 @@ export function ToolCard({ tool }: { tool: ToolDef }) {
   const cfg = CATEGORY_CONFIG[tool.category] ?? DEFAULT_CONFIG;
 
   return (
-    <Link
-      href={`/tool/${tool.slug}`}
-      className={`group relative flex flex-col justify-between p-5 rounded-2xl glass-card ${cfg.glowClass} overflow-hidden`}
-    >
-      {/* Gradient top border accent */}
-      <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${cfg.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl`} />
+    <article className="h-full">
+      <Link
+        href={`/tool/${tool.slug}`}
+        className={`group relative flex flex-col justify-between h-full p-5 rounded-2xl glass-card ${cfg.glowClass} overflow-hidden`}
+        aria-label={`${tool.name} - Free online tool`}
+      >
+        {/* Gradient top border accent */}
+        <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${cfg.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl`} />
 
-      {/* Subtle background gradient on hover */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${cfg.gradient} opacity-0 group-hover:opacity-[0.04] transition-opacity duration-300 rounded-2xl`} />
+        {/* Subtle background gradient on hover */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${cfg.gradient} opacity-0 group-hover:opacity-[0.04] transition-opacity duration-300 rounded-2xl`} />
 
-      <div className="relative z-10">
-        {/* Header row */}
-        <div className="flex items-start justify-between gap-2 mb-4">
-          {/* Icon with category gradient background */}
-          <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${cfg.bgIcon} group-hover:scale-110 transition-transform duration-300`}>
-            <Sparkles className={`w-4.5 h-4.5 ${cfg.textColor}`} />
+        <div className="relative z-10">
+          {/* Header row */}
+          <div className="flex items-start justify-between gap-2 mb-4">
+            {/* Icon with category gradient background */}
+            <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${cfg.bgIcon} group-hover:scale-110 transition-transform duration-300`} aria-hidden="true">
+              <Sparkles className={`w-4.5 h-4.5 ${cfg.textColor}`} />
+            </div>
+
+            {/* Badges */}
+            <div className="flex items-center gap-1.5 flex-wrap justify-end">
+              {tool.trending && (
+                <>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                    <Flame className="w-2.5 h-2.5 fill-amber-400" aria-hidden="true" />
+                    <span>Trending</span>
+                  </span>
+                  <span className="sr-only">. </span>
+                  {" "}
+                </>
+              )}
+              {tool.featured && (
+                <>
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${cfg.badgeColor}`}>
+                    Featured
+                  </span>
+                  <span className="sr-only">. </span>
+                  {" "}
+                </>
+              )}
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-white/[0.04] text-slate-400 border border-white/[0.07]" title={`Rating: ${tool.rating} out of 5 stars`}>
+                <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" aria-hidden="true" />
+                <span className="sr-only">Rating: </span>
+                {tool.rating}
+                <span className="sr-only"> out of 5 stars. </span>
+              </span>
+            </div>
           </div>
+          {" "}
 
-          {/* Badges */}
-          <div className="flex items-center gap-1.5 flex-wrap justify-end">
-            {tool.trending && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
-                <Flame className="w-2.5 h-2.5 fill-amber-400" /> Hot
-              </span>
-            )}
-            {tool.featured && (
-              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${cfg.badgeColor}`}>
-                Featured
-              </span>
-            )}
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-white/[0.04] text-slate-400 border border-white/[0.07]">
-              <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
-              {tool.rating}
-            </span>
+          {/* Title */}
+          <h3 className={`text-sm font-bold text-white group-hover:${cfg.textColor} transition-colors duration-200 mb-2 leading-snug`}>
+            {tool.name}
+          </h3>
+          <span className="sr-only">. </span>
+          {" "}
+
+          {/* Description */}
+          <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+            {tool.description}
+          </p>
+        </div>
+        <span className="sr-only">. </span>
+        {" "}
+
+        {/* Footer */}
+        <div className="relative z-10 flex items-center justify-between pt-3.5 mt-4 border-t border-white/[0.06]">
+          <span className="text-[10px] font-mono text-slate-500 tracking-wide">
+            Free Online · No Account
+          </span>
+          <span className="sr-only">. </span>
+          {" "}
+          <div className={`flex items-center gap-1 text-xs font-semibold text-slate-400 group-hover:${cfg.textColor} transition-colors duration-200`}>
+            <span>Try Tool</span>
+            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
           </div>
         </div>
-
-        {/* Title */}
-        <h3 className={`text-sm font-bold text-white group-hover:${cfg.textColor} transition-colors duration-200 mb-2 leading-snug`}>
-          {tool.name}
-        </h3>
-
-        {/* Description */}
-        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-          {tool.description}
-        </p>
-      </div>
-
-      {/* Footer */}
-      <div className="relative z-10 flex items-center justify-between pt-3.5 mt-4 border-t border-white/[0.06]">
-        <span className="text-[10px] font-mono text-slate-500 tracking-wide">Free · No signup</span>
-        <div className={`flex items-center gap-1 text-xs font-semibold text-slate-400 group-hover:${cfg.textColor} transition-colors duration-200`}>
-          <span>Use Tool</span>
-          <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 }
