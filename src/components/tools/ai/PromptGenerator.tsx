@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { 
   Sparkles, Copy, Check, Wand2, ShieldCheck, 
-  Video, Image as ImageIcon, Sliders, CheckCircle2, Zap
+  Video, Image as ImageIcon, Sliders, CheckCircle2, Zap, Loader2, Bot
 } from "lucide-react";
 
 type FrameworkType = "crispe" | "cot" | "rtf" | "image" | "video";
@@ -125,6 +125,9 @@ export function PromptGenerator() {
   const [vidDuration, setVidDuration] = useState("5s");
 
   const [copied, setCopied] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiResult, setAiResult] = useState("");
+  const [aiError, setAiError] = useState("");
 
   // Apply Preset
   const applyPreset = (preset: Preset) => {
@@ -279,6 +282,26 @@ ${format}${examples ? `\n\n### EXAMPLES\n${examples}` : ""}`;
     navigator.clipboard.writeText(generatedPrompt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleRunWithAI = async () => {
+    setAiLoading(true);
+    setAiError("");
+    setAiResult("");
+    try {
+      const res = await fetch("/api/tools/prompt-generator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: generatedPrompt }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "AI request failed");
+      setAiResult(json.result || json.data?.result || "");
+    } catch (e: unknown) {
+      setAiError(e instanceof Error ? e.message : "Something went wrong.");
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   return (
@@ -658,11 +681,19 @@ ${format}${examples ? `\n\n### EXAMPLES\n${examples}` : ""}`;
 
           <div className="flex items-center gap-2">
             <button
+              onClick={handleRunWithAI}
+              disabled={aiLoading}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-brand-600 hover:opacity-90 text-white font-bold text-xs shadow-lg shadow-purple-500/20 transition-all flex items-center gap-1.5 disabled:opacity-60"
+            >
+              {aiLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Bot className="w-3.5 h-3.5" />}
+              {aiLoading ? "Running..." : "✨ Run with AI"}
+            </button>
+            <button
               onClick={handleCopy}
               className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs shadow-lg shadow-brand-500/20 transition-all flex items-center gap-1.5"
             >
               {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-              {copied ? "Copied to Clipboard!" : "Copy Full Prompt"}
+              {copied ? "Copied!" : "Copy Prompt"}
             </button>
           </div>
         </div>
@@ -679,14 +710,45 @@ ${format}${examples ? `\n\n### EXAMPLES\n${examples}` : ""}`;
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-brand-400 shrink-0" />
             <span>
-              <strong>Tip:</strong> Paste directly into {model === "claude" ? "Claude 3.5 Sonnet Artifacts" : model === "midjourney" ? "Midjourney Discord / Web" : model === "kling" ? "Toolifia AI Video Generator" : "ChatGPT Plus"} for immediate execution.
+              <strong>Tip:</strong> Click "Run with AI" to execute this prompt instantly, or paste into {model === "claude" ? "Claude 3.5 Sonnet Artifacts" : model === "midjourney" ? "Midjourney Discord / Web" : model === "kling" ? "Toolifia AI Video Generator" : "ChatGPT Plus"}.
             </span>
           </div>
           <span className="text-[11px] text-slate-500 shrink-0">
             {generatedPrompt.length} characters · ~{Math.ceil(generatedPrompt.length / 4)} tokens
           </span>
         </div>
+
+        {/* AI Error */}
+        {aiError && (
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400">
+            {aiError}
+          </div>
+        )}
       </div>
+
+      {/* AI Response Output */}
+      {aiResult && (
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-purple-500/10 via-brand-500/5 to-slate-900/10 border border-purple-500/30 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Bot className="w-4 h-4 text-purple-400" />
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-400">AI Response</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
+                {model.toUpperCase()} via Toolifia AI
+              </span>
+            </div>
+            <button
+              onClick={() => { navigator.clipboard.writeText(aiResult); }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white transition-all"
+            >
+              <Copy className="w-3 h-3" /> Copy Response
+            </button>
+          </div>
+          <pre className="whitespace-pre-wrap text-sm text-slate-200 font-sans leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-slate-800 max-h-[600px] overflow-y-auto">
+            {aiResult}
+          </pre>
+        </div>
+      )}
     </div>
   );
 }

@@ -16,6 +16,7 @@ import { CoverLetterGenerator } from "@/components/tools/ai/CoverLetterGenerator
 import { GrammarChecker } from "@/components/tools/ai/GrammarChecker";
 import { BlogIntroGenerator } from "@/components/tools/ai/BlogIntroGenerator";
 import { SocialBioWriter } from "@/components/tools/ai/SocialBioWriter";
+import { SocialContentGenerator } from "@/components/tools/social/SocialContentGenerator";
 import { AiImageGenerator } from "@/components/tools/ai/AiImageGenerator";
 import { AiVideoGenerator } from "@/components/tools/ai/AiVideoGenerator";
 
@@ -152,6 +153,11 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     title: "AI Prompt Engineering Studio Free — ChatGPT, Claude & Midjourney | Toolifia",
     description: "Free enterprise AI prompt generator and optimizer. Build prompts using CRISPE, Chain-of-Thought, Midjourney v6 parameters, and Kling AI Video dynamics. No signup required.",
     keywords: "prompt generator free, ai prompt engineering tool, chatgpt prompt generator, midjourney prompt builder, prompt optimizer free, claude prompt generator"
+  },
+  "social-content-generator": {
+    title: "AI Social Media Content Generator Free — Instagram, TikTok, LinkedIn | Toolifia",
+    description: "Free AI social media caption generator. Create viral Instagram captions, TikTok scripts, LinkedIn posts and Facebook content with AI-crafted hooks, hashtags and CTAs in seconds.",
+    keywords: "ai social media content generator free, instagram caption generator ai, tiktok caption generator ai, linkedin post generator ai free, facebook post generator"
   },
   "aeo-generator": {
     title: "Answer Engine Optimizer (AEO) — Rank in Perplexity & ChatGPT Search | Toolifia",
@@ -312,6 +318,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ tool?: any }>> = {
   "grammar-checker": GrammarChecker,
   "blog-intro-generator": BlogIntroGenerator,
   "social-bio-writer": SocialBioWriter,
+  "social-content-generator": SocialContentGenerator,
   "meta-tag-generator": MetaTagGenerator,
   "aeo-generator": AeoGenerator,
   "schema-generator": SchemaGenerator,

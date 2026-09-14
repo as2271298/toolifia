@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { 
   Search, Copy, Check, Sparkles, ShieldCheck, 
-  Code2, Eye, FileText, CheckCircle2, AlertCircle, Zap, Globe
+  Code2, Eye, FileText, CheckCircle2, AlertCircle, Zap, Globe, Loader2, Bot, Wand2
 } from "lucide-react";
 
 export function AeoGenerator() {
@@ -16,6 +16,44 @@ export function AeoGenerator() {
 
   const [activeTab, setActiveTab] = useState<"preview" | "markdown" | "html" | "schema">("preview");
   const [copied, setCopied] = useState(false);
+  const [aiTopic, setAiTopic] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
+
+  const handleAiGenerate = useCallback(async () => {
+    if (!aiTopic.trim()) return;
+    setAiLoading(true);
+    setAiError("");
+    try {
+      const res = await fetch("/api/tools/aeo-generator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: aiTopic }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "AI request failed");
+      const text: string = json.result || json.data?.result || "";
+      // Parse out sections from AI response
+      const qMatch = text.match(/QUESTION:\s*([^\n]+)/i);
+      const aMatch = text.match(/ANSWER:\s*([\s\S]+?)(?=(?:TAKEAWAYS|KEY POINTS|$))/i);
+      const bMatch = text.match(/(?:TAKEAWAYS|KEY POINTS):\s*([\s\S]+?)(?=(?:ENTITY:|$))/i);
+      if (qMatch?.[1]) setQuestion(qMatch[1].trim());
+      if (aMatch?.[1]) setDirectAnswer(aMatch[1].trim());
+      if (bMatch?.[1]) {
+        const bullets = bMatch[1]
+          .split(/\r?\n/)
+          .map((l: string) => l.trim())
+          .filter((l: string) => l.length > 10)
+          .map((l: string) => (l.startsWith("•") || l.startsWith("-") ? l : "• " + l))
+          .join("\n");
+        setTakeaways(bullets);
+      }
+    } catch (e: unknown) {
+      setAiError(e instanceof Error ? e.message : "Something went wrong.");
+    } finally {
+      setAiLoading(false);
+    }
+  }, [aiTopic]);
 
   // Word count of direct answer
   const answerWordCount = useMemo(() => {
@@ -147,6 +185,48 @@ ${jsonLdSchema}
 
   return (
     <div className="space-y-8">
+      {/* AI Auto-Generate Panel */}
+      <div className="p-6 rounded-3xl bg-gradient-to-br from-purple-500/10 via-brand-500/5 to-slate-900/10 border border-purple-500/20 space-y-4">
+        <div className="flex items-center gap-2 mb-1">
+          <Bot className="w-4 h-4 text-purple-400" />
+          <span className="text-xs font-bold uppercase tracking-wider text-purple-400">AI Auto-Generate</span>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
+            Powered by Toolifia AI
+          </span>
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          Enter any topic or question — AI will write your AEO-optimized answer, takeaways, and fill all fields automatically.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <input
+            type="text"
+            value={aiTopic}
+            onChange={(e) => setAiTopic(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAiGenerate()}
+            placeholder="e.g. What is Answer Engine Optimization and how does it work?"
+            className="flex-1 p-3 text-sm bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-slate-900 dark:text-white"
+          />
+          <button
+            onClick={handleAiGenerate}
+            disabled={aiLoading || !aiTopic.trim()}
+            className="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-brand-600 text-white font-bold text-sm flex items-center gap-2 hover:opacity-90 transition-all disabled:opacity-50 whitespace-nowrap shadow-lg shadow-purple-500/20"
+          >
+            {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+            {aiLoading ? "Generating..." : "✨ Auto-Generate with AI"}
+          </button>
+        </div>
+        {aiError && (
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400">
+            {aiError}
+          </div>
+        )}
+        {aiLoading && (
+          <div className="flex items-center gap-2 text-xs text-purple-300">
+            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            AI is crafting your AEO-optimized content...
+          </div>
+        )}
+      </div>
       {/* Header Banner */}
       <div className="p-6 rounded-3xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-slate-900/10 border border-emerald-500/20 backdrop-blur-sm space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

@@ -63,7 +63,7 @@ export async function POST(
       "text-rewriter", "ai-story-generator", "ai-chat-assistant",
       "cover-letter-generator", "grammar-checker", "blog-intro-generator",
       "social-bio-writer", "ai-summarizer", "ai-headline-generator",
-      "prompt-generator", "citation-generator"
+      "prompt-generator", "citation-generator", "aeo-generator", "social-content-generator"
     ];
 
     if (AI_TOOL_SLUGS.includes(toolId) || tool.category === "ai-tools" || tool.category === "writing-tools") {
@@ -196,6 +196,20 @@ export async function POST(
         const res = await processAiTask({ prompt: `Topic: ${input}\nTone: ${tone}`, task: "headline" });
         data = res;
         outputText = res.result;
+      } else if (toolId === "aeo-generator") {
+        taskName = "aeo-content";
+        const res = await processAiTask({ prompt: input, task: "aeo-content" });
+        data = res;
+        outputText = res.result;
+      } else if (toolId === "social-content-generator") {
+        taskName = "social-content";
+        const platformStr = sanitize(body.platform || "Instagram", 50);
+        const goalStr = sanitize(body.goal || "engagement", 50);
+        const toneStr = sanitize(body.tone || "casual", 50);
+        const promptText = `Platform: ${platformStr}\nGoal: ${goalStr}\nTone: ${toneStr}\nTopic/Brand: ${input}`;
+        const res = await processAiTask({ prompt: promptText, task: "social-content" });
+        data = res;
+        outputText = (res as any).caption || (res as any).result || "";
       } else {
         taskName = "prompt-gen";
         const res = await processAiTask({ prompt: input, task: "prompt-gen" });

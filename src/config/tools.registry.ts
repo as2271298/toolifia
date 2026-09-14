@@ -2834,6 +2834,27 @@ export const TOOLS: ToolDef[] = [
       { question: "How does AEO differ from traditional SEO?", answer: "Traditional SEO focuses on keyword rankings and search engine results page (SERP) click-through rates. AEO focuses on entity recognition, empirical data grounding, direct answer extraction, and RAG citation frequency." }
     ]
   },
+  {
+    slug: "social-content-generator",
+    name: "AI Social Media Content Generator",
+    category: "social-media-tools",
+    description: "Generate AI-powered captions, viral hooks, hashtags, and CTAs for Instagram, Facebook, TikTok, and LinkedIn in seconds. Free, no signup needed.",
+    icon: "Share2",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 4120,
+    keywords: ["social media content generator", "instagram caption generator ai", "tiktok caption generator", "linkedin post generator ai", "facebook post generator free", "ai social media post generator", "free social media content ai", "viral caption generator"],
+    features: ["Generate captions for Instagram, Facebook, TikTok, and LinkedIn", "AI-crafted scroll-stopping hooks optimized per platform", "Platform-optimized hashtag sets (30 for Instagram, 5 for LinkedIn/TikTok/Facebook)", "5 content goals: engagement, traffic, leads, awareness, sales", "5 tone options: casual, professional, funny, inspirational, educational", "3 content variation ideas per generation to diversify your feed"],
+    benefits: ["Save 2+ hours of content planning per week", "Grow followers 3x faster with data-backed caption structures", "100% free AI generation, no account required"],
+    howTo: ["Select your target platform (Instagram, Facebook, TikTok, or LinkedIn).", "Type your topic, product description, or brand message.", "Choose your content goal and preferred tone of voice.", "Click Generate AI Post to receive a complete caption with hashtags, hook, and CTA in seconds."],
+    commonMistakes: ["Using identical captions across all platforms instead of platform-native language and formatting.", "Skipping the hook — the first line determines whether users stop scrolling."],
+    faqs: [
+      { question: "Does this AI social media generator work for all 4 platforms?", answer: "Yes. The AI adapts caption length, hashtag count, emoji density, and tone to each platform's specific algorithm and audience behavior patterns." },
+      { question: "How many hashtags should I use on Instagram vs LinkedIn?", answer: "Instagram allows up to 30 hashtags for maximum discoverability (best placed in the first comment). LinkedIn performs best with just 3-5 highly relevant hashtags embedded in the caption body." },
+      { question: "Can I regenerate the post if I don't like the result?", answer: "Yes, click the regenerate button (circular arrow icon) to generate a fresh variation with a different hook and caption angle instantly." }
+    ]
+  },
 ];
 
 

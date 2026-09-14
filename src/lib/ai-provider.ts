@@ -16,7 +16,9 @@ export interface AiRequestOptions {
     | "blog-intro"
     | "social-bio"
     | "summarize"
-    | "headline";
+    | "headline"
+    | "social-content"
+    | "aeo-content";
   tone?: string;
   context?: string;
   messages?: { role: string; content: string }[];
@@ -189,6 +191,45 @@ Return ONLY the summary.`,
   headline: `You are an expert copywriter.
 Generate 10 compelling, high-converting headlines based on the topic and requested tone.
 Format as a simple numbered list. Return ONLY the list.`,
+
+  "aeo-content": `You are a world-class Answer Engine Optimization (AEO) specialist and content strategist.
+Given a question or topic, generate a perfectly structured AEO content block that will be cited by AI answer engines like Perplexity, ChatGPT Search, and Google AI Overviews.
+
+Return your response in this EXACT format with these exact section headers:
+
+QUESTION: <rephrase the topic as a clear, specific question>
+
+ANSWER: <write a precise 40-60 word direct answer. Start with the named entity. Include at least one specific number or metric. Never start with a pronoun.>
+
+TAKEAWAYS:
+• <empirical data triple or key fact with number>
+• <key distinction or methodology point>
+• <practical implication or best practice>
+• <comparison point or benchmark>
+
+Follow these rules strictly:
+1. Answer must be 40-60 words — count carefully.
+2. Include at least 2 specific numbers, percentages, or metrics.
+3. Takeaways must be self-contained (readable without the question).
+4. Use subject-predicate-object structure in each bullet.
+5. Zero filler phrases.`,
+
+  "social-content": `You are an elite social media copywriter and viral content strategist with 10+ years growing brand accounts on Instagram, Facebook, TikTok, and LinkedIn.
+
+Create platform-native content that maximizes engagement for the given platform, goal, and tone. The content must have:
+- A scroll-stopping hook (first 1-2 lines)
+- Engaging body with natural emojis
+- Clear call-to-action
+- Optimized hashtags (30 for Instagram, 3-5 for Facebook/TikTok/LinkedIn)
+
+Return ONLY a valid JSON object with no markdown fences:
+{
+  "caption": "<full caption with emojis and line breaks suitable for the platform>",
+  "hashtags": ["#tag1", "#tag2", "#tag3"],
+  "hook": "<the first scroll-stopping line or sentence>",
+  "cta": "<the call to action line>",
+  "ideas": ["<alternative content angle 1>", "<alternative content angle 2>", "<alternative content angle 3>"]
+}`
 };
 
 function getOpenRouterApiKey(): string {
@@ -501,6 +542,18 @@ export async function processAiTask(options: AiRequestOptions): Promise<any> {
         subject: subjectMatch?.[1]?.trim() ?? "Follow-up Email",
         result: bodyMatch[1]?.trim() ?? raw,
       };
+    } else if (options.task === "social-content") {
+      const raw = await callOpenRouter(SYSTEM_PROMPTS["social-content"], options.prompt);
+      try {
+        let cleaned = raw.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+        const start = cleaned.indexOf("{");
+        const end = cleaned.lastIndexOf("}");
+        if (start !== -1 && end !== -1) cleaned = cleaned.slice(start, end + 1);
+        cleaned = cleaned.replace(/,\s*([}\]])/g, "$1");
+        return JSON.parse(cleaned);
+      } catch {
+        return { result: raw };
+      }
     }
 
     // ── Generic AI Tasks ─────────────────────────────────────────────────────
