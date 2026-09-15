@@ -25,29 +25,76 @@ export const TOOLS: ToolDef[] = [
   // ── AI TOOLS ─────────────────────────────────────────────────────────────
   {
     slug: "ai-image-generator",
-    name: "AI Text to Image Generator",
+    name: "Free AI Image Generator — Text & Image to Image Online (No Signup)",
     category: "ai-tools",
-    description: "Generate 8K photorealistic images, 3D renders, anime artwork, and cyberpunk scenes from text prompts.",
+    description: "Generate high-definition AI images from text prompts or upload reference photos for Image-to-Image transformation. 100% free, unlimited, no signup required.",
     icon: "Image",
     featured: true,
     trending: true,
     rating: 4.9,
     reviewsCount: 8940,
-    keywords: ["ai image generator", "free text to image", "ai picture maker", "midjourney alternative free", "stable diffusion online"],
-    features: ["6 Art styles (Photorealistic, Anime, Cyberpunk, 3D Pixar, Digital Art, Cinematic)", "Multi-aspect ratio support (1:1, 16:9, 9:16)", "HD 8K resolution export", "Unlimited free image generations"],
-    benefits: ["Create custom blog & social media visual assets", "Generate art concepts without design skills", "Download high-res artwork instantly"],
-    howTo: ["Type a descriptive prompt of the scene you want to create.", "Select your preferred art style and aspect ratio.", "Click 'Generate AI Image' to render your artwork."],
-    commonMistakes: ["Using vague single-word prompts without specifying lighting or mood."],
+    keywords: [
+      "ai image generator free",
+      "image to image ai free",
+      "text to image online",
+      "free ai photo generator",
+      "ai art maker no signup",
+      "midjourney alternative free",
+      "reference photo ai generator",
+      "ai image restyler online",
+      "turn photo into art ai",
+      "free text to picture"
+    ],
+    features: [
+      "High-definition AI image synthesis powered by Agnes AI 2.5 Flash",
+      "Image-to-Image mode (+ Add Reference Image) — upload photos to guide style, composition, or subject",
+      "Multi-aspect ratio support: Square (1:1), Landscape (16:9), and Portrait / Reel (9:16)",
+      "Inspiration ideas & random prompt generator for instant creative sparks",
+      "Fast cloud GPU generation with instant high-resolution PNG export",
+      "100% free with unlimited generations and zero registration"
+    ],
+    benefits: [
+      "Transform real photos into illustrations, 3D concepts, and artistic renders",
+      "Generate custom graphics, blog thumbnails, and social media assets in seconds",
+      "Iterate quickly without design or illustration software experience",
+      "Royalty-free downloads suitable for personal and commercial usage"
+    ],
+    howTo: [
+      "Type a descriptive prompt detailing the scene, subject, lighting, and composition you want to create.",
+      "Optionally click '+ Add Reference Image' to upload a source photo for Image-to-Image restyling or character guidance.",
+      "Select your target aspect ratio: 1:1 for social posts, 16:9 for landscape banners, or 9:16 for mobile stories.",
+      "Click 'Generate AI Image' (or 'Transform Image with AI') to render your high-definition artwork.",
+      "Preview the output and click 'Download Full HD Image' to save your artwork."
+    ],
+    commonMistakes: [
+      "Writing single-word prompts without specifying lighting, mood, color palette, or camera angle.",
+      "Uploading low-resolution or blurry reference photos for Image-to-Image tasks.",
+      "Forgetting to describe the desired aesthetic or changes when attaching a reference image."
+    ],
     faqs: [
-      { question: "Is the AI Image Generator free to use?", answer: "Yes, Toolifia provides 100% free image generation without daily credits or account registration." },
-      { question: "Can I use generated images commercially?", answer: "Yes, AI-generated images are royalty-free for personal and commercial projects." }
+      {
+        question: "Is the AI Image Generator completely free without sign up?",
+        answer: "Yes. Toolifia provides 100% free image generation with no login, no credits, and no subscriptions."
+      },
+      {
+        question: "How does Image-to-Image (Reference Image) work?",
+        answer: "Upload any image using '+ Add Reference Image' and provide a prompt describing your desired transformation. The AI uses your image's composition and features as a structural guide while applying the new aesthetic."
+      },
+      {
+        question: "Can I use the generated images commercially?",
+        answer: "Yes. All images created on Toolifia are royalty-free and can be used in commercial ads, websites, merchandise, and social media without attribution."
+      },
+      {
+        question: "What image formats and resolutions are provided?",
+        answer: "Images are rendered in high-definition resolution (1024x1024 for 1:1, 1280x720 for 16:9, and 720x1280 for 9:16) and saved in standard PNG format."
+      }
     ]
   },
   {
     slug: "ai-video-generator",
-    name: "Free AI Video Generator — Text to Video Online (No Signup)",
+    name: "Free AI Video Generator — Text & Image to Video Online (No Signup)",
     category: "ai-tools",
-    description: "Generate real AI videos from text prompts for free. Create cinematic clips, anime scenes, 3D animations, and drone footage with professional camera motion. No signup required. Higgsfield-style AI video generation powered by Kling, Wan, and MiniMax AI models.",
+    description: "Generate real AI videos from text prompts, animate photos into videos (Image-to-Video), or remix clips (Video-to-Video) for free. Professional camera motion, MP4 download, zero signup required. Powered by Agnes AI Video 2.5.",
     icon: "Video",
     featured: true,
     trending: true,
@@ -55,94 +102,79 @@ export const TOOLS: ToolDef[] = [
     reviewsCount: 9840,
     keywords: [
       "ai video generator free",
+      "image to video ai free",
+      "video to video ai free",
       "text to video AI free",
       "ai video maker online free no signup",
-      "higgsfield AI alternative free",
+      "animate photo to video free",
       "free ai video generator no watermark",
-      "runway ml free alternative",
-      "pika labs free alternative",
-      "sora alternative free online",
-      "AI video from text free",
-      "best free ai video generator 2025",
+      "agnes video generator free",
+      "higgsfield AI alternative free",
       "kling ai free online",
-      "text to video no credit card",
-      "ai video generator online",
-      "make ai video free",
-      "ai video creation tool free",
-      "generate video from text AI",
-      "free video AI tool",
-      "ai short video generator",
       "tiktok ai video generator free",
-      "youtube shorts ai video maker"
+      "instagram reels ai video generator",
+      "youtube shorts ai video maker",
+      "make ai video free online",
+      "photo to video AI no watermark"
     ],
     features: [
-      "Real AI video generation via Kling 2.1, Wan T2V, and MiniMax Video models",
-      "6 cinematic visual styles: Cinematic 4K, Cyberpunk, Nature Drone, Anime, 3D Animation, Vintage Film",
-      "6 camera motion presets: Slow Zoom, FPV Drone, 360 Orbit, Cinematic Pan, Handheld, Dolly Push",
-      "5s and 10s clip duration options",
-      "Native HTML5 video player with play, pause, seek, volume, and fullscreen",
-      "Download generated videos as MP4 files",
-      "Storyboard preview mode for users without API key",
-      "API key saved locally — enter once, generate forever",
-      "No watermarks on output videos",
-      "Works with fal.ai free tier — no credit card required"
+      "Text-to-Video generation: create moving scenes from natural text prompts",
+      "Image-to-Video (+ Add Image): animate still photos into cinematic moving videos",
+      "Video-to-Video (+ Add Video): restyle, remix, and transform existing video footage",
+      "Agnes AI Video 2.5 engine with fast cloud rendering and MP4 generation",
+      "Multiple aspect ratios: 16:9 (Landscape / YouTube), 9:16 (Portrait / TikTok / Reels), 1:1 (Square / Instagram)",
+      "Adjustable duration options: 5 seconds and 10 seconds",
+      "AI Prompt Enhancer for cinematic lighting and camera trajectory directions",
+      "Built-in HTML5 video player with fullscreen, play/pause, and looping controls",
+      "Direct MP4 file download with zero watermarks",
+      "100% free with zero registration, no credits, and no credit card required"
     ],
     benefits: [
-      "Create viral TikTok, YouTube Shorts, and Instagram Reels with AI in seconds",
-      "Produce cinematic product ads and marketing clips without a film crew",
-      "Visualize movie concepts, storyboards, and creative pitches instantly",
-      "Save thousands on video production costs using AI automation",
-      "No video editing skills required — just type a prompt",
-      "Access enterprise-grade AI video models (Kling 2.1) for free",
-      "Generate unlimted videos with your own free fal.ai API key"
+      "Turn static portraits and landscape photos into viral moving video clips",
+      "Create ready-to-post Instagram Reels, TikTok videos, and YouTube Shorts in seconds",
+      "Remix existing video footage with new cinematic visuals without video editing skills",
+      "Save hundreds of dollars on video production crews, stock footage, and software",
+      "Produce watermark-free, commercially usable MP4 clips for marketing and content creation",
+      "Generate unlimited video concepts directly in your browser with zero signup"
     ],
     howTo: [
-      "Enter your fal.ai free API key in the setup panel — get one free at fal.ai with no credit card needed.",
-      "Type a detailed video prompt describing your scene, mood, lighting, and action.",
-      "Select a visual style (Cinematic, Cyberpunk, Anime, etc.) and camera motion (Drone, Zoom, Pan).",
-      "Choose your clip duration (5s or 10s) and click 'Generate Real AI Video'.",
-      "Watch your video render in ~30–60 seconds, then play it in the built-in HTML5 player.",
-      "Download your video as an MP4 file directly to your device — no watermarks."
+      "Enter a scene description or upload an image/video to begin.",
+      "To animate a photo, click '+ Add Image' (Image-to-Video). To remix an existing clip, click '+ Add Video' (Video-to-Video).",
+      "Choose your aspect ratio (16:9 for YouTube/widescreen, 9:16 for Reels/TikTok/Shorts, or 1:1 for square feeds).",
+      "Select your clip duration (5s or 10s) and optionally click 'Enhance Prompt' to add cinematic lighting and camera direction.",
+      "Click 'Generate AI Video' (or 'Animate Image to Video' / 'Transform Video to Video') to start generation.",
+      "Preview your video in the built-in HTML5 player and click 'Download MP4 Video' to save it to your device."
     ],
     commonMistakes: [
-      "Using vague one-word prompts — always describe lighting, mood, camera angle, and subject motion.",
-      "Not specifying camera movement — include terms like 'slow zoom in' or 'aerial drone shot'.",
-      "Skipping the visual style selection — each style changes how the AI interprets your scene.",
-      "Generating without a fal.ai key — without a key you only get a static storyboard preview, not a real video.",
-      "Expecting instant results — AI video generation takes 30–60 seconds for quality output."
+      "Uploading files that exceed size limits — keep images under 15MB and videos under 25MB for smooth processing.",
+      "Using vague one-word prompts without describing the desired movement, action, or camera motion.",
+      "Selecting 16:9 landscape for TikTok/Reels instead of the 9:16 vertical portrait format.",
+      "Expecting instantaneous rendering — AI video synthesizes frame-by-frame temporal motion and takes 30–60 seconds for quality output."
     ],
     faqs: [
       {
-        question: "Is this AI video generator really free?",
-        answer: "Yes — it uses fal.ai's free tier which gives you credits upon signup with no credit card required. The tool itself is 100% free to use on Toolifia with no subscriptions."
+        question: "Is this AI video generator really free without an account?",
+        answer: "Yes. Toolifia's AI Video Generator is 100% free with zero signup, no credit card, and no subscription. You can generate and download videos right in your browser."
       },
       {
-        question: "Is this a Higgsfield alternative?",
-        answer: "Yes! Toolifia's AI Video Generator uses the same underlying models as Higgsfield (Kling 2.1 via fal.ai), giving you professional cinematic AI video for free. No subscription, no watermarks."
+        question: "How does Image-to-Video animation work?",
+        answer: "Click '+ Add Image' and select any photo or artwork from your device. The AI analyzes the subject and background, applying smooth camera motion and organic movement to animate your photo into a cinematic MP4 video."
       },
       {
-        question: "What AI models power the video generation?",
-        answer: "You can choose from Kling 2.1 (best quality, recommended), Wan T2V (fast generation), and MiniMax Video (realistic scenes). All are industry-leading models accessible through fal.ai."
+        question: "How does Video-to-Video transformation work?",
+        answer: "Click '+ Add Video' and upload a video clip. Type a prompt describing how you want the video transformed (e.g., 'cyberpunk city aesthetic' or 'cinematic lighting'), and the AI re-renders the motion with the new style."
       },
       {
-        question: "Do I need to create an account on Toolifia?",
-        answer: "No. Toolifia requires zero signup. You only need a free fal.ai API key which you get by signing up on fal.ai — completely free with no credit card."
+        question: "Are there watermarks on downloaded videos?",
+        answer: "No. All generated MP4 videos are completely watermark-free, ready for posting to TikTok, Instagram, YouTube, or client projects."
       },
       {
-        question: "How long does it take to generate a video?",
-        answer: "AI video generation typically takes 30–60 seconds depending on the model selected and server load. Kling 2.1 produces the highest quality and may take slightly longer."
+        question: "What video format and resolutions are generated?",
+        answer: "Videos are exported as universal MP4 files in 720p/1080p high definition, compatible with all mobile devices, editing software, and social platforms."
       },
       {
-        question: "What format are the output videos?",
-        answer: "Videos are generated as MP4 files which you can download directly. The built-in HTML5 player lets you watch and review before downloading."
-      },
-      {
-        question: "Is this a Runway ML or Pika Labs alternative?",
-        answer: "Yes! Unlike Runway ML and Pika Labs which require paid subscriptions, Toolifia's AI Video Generator gives you access to equivalent or superior AI models (Kling 2.1) completely free."
-      },
-      {
-        question: "Can I use generated videos for commercial purposes?",
-        answer: "Videos generated through fal.ai's models are royalty-free for personal and commercial use. Check fal.ai's terms for specific commercial licensing details."
+        question: "Can I use the videos commercially?",
+        answer: "Yes. All videos created with Toolifia are royalty-free for personal, social media, and commercial marketing purposes."
       }
     ]
   },

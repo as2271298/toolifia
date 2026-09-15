@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef } from "react";
 import {
@@ -250,31 +250,67 @@ export function AiVideoGenerator() {
   return (
     <div className="space-y-8 max-w-6xl mx-auto">
       {/* Top Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
             <Video className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-sm font-bold text-white">AI Video Generator Studio</h2>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold">
                 ● Agnes AI 2.5 Active
               </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[10px] font-medium">
+                100% Free · No Signup
+              </span>
             </div>
-            <p className="text-xs text-slate-400">
-              Text-to-Video, Image-to-Video, & Video-to-Video generation in high definition.
+            <p className="text-xs text-slate-400 mt-0.5">
+              Generate from text, animate photos into video, or restyle clips in high definition MP4.
             </p>
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleRandomPrompt}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition-colors"
-        >
-          <Dices className="w-3.5 h-3.5" /> Random Idea
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleRandomPrompt}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors"
+          >
+            <Dices className="w-3.5 h-3.5 text-rose-400" /> Random Idea
+          </button>
+        </div>
+      </div>
+
+      {/* 3 Simple Creation Modes Bar */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold text-xs shrink-0">
+            1
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-slate-200">Text-to-Video</h4>
+            <p className="text-[11px] text-slate-400">Type any prompt to generate scenes</p>
+          </div>
+        </div>
+        <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-xs shrink-0">
+            2
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-slate-200">Image-to-Video</h4>
+            <p className="text-[11px] text-slate-400">Click <em>+ Add Image</em> to animate photos</p>
+          </div>
+        </div>
+        <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold text-xs shrink-0">
+            3
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-slate-200">Video-to-Video</h4>
+            <p className="text-[11px] text-slate-400">Click <em>+ Add Video</em> to remix footage</p>
+          </div>
+        </div>
       </div>
 
       {/* Main Studio Grid */}
@@ -620,6 +656,31 @@ export function AiVideoGenerator() {
                 </div>
               </div>
             )}
+
+            {/* Quick Instructions Helper Card */}
+            <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 text-xs space-y-2.5">
+              <div className="font-bold text-slate-300 flex items-center gap-2 text-xs">
+                <Sparkles className="w-3.5 h-3.5 text-rose-400" /> Quick Instructions
+              </div>
+              <ul className="space-y-1.5 text-slate-400 text-[11px] leading-relaxed">
+                <li className="flex items-start gap-1.5">
+                  <span className="text-rose-400 font-bold">•</span>
+                  <span><strong>Text-to-Video:</strong> Type a prompt and click Generate.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-purple-400 font-bold">•</span>
+                  <span><strong>Image-to-Video:</strong> Click <em>+ Add Image</em> to animate any still photo.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-rose-400 font-bold">•</span>
+                  <span><strong>Video-to-Video:</strong> Click <em>+ Add Video</em> to restyle motion clips.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-emerald-400 font-bold">•</span>
+                  <span><strong>MP4 Download:</strong> 100% clean video with no watermarks or logos.</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

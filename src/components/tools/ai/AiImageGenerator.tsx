@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef } from "react";
 import {
@@ -122,20 +122,23 @@ export function AiImageGenerator() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Studio Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl bg-slate-900 border border-slate-800 text-white shadow-xl">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-sm font-bold">AI Image Studio</h2>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold">
                 ● Agnes AI 2.5 Active
               </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[10px] font-medium">
+                100% Free · No Signup
+              </span>
             </div>
-            <p className="text-xs text-slate-400">
-              Generate from text prompt or upload a reference image to restyle. Free & no signup.
+            <p className="text-xs text-slate-400 mt-0.5">
+              Generate from text prompts or upload reference images for Image-to-Image transformation.
             </p>
           </div>
         </div>
@@ -143,10 +146,32 @@ export function AiImageGenerator() {
         <button
           type="button"
           onClick={handleRandomPrompt}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors"
         >
-          <Dices className="w-3.5 h-3.5" /> Random Idea
+          <Dices className="w-3.5 h-3.5 text-purple-400" /> Random Idea
         </button>
+      </div>
+
+      {/* 2 Simple Creation Modes Bar */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-xs shrink-0">
+            1
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-slate-200">Text-to-Image</h4>
+            <p className="text-[11px] text-slate-400">Describe any scene or character to create from scratch</p>
+          </div>
+        </div>
+        <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-xs shrink-0">
+            2
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-slate-200">Image-to-Image</h4>
+            <p className="text-[11px] text-slate-400">Click <em>+ Add Reference Image</em> to restyle photos</p>
+          </div>
+        </div>
       </div>
 
       {/* Control Card */}

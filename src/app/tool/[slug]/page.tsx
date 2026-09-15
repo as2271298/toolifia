@@ -166,14 +166,14 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
   },
 
   "ai-video-generator": {
-    title: "AI Video Generator — Free Online | Toolifia",
-    description: "Generate cinematic AI videos from text prompts for free. No signup, no watermark, no credit card. Download MP4 video.",
-    keywords: "ai video generator free, text to video AI free, free ai video generator no watermark, kling ai free, make ai video online"
+    title: "Free AI Video Generator — Text & Image to Video Online | Toolifia",
+    description: "Create AI videos from text prompts, animate photos into videos (Image-to-Video), or remix clips (Video-to-Video) for free. No signup, no watermark. Download MP4.",
+    keywords: "ai video generator free, image to video ai free, video to video ai free, text to video AI free, animate photo to video, free ai video generator no watermark, kling ai free, make ai video online"
   },
   "ai-image-generator": {
-    title: "AI Image Generator — Free Online | Toolifia",
-    description: "Generate stunning 8K AI images from text prompts for free. Photorealistic, anime, 3D Pixar styles. No account needed.",
-    keywords: "ai image generator free, text to image AI, midjourney alternative free, stable diffusion online free, ai art generator"
+    title: "Free AI Image Generator — Text & Image to Image Online | Toolifia",
+    description: "Generate high-definition AI images from text prompts or upload reference photos for Image-to-Image transformation. 100% free, no signup, powered by Agnes AI.",
+    keywords: "ai image generator free, image to image ai free, text to image AI, reference image ai generator, midjourney alternative free, stable diffusion online free, ai art generator"
   },
   "ai-humanizer": {
     title: "AI Humanizer Free No Sign Up — Humanize AI Text Online | Toolifia",
