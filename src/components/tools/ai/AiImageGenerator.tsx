@@ -1,19 +1,10 @@
 ﻿"use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Sparkles, Download, RefreshCw, Image as ImageIcon,
-  Wand2, Sliders, Dices, Copy, Check
+  Wand2, Dices, Copy, Check, Upload, X, AlertCircle
 } from "lucide-react";
-
-const STYLES = [
-  { id: "photorealistic", name: "Photorealistic 8K", icon: "📷", promptSuffix: "photorealistic, 8k resolution, highly detailed, professional photography, studio lighting" },
-  { id: "cinematic", name: "Cinematic Movie", icon: "🎬", promptSuffix: "cinematic film still, 35mm lens, anamorphic lighting, movie scene, depth of field" },
-  { id: "anime", name: "Anime Art", icon: "🎨", promptSuffix: "anime art style, vibrant colors, detailed illustration, studio ghibli aesthetic, trending on pixiv" },
-  { id: "3d-render", name: "3D Pixar", icon: "🧸", promptSuffix: "3d character render, pixar style, unreal engine 5, soft volumetric lighting, ray tracing" },
-  { id: "cyberpunk", name: "Cyberpunk Neo", icon: "🌃", promptSuffix: "cyberpunk aesthetic, glowing neon lights, futuristic city, cinematic mood, octane render" },
-  { id: "digital-art", name: "Digital Painting", icon: "🖌️", promptSuffix: "digital art masterpiece, detailed brushwork, artstation trending, dramatic lighting" },
-];
 
 const ASPECT_RATIOS = [
   { id: "1:1", label: "Square (1:1)", icon: "⏹️" },
@@ -26,17 +17,45 @@ const INSPIRATIONS = [
   "A futuristic cyberpunk city floating above neon clouds at twilight, ultra detailed",
   "An astronaut exploring a crystalline alien cave with glowing turquoise bioluminescent plants",
   "A cozy cottage in an enchanted autumn forest with golden fireflies at dusk, Pixar 3D",
-  "A cute baby red panda wearing a tiny samurai armor, studio lighting, hyper-detailed"
+  "A cute baby red panda wearing tiny samurai armor, studio lighting, hyper-detailed",
+  "A glass bottle floating on calm turquoise ocean waves containing a miniature galaxy inside"
 ];
 
 export function AiImageGenerator() {
   const [prompt, setPrompt] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState("photorealistic");
   const [aspectRatio, setAspectRatio] = useState("1:1");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [seed, setSeed] = useState<number>(() => Math.floor(Math.random() * 1000000));
   const [copied, setCopied] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Reference Image (Image-to-Image)
+  const [attachedImage, setAttachedImage] = useState<string | null>(null);
+  const [imageName, setImageName] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 15 * 1024 * 1024) {
+      setErrorMessage("Image size must be under 15MB");
+      return;
+    }
+    setImageName(file.name);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAttachedImage(reader.result as string);
+      setErrorMessage(null);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeImage = () => {
+    setAttachedImage(null);
+    setImageName("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const handleRandomPrompt = () => {
     const random = INSPIRATIONS[Math.floor(Math.random() * INSPIRATIONS.length)];
@@ -44,11 +63,15 @@ export function AiImageGenerator() {
   };
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() && !attachedImage) {
+      setErrorMessage("Please enter a prompt or upload an image to transform.");
+      return;
+    }
+
     setIsGenerating(true);
     setGeneratedImage(null);
+    setErrorMessage(null);
 
-    const styleObj = STYLES.find((s) => s.id === selectedStyle);
     const newSeed = Math.floor(Math.random() * 1000000);
     setSeed(newSeed);
 
@@ -59,7 +82,7 @@ export function AiImageGenerator() {
         body: JSON.stringify({
           prompt: prompt.trim(),
           aspectRatio,
-          styleSuffix: styleObj?.promptSuffix || "",
+          image: attachedImage || "",
         }),
       });
 
@@ -79,9 +102,9 @@ export function AiImageGenerator() {
       } else {
         throw new Error(data.error || "Generation failed");
       }
-    } catch {
+    } catch (err: any) {
       // Automatic fallback
-      const fullPrompt = encodeURIComponent(`${prompt.trim()}, ${styleObj?.promptSuffix || ""}`);
+      const fullPrompt = encodeURIComponent(prompt.trim() || "cinematic high definition photography");
       const fallbackUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=1024&height=1024&seed=${newSeed}&nologo=true`;
       setGeneratedImage(fallbackUrl);
       setIsGenerating(false);
@@ -89,9 +112,11 @@ export function AiImageGenerator() {
   };
 
   const handleCopyPrompt = () => {
-    navigator.clipboard.writeText(prompt);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (prompt) {
+      navigator.clipboard.writeText(prompt);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
@@ -110,7 +135,7 @@ export function AiImageGenerator() {
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Generate photorealistic, anime, 3D, and cinematic images in seconds. Free & no signup.
+              Generate from text prompt or upload a reference image to restyle. Free & no signup.
             </p>
           </div>
         </div>
@@ -129,39 +154,86 @@ export function AiImageGenerator() {
         <div>
           <label className="block text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
             <Wand2 className="w-4 h-4 text-purple-400" />
-            Describe the image you want to create
+            Describe the image you want to create or transform
           </label>
           <textarea
             rows={3}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="e.g. A futuristic cyberpunk city floating above neon clouds at twilight, ultra detailed 8k photography..."
+            placeholder={
+              attachedImage
+                ? "Describe how to transform or restyle this image (e.g. Turn into a Pixar 3D character, add cyberpunk neon lighting)..."
+                : "e.g. A futuristic cyberpunk city floating above neon clouds at twilight, ultra detailed 8k photography..."
+            }
             className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm leading-relaxed resize-none"
           />
         </div>
 
-        {/* Style Selection */}
-        <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5 flex items-center gap-2">
-            <Sliders className="w-3.5 h-3.5 text-indigo-400" /> Choose Art Style
+        {/* Reference Image Attachment (Image-to-Image) */}
+        <div className="space-y-2.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+            <Upload className="w-3.5 h-3.5 text-purple-400" /> Reference Image (Optional)
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
-            {STYLES.map((style) => (
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageUpload}
+          />
+
+          {!attachedImage ? (
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full p-4 rounded-xl border border-dashed border-slate-700 bg-slate-950/60 hover:border-purple-500/50 hover:bg-slate-950 transition-all flex items-center justify-center gap-3 text-center group"
+            >
+              <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <ImageIcon className="w-4 h-4" />
+              </div>
+              <div className="text-left">
+                <span className="text-xs font-bold text-white group-hover:text-purple-300 block">
+                  + Add Reference Image (Image-to-Image)
+                </span>
+                <span className="text-[11px] text-slate-500">
+                  Upload a photo to guide style, composition, or character design
+                </span>
+              </div>
+            </button>
+          ) : (
+            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950 border border-purple-500/40 text-white shadow-md">
+              <div className="flex items-center gap-3 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={attachedImage}
+                  alt="Reference preview"
+                  className="w-12 h-12 rounded-xl object-cover border border-slate-800 shrink-0"
+                />
+                <div className="overflow-hidden">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-purple-300 truncate max-w-[200px]">
+                      {imageName || "Reference Image"}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold">
+                      Image-to-Image Active
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-0.5">
+                    AI will use this photo as visual reference and style guide.
+                  </p>
+                </div>
+              </div>
               <button
-                key={style.id}
                 type="button"
-                onClick={() => setSelectedStyle(style.id)}
-                className={`flex flex-col items-center justify-center p-3 rounded-xl border text-xs font-medium transition-all text-center ${
-                  selectedStyle === style.id
-                    ? "bg-purple-600/20 border-purple-500 text-purple-300 shadow-md shadow-purple-900/30 ring-1 ring-purple-500"
-                    : "bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200"
-                }`}
+                onClick={removeImage}
+                className="p-2 rounded-xl bg-slate-800 hover:bg-rose-900/40 text-slate-400 hover:text-rose-300 transition-colors"
+                title="Remove Image"
               >
-                <span className="text-xl mb-1">{style.icon}</span>
-                <span className="truncate w-full">{style.name}</span>
+                <X className="w-4 h-4" />
               </button>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Aspect Ratio Selection */}
@@ -177,7 +249,7 @@ export function AiImageGenerator() {
                 onClick={() => setAspectRatio(ratio.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-medium transition-all ${
                   aspectRatio === ratio.id
-                    ? "bg-indigo-600/20 border-indigo-500 text-indigo-300 ring-1 ring-indigo-500"
+                    ? "bg-indigo-600/20 border-indigo-500 text-indigo-300 ring-1 ring-indigo-500 shadow-md"
                     : "bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700"
                 }`}
               >
@@ -193,7 +265,7 @@ export function AiImageGenerator() {
           <button
             type="button"
             onClick={handleGenerate}
-            disabled={isGenerating || !prompt.trim()}
+            disabled={isGenerating || (!prompt.trim() && !attachedImage)}
             className="flex-1 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-purple-900/40 flex items-center justify-center gap-2 transition-all disabled:opacity-50 text-sm active:scale-[0.99]"
           >
             {isGenerating ? (
@@ -204,7 +276,7 @@ export function AiImageGenerator() {
             ) : (
               <>
                 <Sparkles className="w-4 h-4" />
-                Generate AI Image (Free)
+                {attachedImage ? "Transform Image with AI (Free)" : "Generate AI Image (Free)"}
               </>
             )}
           </button>
@@ -220,6 +292,14 @@ export function AiImageGenerator() {
             </button>
           )}
         </div>
+
+        {/* Error Banner */}
+        {errorMessage && (
+          <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-800/60 text-rose-200 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
       </div>
 
       {/* Output Display Card */}
@@ -268,7 +348,7 @@ export function AiImageGenerator() {
             </div>
             <p className="text-sm font-medium text-slate-400">Your AI-generated artwork will appear here</p>
             <p className="text-xs text-slate-600 max-w-sm">
-              Type your prompt above or click Random Idea to produce a stunning image powered by Agnes AI.
+              Type your prompt above or upload an image to produce a high-definition artwork powered by Agnes AI.
             </p>
           </div>
         )}

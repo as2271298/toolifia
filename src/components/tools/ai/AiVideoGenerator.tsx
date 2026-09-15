@@ -3,25 +3,9 @@
 import React, { useState, useRef } from "react";
 import {
   Video, Film, Sparkles, Download, RefreshCw,
-  Check, Copy, Wand2, Dices, AlertCircle, Play
+  Check, Copy, Wand2, Dices, AlertCircle, Image as ImageIcon,
+  Upload, X, Play
 } from "lucide-react";
-
-interface VideoStyle {
-  id: string;
-  name: string;
-  icon: string;
-  badge: string;
-  desc: string;
-}
-
-const VIDEO_STYLES: VideoStyle[] = [
-  { id: "cinematic", name: "Cinematic 4K", icon: "🎬", badge: "Ultra HD", desc: "35mm anamorphic film look, dramatic lighting" },
-  { id: "cyberpunk", name: "Cyberpunk Neo", icon: "🌃", badge: "Trending", desc: "Neon reflections, blade runner aesthetic" },
-  { id: "nature", name: "Nature & Wildlife", icon: "🦅", badge: "8K Drone", desc: "National geographic style, golden hour light" },
-  { id: "anime", name: "Anime Motion", icon: "⚡", badge: "Ghibli", desc: "Hand-drawn animation, fluid dynamic motion" },
-  { id: "3d", name: "3D Pixar CGI", icon: "🧸", badge: "3D Render", desc: "Disney 3D animation, soft lighting, smooth physics" },
-  { id: "scifi", name: "Sci-Fi Cosmos", icon: "🚀", badge: "Space", desc: "Deep space nebulae, starships, floating particles" },
-];
 
 const INSPIRATION_PROMPTS = [
   "A futuristic flying car gliding through towering neon skyscrapers in rain at night",
@@ -34,9 +18,17 @@ const INSPIRATION_PROMPTS = [
 
 export function AiVideoGenerator() {
   const [prompt, setPrompt] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState("cinematic");
   const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16" | "1:1">("16:9");
   const [duration, setDuration] = useState("5");
+
+  // Media attachments: Image-to-Video & Video-to-Video
+  const [attachedImage, setAttachedImage] = useState<string | null>(null);
+  const [imageName, setImageName] = useState<string>("");
+  const [attachedVideo, setAttachedVideo] = useState<string | null>(null);
+  const [videoName, setVideoName] = useState<string>("");
+
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const videoInputRef = useRef<HTMLInputElement | null>(null);
 
   // Status
   const [status, setStatus] = useState<"idle" | "generating" | "done" | "error">("idle");
@@ -49,6 +41,54 @@ export function AiVideoGenerator() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 15 * 1024 * 1024) {
+      setErrorMessage("Image size must be under 15MB");
+      return;
+    }
+    setImageName(file.name);
+    setAttachedVideo(null); // Mutually exclusive reference
+    setVideoName("");
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAttachedImage(reader.result as string);
+      setErrorMessage(null);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 25 * 1024 * 1024) {
+      setErrorMessage("Video size must be under 25MB");
+      return;
+    }
+    setVideoName(file.name);
+    setAttachedImage(null); // Mutually exclusive reference
+    setImageName("");
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAttachedVideo(reader.result as string);
+      setErrorMessage(null);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeImage = () => {
+    setAttachedImage(null);
+    setImageName("");
+    if (imageInputRef.current) imageInputRef.current.value = "";
+  };
+
+  const removeVideo = () => {
+    setAttachedVideo(null);
+    setVideoName("");
+    if (videoInputRef.current) videoInputRef.current.value = "";
+  };
 
   const handleRandomPrompt = () => {
     const random = INSPIRATION_PROMPTS[Math.floor(Math.random() * INSPIRATION_PROMPTS.length)];
@@ -75,15 +115,21 @@ export function AiVideoGenerator() {
   };
 
   const startGeneration = async () => {
-    if (!prompt.trim()) {
-      setErrorMessage("Please enter a scene prompt to generate a video.");
+    if (!prompt.trim() && !attachedImage && !attachedVideo) {
+      setErrorMessage("Please enter a scene prompt or upload an image/video to animate.");
       return;
     }
 
     setStatus("generating");
     setErrorMessage(null);
     setProgress(15);
-    setStatusMessage("Connecting to Agnes AI 2.5 GPU cluster...");
+    setStatusMessage(
+      attachedImage
+        ? "Analyzing starting image & camera trajectory..."
+        : attachedVideo
+        ? "Processing source video reference frames..."
+        : "Connecting to Agnes AI 2.5 GPU cluster..."
+    );
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
@@ -108,9 +154,10 @@ export function AiVideoGenerator() {
         body: JSON.stringify({
           prompt: prompt.trim(),
           engine: "agnes",
-          style: selectedStyle,
           aspectRatio,
           duration,
+          image: attachedImage || "",
+          video: attachedVideo || "",
         }),
       });
 
@@ -123,14 +170,12 @@ export function AiVideoGenerator() {
         return;
       }
 
-      // If video URL returned directly
       if (data.videoUrl) {
         clearInterval(progressInterval);
         setProgress(100);
         setVideoUrl(data.videoUrl);
         setStatus("done");
       } else if (data.projectId) {
-        // Poll status
         setStatusMessage("Rendering high-definition video frames...");
         await pollVideoStatus(data.projectId, data.engine || "agnes", progressInterval);
       } else {
@@ -214,11 +259,11 @@ export function AiVideoGenerator() {
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-bold text-white">AI Video Generator Studio</h2>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold">
-                ● Agnes AI 2.5 Active (Free)
+                ● Agnes AI 2.5 Active
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Generate real high-definition MP4 videos directly from text prompts. No account required.
+              Text-to-Video, Image-to-Video, & Video-to-Video generation in high definition.
             </p>
           </div>
         </div>
@@ -241,7 +286,7 @@ export function AiVideoGenerator() {
             <div className="flex items-center justify-between">
               <label className="text-sm font-bold text-slate-200 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-rose-400" />
-                Describe your video scene
+                Describe your video or animation
               </label>
               <button
                 onClick={handleEnhancePrompt}
@@ -258,43 +303,140 @@ export function AiVideoGenerator() {
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="e.g. A cyber samurai walking through a rainy neon city in slow motion with lens flares..."
-                rows={4}
+                placeholder={
+                  attachedImage
+                    ? "Describe how you want this image to be animated (e.g. Slow zoom in, hair blowing gently in wind, cinematic sunlight)..."
+                    : attachedVideo
+                    ? "Describe how to transform or remix this video (e.g. Cyberpunk neo style, cinematic lighting)..."
+                    : "Describe your scene... (e.g. A cyber samurai walking through a rainy neon city in slow motion with lens flares)"
+                }
+                rows={3}
                 className="w-full rounded-2xl border border-slate-700/80 bg-slate-900 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-all resize-none"
               />
             </div>
           </div>
 
-          {/* Visual Style Selector */}
+          {/* Media Attachments: Image Adding & Video Adding */}
           <div className="space-y-3">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Art & Cinematic Style
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+              <Upload className="w-3.5 h-3.5 text-rose-400" />
+              Reference Media (Optional)
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-              {VIDEO_STYLES.map((style) => (
+
+            {/* Hidden file inputs */}
+            <input
+              ref={imageInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUpload}
+            />
+            <input
+              ref={videoInputRef}
+              type="file"
+              accept="video/*"
+              className="hidden"
+              onChange={handleVideoUpload}
+            />
+
+            {!attachedImage && !attachedVideo ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Add Image Button */}
                 <button
-                  key={style.id}
-                  onClick={() => setSelectedStyle(style.id)}
                   type="button"
-                  className={`p-3 rounded-2xl text-left border transition-all flex flex-col justify-between ${
-                    selectedStyle === style.id
-                      ? "bg-rose-600/10 border-rose-500 text-white ring-1 ring-rose-500"
-                      : "bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700"
-                  }`}
+                  onClick={() => imageInputRef.current?.click()}
+                  className="p-4 rounded-2xl border border-dashed border-slate-700 bg-slate-950/60 hover:border-rose-500/50 hover:bg-slate-900 transition-all flex items-center gap-3 text-left group"
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xl">{style.icon}</span>
-                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
-                      {style.badge}
-                    </span>
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                    <ImageIcon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">{style.name}</h4>
-                    <p className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">{style.desc}</p>
+                    <h4 className="text-xs font-bold text-white group-hover:text-rose-300">
+                      + Add Image
+                    </h4>
+                    <p className="text-[11px] text-slate-400">Image-to-Video Animation</p>
                   </div>
                 </button>
-              ))}
-            </div>
+
+                {/* Add Video Button */}
+                <button
+                  type="button"
+                  onClick={() => videoInputRef.current?.click()}
+                  className="p-4 rounded-2xl border border-dashed border-slate-700 bg-slate-950/60 hover:border-rose-500/50 hover:bg-slate-900 transition-all flex items-center gap-3 text-left group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                    <Video className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white group-hover:text-rose-300">
+                      + Add Video
+                    </h4>
+                    <p className="text-[11px] text-slate-400">Video-to-Video Transform</p>
+                  </div>
+                </button>
+              </div>
+            ) : attachedImage ? (
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950 border border-purple-500/40 text-white shadow-md">
+                <div className="flex items-center gap-3 overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={attachedImage}
+                    alt="Attached reference"
+                    className="w-12 h-12 rounded-xl object-cover border border-slate-800 shrink-0"
+                  />
+                  <div className="overflow-hidden">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-purple-300 truncate max-w-[200px]">
+                        {imageName || "Reference Image"}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold">
+                        Image-to-Video Active
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      AI will animate this photo into a cinematic video clip.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-rose-900/40 text-slate-400 hover:text-rose-300 transition-colors"
+                  title="Remove Image"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950 border border-rose-500/40 text-white shadow-md">
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
+                    <Film className="w-6 h-6" />
+                  </div>
+                  <div className="overflow-hidden">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-rose-300 truncate max-w-[200px]">
+                        {videoName || "Reference Video"}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-bold">
+                        Video-to-Video Active
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      AI will restyle and remix this video using Agnes 2.5.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={removeVideo}
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-rose-900/40 text-slate-400 hover:text-rose-300 transition-colors"
+                  title="Remove Video"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Aspect Ratio & Duration */}
@@ -316,7 +458,7 @@ export function AiVideoGenerator() {
                     type="button"
                     className={`py-2 px-1 rounded-xl text-center border text-xs font-bold transition-all ${
                       aspectRatio === ar.id
-                        ? "bg-rose-500 text-white border-rose-500"
+                        ? "bg-rose-500 text-white border-rose-500 shadow-md"
                         : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
                     }`}
                   >
@@ -343,7 +485,7 @@ export function AiVideoGenerator() {
                     type="button"
                     className={`py-2.5 rounded-xl text-center border text-xs font-bold transition-all ${
                       duration === d.id
-                        ? "bg-rose-500 text-white border-rose-500"
+                        ? "bg-rose-500 text-white border-rose-500 shadow-md"
                         : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
                     }`}
                   >
@@ -369,7 +511,11 @@ export function AiVideoGenerator() {
               ) : (
                 <>
                   <Film className="w-5 h-5" />
-                  Generate AI Video (Free)
+                  {attachedImage
+                    ? "Animate Image to Video (Free)"
+                    : attachedVideo
+                    ? "Transform Video to Video (Free)"
+                    : "Generate AI Video (Free)"}
                 </>
               )}
             </button>
@@ -440,7 +586,7 @@ export function AiVideoGenerator() {
                   <div>
                     <h3 className="text-sm font-bold text-slate-300">No Video Generated Yet</h3>
                     <p className="text-xs text-slate-500 max-w-xs mt-1">
-                      Type your scene prompt on the left and click Generate to produce a full downloadable MP4 video.
+                      Type your scene prompt on the left or upload an image/video to produce an MP4 video.
                     </p>
                   </div>
                 </div>

@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
     const {
-      prompt,
+      prompt = "",
       action,
       engine = "agnes", // "agnes" (Agnes AI 2.5 Flash) | "json2video" | "google-veo" | "fal-ai"
       style = "cinematic",
@@ -103,7 +103,14 @@ export async function POST(req: NextRequest) {
       apiKey = "",
       narration = "",
       showTitle = false,
+      image = "",
+      video = "",
+      imageUrl = "",
+      videoUrl = "",
     } = body;
+
+    const inputImage = image || imageUrl || "";
+    const inputVideo = video || videoUrl || "";
 
     // ── Prompt Enhancement Action ───────────────────────────────────────────
     if (action === "enhance") {
@@ -122,11 +129,13 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
-      return NextResponse.json({ error: "Please enter a scene prompt to generate a video" }, { status: 400 });
-    }
+    const cleanPrompt = (typeof prompt === "string" ? prompt.trim() : "") ||
+      (inputImage ? "Animate this image with smooth cinematic motion and high definition detail" :
+       inputVideo ? "Re-render and enhance this video motion with cinematic quality" : "");
 
-    const cleanPrompt = prompt.trim();
+    if (!cleanPrompt) {
+      return NextResponse.json({ error: "Please enter a scene prompt or upload an image/video" }, { status: 400 });
+    }
     const styleModifiers: Record<string, string> = {
       cinematic: "cinematic 35mm movie film, dramatic volumetric lighting, anamorphic lens flare, photorealistic 8K, color graded",
       cyberpunk: "cyberpunk neo-tokyo aesthetic, glowing neon lights, rain reflections, futuristic city, blade runner atmosphere",
@@ -449,14 +458,23 @@ export async function POST(req: NextRequest) {
       const validAspectRatios = ["16:9", "9:16", "1:1"];
       const targetRatio = validAspectRatios.includes(aspectRatio) ? aspectRatio : "16:9";
 
-      const agnesPayload = {
-        model: "agnes-video-2.5-flash",
-        mode: "text",
-        prompt: fullPrompt,
+      const agnesPayload: any = {
+        model: inputVideo ? "agnes-video-2.5" : "agnes-video-2.5-flash",
+        prompt: cleanPrompt,
         aspect_ratio: targetRatio,
         seconds: String(Math.min(Math.max(parseInt(duration, 10) || 5, 4), 12)),
         size: "720P",
       };
+
+      if (inputImage) {
+        agnesPayload.mode = "reference";
+        agnesPayload.images = [inputImage];
+      } else if (inputVideo) {
+        agnesPayload.mode = "reference";
+        agnesPayload.videos = [inputVideo];
+      } else {
+        agnesPayload.mode = "text";
+      }
 
       try {
         const agnesRes = await fetch("https://apihub.agnes-ai.com/v1/videos", {
@@ -479,7 +497,7 @@ export async function POST(req: NextRequest) {
               status: "done",
               videoUrl: immediateVideoUrl,
               engine: "agnes",
-              model: "Agnes Video 2.5 Flash",
+              model: inputVideo ? "Agnes Video 2.5 (Video-to-Video)" : inputImage ? "Agnes Video 2.5 (Image-to-Video)" : "Agnes Video 2.5 Flash",
               prompt: cleanPrompt,
               aspectRatio: targetRatio,
               duration,
@@ -503,7 +521,7 @@ export async function POST(req: NextRequest) {
                       videoUrl: pollData.url,
                       projectId: taskId,
                       engine: "agnes",
-                      model: "Agnes Video 2.5 Flash",
+                      model: inputVideo ? "Agnes Video 2.5 (Video-to-Video)" : inputImage ? "Agnes Video 2.5 (Image-to-Video)" : "Agnes Video 2.5 Flash",
                       prompt: cleanPrompt,
                       aspectRatio: targetRatio,
                       duration,
@@ -520,7 +538,7 @@ export async function POST(req: NextRequest) {
               status: "running",
               projectId: taskId,
               engine: "agnes",
-              model: "Agnes Video 2.5 Flash",
+              model: inputVideo ? "Agnes Video 2.5 (Video-to-Video)" : inputImage ? "Agnes Video 2.5 (Image-to-Video)" : "Agnes Video 2.5 Flash",
               prompt: cleanPrompt,
               aspectRatio: targetRatio,
               duration,
@@ -542,7 +560,7 @@ export async function POST(req: NextRequest) {
         const visualPrompt = encodeURIComponent(`${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}`);
         const dimMap: Record<string, { w: number; h: number }> = { "16:9": { w: 1280, h: 720 }, "9:16": { w: 720, h: 1280 }, "1:1": { w: 1080, h: 1080 } };
         const dims = dimMap[aspectRatio] || { w: 1280, h: 720 };
-        const imageUrl = `https://image.pollinations.ai/prompt/${visualPrompt}?width=${dims.w}&height=${dims.h}&seed=${seed}&nologo=true`;
+        const imageUrl = inputImage || `https://image.pollinations.ai/prompt/${visualPrompt}?width=${dims.w}&height=${dims.h}&seed=${seed}&nologo=true`;
         const durNum = Math.min(Math.max(parseInt(duration, 10) || 5, 3), 10);
 
         const renderRes = await fetch("https://api.json2video.com/v2/movies", {

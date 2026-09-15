@@ -8,18 +8,23 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
     const {
-      prompt,
+      prompt = "",
       engine = "agnes",
       aspectRatio = "1:1",
       styleSuffix = "",
       apiKey = "",
+      image = "",
+      imageUrl = "",
     } = body;
 
-    if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
-      return NextResponse.json({ error: "Please enter a prompt" }, { status: 400 });
+    const inputImage = image || imageUrl || "";
+    const cleanPrompt = (typeof prompt === "string" ? prompt.trim() : "") ||
+      (inputImage ? "Transform and enhance this image in ultra high definition photo quality" : "");
+
+    if (!cleanPrompt) {
+      return NextResponse.json({ error: "Please enter a prompt or upload an image" }, { status: 400 });
     }
 
-    const cleanPrompt = prompt.trim();
     const fullPrompt = styleSuffix ? `${cleanPrompt}, ${styleSuffix}` : cleanPrompt;
 
     const sizeMap: Record<string, { w: number; h: number; str: string }> = {
@@ -32,13 +37,20 @@ export async function POST(req: NextRequest) {
     // ── Primary Engine: Agnes AI 2.5 Flash ───────────────────────────────────
     const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
     try {
-      const agnesPayload = {
+      const agnesPayload: any = {
         model: "agnes-image-2.5-flash",
         prompt: fullPrompt,
         n: 1,
         size: dims.str,
         response_format: "url",
       };
+
+      if (inputImage) {
+        agnesPayload.extra_body = {
+          response_format: "url",
+          image: [inputImage],
+        };
+      }
 
       const agnesRes = await fetch("https://apihub.agnes-ai.com/v1/images/generations", {
         method: "POST",
