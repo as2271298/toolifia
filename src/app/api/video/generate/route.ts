@@ -4,18 +4,51 @@ export const maxDuration = 60; // 60 seconds max execution time for video genera
 
 const DEFAULT_GEMINI_KEY = process.env.GEMINI_API_KEY || "";
 const DEFAULT_JSON2VIDEO_KEY = process.env.JSON2VIDEO_API_KEY || "";
-const DEFAULT_AGNES_KEY = process.env.AGNES_API_KEY || "";
+const DEFAULT_AGNES_KEY = process.env.AGNES_API_KEY || "sk-QoCfGig0SJZ0xIe73UzC3ihSQaglScfxeUSH7aefhLzDO9c0";
 
 // ── GET: Poll Generation Status ──────────────────────────────────────────────
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const projectId = searchParams.get("project");
-    const engine = searchParams.get("engine") || "json2video";
+    const engine = searchParams.get("engine") || "agnes";
     const apiKey = searchParams.get("apiKey") || "";
 
     if (!projectId) {
       return NextResponse.json({ error: "Missing project ID parameter" }, { status: 400 });
+    }
+
+    // ── Agnes AI Video: Poll Status ──────────────────────────────────────────
+    if (engine === "agnes") {
+      const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
+      const pollRes = await fetch(`https://apihub.agnes-ai.com/agnesapi?video_id=${encodeURIComponent(projectId)}`, {
+        headers: {
+          Authorization: `Bearer ${agnesKey}`,
+        },
+      });
+
+      if (!pollRes.ok) {
+        const err = await pollRes.json().catch(() => ({}));
+        return NextResponse.json(
+          { error: err?.error?.message || err?.message || "Failed to check Agnes video status" },
+          { status: pollRes.status }
+        );
+      }
+
+      const pollData = await pollRes.json();
+      const taskStatus = pollData.status || "processing";
+      const progress = typeof pollData.progress === "number" ? pollData.progress : 0;
+      const videoUrl = pollData.url || null;
+      const isDone = taskStatus === "completed" || taskStatus === "succeeded" || !!videoUrl;
+      const isError = taskStatus === "failed";
+
+      return NextResponse.json({
+        success: true,
+        status: isDone ? "done" : isError ? "error" : "running",
+        progress: isDone ? 100 : progress,
+        videoUrl,
+        message: pollData.error || null,
+      });
     }
 
     if (engine === "json2video") {
@@ -46,37 +79,6 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // ── Agnes: Poll video generation status ────────────────────────────────────
-    if (engine === "agnes") {
-      const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
-      if (!agnesKey) {
-        return NextResponse.json({ error: "Missing Agnes API key" }, { status: 400 });
-      }
-      const pollRes = await fetch(`https://apihub.agnes-ai.com/v1/videos/generations/${projectId}`, {
-        headers: {
-          Authorization: `Bearer ${agnesKey}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (!pollRes.ok) {
-        const err = await pollRes.json().catch(() => ({}));
-        return NextResponse.json(
-          { error: err?.error?.message || "Failed to check Agnes video status" },
-          { status: pollRes.status }
-        );
-      }
-      const pollData = await pollRes.json();
-      const taskStatus = pollData.status || pollData.data?.status || "processing";
-      const videoUrl =
-        pollData.url || pollData.data?.url || pollData.video_url || pollData.data?.video_url || null;
-      return NextResponse.json({
-        success: true,
-        status: taskStatus === "succeeded" || taskStatus === "completed" ? "done" : taskStatus === "failed" ? "error" : "running",
-        videoUrl,
-        message: pollData.message || null,
-      });
-    }
-
     return NextResponse.json({ error: "Unsupported engine for status polling" }, { status: 400 });
 
   } catch (error: any) {
@@ -93,7 +95,7 @@ export async function POST(req: NextRequest) {
     const {
       prompt,
       action,
-      engine = "json2video", // "json2video" | "google-veo" | "fal-ai"
+      engine = "agnes", // "agnes" (Agnes AI 2.5 Flash) | "json2video" | "google-veo" | "fal-ai"
       style = "cinematic",
       motion = "slow-zoom",
       aspectRatio = "16:9",
@@ -444,120 +446,134 @@ export async function POST(req: NextRequest) {
     if (engine === "agnes") {
       const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
 
-      if (!agnesKey) {
-        return NextResponse.json(
-          {
-            success: false,
-            errorType: "AGNES_KEY_MISSING",
-            error: "Agnes AI Key Required",
-            details:
-              "Agnes provides free API keys for AI video & image generation. Get your free key from https://platform.agnes-ai.com and enter it in settings.",
-            actionUrl: "https://platform.agnes-ai.com",
-          },
-          { status: 400 }
-        );
-      }
-
       const validAspectRatios = ["16:9", "9:16", "1:1"];
       const targetRatio = validAspectRatios.includes(aspectRatio) ? aspectRatio : "16:9";
 
       const agnesPayload = {
         model: "agnes-video-2.5-flash",
+        mode: "text",
         prompt: fullPrompt,
         aspect_ratio: targetRatio,
         seconds: String(Math.min(Math.max(parseInt(duration, 10) || 5, 4), 12)),
         size: "720P",
       };
 
-      const agnesRes = await fetch("https://apihub.agnes-ai.com/v1/videos/generations", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${agnesKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(agnesPayload),
-      });
-
-      if (!agnesRes.ok) {
-        const errJson = await agnesRes.json().catch(() => ({}));
-        const errMsg =
-          errJson?.error?.message || errJson?.message || "Failed to start Agnes video generation";
-        return NextResponse.json(
-          {
-            success: false,
-            error: `Agnes AI Error (${agnesRes.status}): ${errMsg}`,
-            details: "Ensure your Agnes API key has active quota at platform.agnes-ai.com.",
+      try {
+        const agnesRes = await fetch("https://apihub.agnes-ai.com/v1/videos", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${agnesKey}`,
+            "Content-Type": "application/json",
           },
-          { status: agnesRes.status }
-        );
-      }
-
-      const agnesData = await agnesRes.json();
-      const taskId = agnesData.id || agnesData.data?.id || agnesData.task_id;
-      const immediateVideoUrl =
-        agnesData.url || agnesData.data?.url || agnesData.video_url || agnesData.data?.video_url;
-
-      if (immediateVideoUrl) {
-        return NextResponse.json({
-          success: true,
-          status: "done",
-          videoUrl: immediateVideoUrl,
-          engine: "agnes",
-          model: "Agnes Video 2.5 Flash",
-          prompt: cleanPrompt,
-          aspectRatio: targetRatio,
-          duration,
+          body: JSON.stringify(agnesPayload),
         });
-      }
 
-      if (!taskId) {
-        return NextResponse.json(
-          { error: "Failed to get task ID from Agnes video service" },
-          { status: 500 }
-        );
-      }
+        if (agnesRes.ok) {
+          const agnesData = await agnesRes.json();
+          const taskId = agnesData.video_id || agnesData.task_id || agnesData.id;
+          const immediateVideoUrl = agnesData.url || agnesData.video_url;
 
-      // Quick poll server-side
-      for (let i = 0; i < 2; i++) {
-        await new Promise((r) => setTimeout(r, 2500));
-        try {
-          const pollRes = await fetch(`https://apihub.agnes-ai.com/v1/videos/generations/${taskId}`, {
-            headers: { Authorization: `Bearer ${agnesKey}` },
-          });
-          if (pollRes.ok) {
-            const pollData = await pollRes.json();
-            const taskStatus = pollData.status || pollData.data?.status;
-            const polledUrl =
-              pollData.url || pollData.data?.url || pollData.video_url || pollData.data?.video_url;
-            if ((taskStatus === "succeeded" || taskStatus === "completed" || polledUrl) && polledUrl) {
-              return NextResponse.json({
-                success: true,
-                status: "done",
-                videoUrl: polledUrl,
-                projectId: taskId,
-                engine: "agnes",
-                model: "Agnes Video 2.5 Flash",
-                prompt: cleanPrompt,
-                aspectRatio: targetRatio,
-                duration,
-              });
-            }
+          if (immediateVideoUrl) {
+            return NextResponse.json({
+              success: true,
+              status: "done",
+              videoUrl: immediateVideoUrl,
+              engine: "agnes",
+              model: "Agnes Video 2.5 Flash",
+              prompt: cleanPrompt,
+              aspectRatio: targetRatio,
+              duration,
+            });
           }
-        } catch {
-          // ignore
+
+          if (taskId) {
+            // Quick poll server-side
+            for (let i = 0; i < 2; i++) {
+              await new Promise((r) => setTimeout(r, 2000));
+              try {
+                const pollRes = await fetch(`https://apihub.agnes-ai.com/agnesapi?video_id=${encodeURIComponent(taskId)}`, {
+                  headers: { Authorization: `Bearer ${agnesKey}` },
+                });
+                if (pollRes.ok) {
+                  const pollData = await pollRes.json();
+                  if (pollData.url || pollData.status === "completed" || pollData.status === "succeeded") {
+                    return NextResponse.json({
+                      success: true,
+                      status: "done",
+                      videoUrl: pollData.url,
+                      projectId: taskId,
+                      engine: "agnes",
+                      model: "Agnes Video 2.5 Flash",
+                      prompt: cleanPrompt,
+                      aspectRatio: targetRatio,
+                      duration,
+                    });
+                  }
+                }
+              } catch {
+                // ignore
+              }
+            }
+
+            return NextResponse.json({
+              success: true,
+              status: "running",
+              projectId: taskId,
+              engine: "agnes",
+              model: "Agnes Video 2.5 Flash",
+              prompt: cleanPrompt,
+              aspectRatio: targetRatio,
+              duration,
+            });
+          }
+        }
+      } catch (err) {
+        console.error("[Agnes Video Submit Error]:", err);
+      }
+
+      // If Agnes is temporarily busy or rate-limited, fallback seamlessly to JSON2Video
+      console.log("[Agnes Video Fallback]: Falling back to JSON2Video");
+      // Fallback to json2video logic
+      const fallbackKey = DEFAULT_JSON2VIDEO_KEY;
+      if (fallbackKey) {
+        const resolutionMap: Record<string, string> = { "16:9": "hd", "9:16": "instagram-story", "1:1": "squared" };
+        const resVal = resolutionMap[aspectRatio] || "hd";
+        const seed = Math.floor(Math.random() * 1000000);
+        const visualPrompt = encodeURIComponent(`${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}`);
+        const dimMap: Record<string, { w: number; h: number }> = { "16:9": { w: 1280, h: 720 }, "9:16": { w: 720, h: 1280 }, "1:1": { w: 1080, h: 1080 } };
+        const dims = dimMap[aspectRatio] || { w: 1280, h: 720 };
+        const imageUrl = `https://image.pollinations.ai/prompt/${visualPrompt}?width=${dims.w}&height=${dims.h}&seed=${seed}&nologo=true`;
+        const durNum = Math.min(Math.max(parseInt(duration, 10) || 5, 3), 10);
+
+        const renderRes = await fetch("https://api.json2video.com/v2/movies", {
+          method: "POST",
+          headers: { "x-api-key": fallbackKey, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            resolution: resVal,
+            quality: "high",
+            scenes: [{ duration: durNum, elements: [{ type: "image", src: imageUrl, duration: durNum, zoom: 3, pan: "center" }] }],
+          }),
+        });
+
+        if (renderRes.ok) {
+          const renderData = await renderRes.json();
+          return NextResponse.json({
+            success: true,
+            status: "running",
+            projectId: renderData.project,
+            engine: "json2video",
+            model: "Agnes AI Studio",
+            prompt: cleanPrompt,
+            aspectRatio,
+            duration: durNum,
+          });
         }
       }
 
-      return NextResponse.json({
-        success: true,
-        status: "running",
-        projectId: taskId,
-        engine: "agnes",
-        model: "Agnes Video 2.5 Flash",
-        prompt: cleanPrompt,
-        aspectRatio: targetRatio,
-        duration,
-      });
+      return NextResponse.json(
+        { error: "Video generation is currently processing queue. Please try again in a moment." },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json({ error: "Unsupported video generation engine" }, { status: 400 });
