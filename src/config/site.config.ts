@@ -14,6 +14,7 @@ export interface SiteConfig {
     facebook: string;
     instagram: string;
     youtube: string;
+    tiktok: string;
   };
   monetization: {
     adsensePublisherId: string;
@@ -46,8 +47,9 @@ export const siteConfig: SiteConfig = {
     github: "",
     twitter: "",
     linkedin: "",
-    facebook: "",
-    instagram: "",
+    facebook: "https://www.facebook.com/profile.php?id=61594026616616",
+    instagram: "https://www.instagram.com/toolifia.ai/",
+    tiktok: "https://www.tiktok.com/@toolifia.ai",
     youtube: "",
   },
   monetization: {

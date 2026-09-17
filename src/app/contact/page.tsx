@@ -2,7 +2,7 @@ import { constructMetadata } from "@/lib/seo";
 import { siteConfig } from "@/config/site.config";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { ContactForm } from "@/components/common/ContactForm";
-import { Mail, MessageSquare, ShieldCheck, Zap } from "lucide-react";
+import { Mail, MessageSquare, ShieldCheck, Zap, Facebook, Instagram } from "lucide-react";
 
 export const metadata = constructMetadata({
   title: `Contact Us & Support | ${siteConfig.name}`,
@@ -81,6 +81,51 @@ export default function ContactPage() {
         >
           toolifia.ai@gmail.com
         </a>
+      </div>
+
+      {/* Official Social Channels */}
+      <div className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white">Connect on Social Media</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Follow us for real-time tool updates, new releases, and video tutorials.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2.5">
+          {siteConfig.links.facebook && (
+            <a
+              href={siteConfig.links.facebook}
+              target="_blank"
+              rel="noreferrer"
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-[#1877F2] transition-colors flex items-center gap-2 text-xs font-semibold border border-slate-700/60"
+            >
+              <Facebook className="w-4 h-4 text-[#1877F2]" />
+              <span>Facebook</span>
+            </a>
+          )}
+          {siteConfig.links.instagram && (
+            <a
+              href={siteConfig.links.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-pink-400 transition-colors flex items-center gap-2 text-xs font-semibold border border-slate-700/60"
+            >
+              <Instagram className="w-4 h-4 text-pink-500" />
+              <span>Instagram</span>
+            </a>
+          )}
+          {siteConfig.links.tiktok && (
+            <a
+              href={siteConfig.links.tiktok}
+              target="_blank"
+              rel="noreferrer"
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-cyan-400 transition-colors flex items-center gap-2 text-xs font-semibold border border-slate-700/60"
+            >
+              <svg className="w-4 h-4 fill-current text-cyan-400" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" />
+              </svg>
+              <span>TikTok</span>
+            </a>
+          )}
+        </div>
       </div>
 
       {/* Structured Inquiries Guide */}

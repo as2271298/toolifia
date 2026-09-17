@@ -47,6 +47,7 @@ export default function RootLayout({
       siteConfig.links.facebook,
       siteConfig.links.instagram,
       siteConfig.links.youtube,
+      siteConfig.links.tiktok,
     ].filter(Boolean),
   };
 
