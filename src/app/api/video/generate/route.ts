@@ -6,7 +6,7 @@ const DEFAULT_GEMINI_KEY = process.env.GEMINI_API_KEY || "";
 const DEFAULT_JSON2VIDEO_KEY = process.env.JSON2VIDEO_API_KEY || "";
 const DEFAULT_AGNES_KEY = process.env.AGNES_API_KEY || "sk-QoCfGig0SJZ0xIe73UzC3ihSQaglScfxeUSH7aefhLzDO9c0";
 
-// ── GET: Poll Generation Status ──────────────────────────────────────────────
+// â”€â”€ GET: Poll Generation Status â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing project ID parameter" }, { status: 400 });
     }
 
-    // ── Agnes AI Video: Poll Status ──────────────────────────────────────────
+    // â”€â”€ Agnes AI Video: Poll Status â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (engine === "agnes") {
       const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
 
@@ -67,21 +67,18 @@ export async function GET(req: NextRequest) {
       const rawStatus = (pollData.status || pollData.internal_status || "queued").toLowerCase();
       const progress = typeof pollData.progress === "number" ? pollData.progress : 0;
 
-      // Extract URL from all possible Agnes output formats
+      // Extract URL from all possible Agnes output formats (exclude non-URL fields like remixed_from_video_id)
       const videoUrl =
         pollData.url ||
         pollData.video_url ||
         pollData.metadata?.url ||
         pollData.data?.url ||
         pollData.data?.video_url ||
-        pollData.remixed_from_video_id ||
         null;
 
+      // Only mark done when Agnes explicitly says completed/succeeded AND we have a real URL
       const isDone =
-        rawStatus === "completed" ||
-        rawStatus === "succeeded" ||
-        (progress === 100 && !!videoUrl) ||
-        !!videoUrl;
+        (rawStatus === "completed" || rawStatus === "succeeded") && !!videoUrl;
 
       const isError = rawStatus === "failed" || rawStatus === "error";
 
@@ -164,7 +161,7 @@ export async function POST(req: NextRequest) {
     const inputImage = image || imageUrl || "";
     const inputVideo = video || videoUrl || "";
 
-    // ── Prompt Enhancement Action ───────────────────────────────────────────
+    // â”€â”€ Prompt Enhancement Action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (action === "enhance") {
       if (!prompt || typeof prompt !== "string") {
         return NextResponse.json({ error: "Missing prompt to enhance" }, { status: 400 });
@@ -209,7 +206,7 @@ export async function POST(req: NextRequest) {
 
     const fullPrompt = `${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}, ${motionModifiers[motion] || motionModifiers["slow-zoom"]}, ${duration}s video clip, ultra high definition`;
 
-    // ── Engine 1: JSON2Video (Real MP4 Video Engine) ─────────────────────────
+    // â”€â”€ Engine 1: JSON2Video (Real MP4 Video Engine) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (engine === "json2video") {
       const activeKey = apiKey.trim() || DEFAULT_JSON2VIDEO_KEY;
 
@@ -376,7 +373,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── Engine 2: Google Veo 3.1 ───────────────────────────────────────────
+    // â”€â”€ Engine 2: Google Veo 3.1 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (engine === "google-veo") {
       const activeKey = apiKey.trim() || DEFAULT_GEMINI_KEY;
 
@@ -450,7 +447,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Engine 3: Fal.ai (Kling 2.1 / Wan 2.1) ─────────────────────────────
+    // â”€â”€ Engine 3: Fal.ai (Kling 2.1 / Wan 2.1) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (engine === "fal-ai") {
       const falKey = apiKey.trim() || process.env.FAL_KEY || "";
 
@@ -503,7 +500,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── Engine 4: Agnes AI Video (Agnes Video 2.5 Flash) ───────────────────
+    // â”€â”€ Engine 4: Agnes AI Video (Agnes Video 2.5 Flash) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (engine === "agnes") {
       const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
 
@@ -649,7 +646,7 @@ export async function POST(req: NextRequest) {
                 success: false,
                 errorType: "QUEUE_FULL",
                 error: "Agnes AI GPU queue is currently at maximum capacity.",
-                details: "Agnes AI video generation servers are currently processing heavy traffic. Queues typically free up within 15–30 seconds.",
+                details: "Agnes AI video generation servers are currently processing heavy traffic. Queues typically free up within 15â€“30 seconds.",
                 retryAfter: 15,
               },
               { status: 503 }

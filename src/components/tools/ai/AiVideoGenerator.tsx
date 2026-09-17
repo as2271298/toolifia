@@ -256,7 +256,7 @@ export function AiVideoGenerator() {
 
   const pollVideoStatus = async (projectId: string, engine: string, progressInterval: NodeJS.Timeout) => {
     let attempts = 0;
-    const maxAttempts = 70; // 70 * 5.5s = ~6.4 minutes timeout
+    const maxAttempts = 130; // 130 * 5.5s = ~12 minutes timeout
 
     const interval = setInterval(async () => {
       attempts++;
@@ -264,7 +264,7 @@ export function AiVideoGenerator() {
         clearInterval(interval);
         clearInterval(progressInterval);
         setStatus("error");
-        const timeoutMsg = "Video generation took longer than 6 minutes. Please try again.";
+        const timeoutMsg = "Video generation took longer than expected. Agnes AI may be busy — please try again.";
         setErrorInfo({ type: "GENERAL", title: timeoutMsg });
         setErrorMessage(timeoutMsg);
         return;
