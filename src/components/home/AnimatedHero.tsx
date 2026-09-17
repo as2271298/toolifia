@@ -132,12 +132,12 @@ export function AnimatedHero() {
 
         {/* Main Headline */}
         <div className="animate-fade-up-d1 space-y-3">
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[1.02]">
+          <h1 className="text-3xl sm:text-6xl lg:text-8xl font-black tracking-tight leading-[1.05]">
             <span className="text-gradient-white block">300+ Free Online AI Tools</span>
-            <span className="text-slate-400 block text-xl sm:text-3xl font-semibold tracking-normal mt-2">The browser toolkit for</span>
+            <span className="text-slate-400 block text-lg sm:text-2xl lg:text-3xl font-semibold tracking-normal mt-2">The browser toolkit for</span>
           </h1>
           {/* Typewriter line */}
-          <div className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.02] h-[1.1em] flex items-center justify-center">
+          <div className="text-2xl sm:text-5xl lg:text-7xl font-black tracking-tight leading-tight min-h-[1.25em] flex items-center justify-center">
             <span
               style={{ color: ROTATING_WORDS[wordIndex].color, transition: "color 0.3s ease" }}
               className="drop-shadow-lg"
@@ -152,7 +152,7 @@ export function AnimatedHero() {
         </div>
 
         {/* Subtitle */}
-        <p className="animate-fade-up-d2 text-lg sm:text-xl text-slate-400 max-w-2xl leading-relaxed font-light">
+        <p className="animate-fade-up-d2 text-base sm:text-xl text-slate-400 max-w-2xl leading-relaxed font-light px-2">
           Run AI tools, SEO generators, calculators, and converters — 
           <strong className="text-slate-200 font-medium"> directly in your browser.</strong> No accounts, no paywalls, no redirects.
         </p>
@@ -160,27 +160,27 @@ export function AnimatedHero() {
         {/* Search Bar */}
         <form
           onSubmit={handleSearch}
-          className="animate-fade-up-d2 w-full max-w-2xl"
+          className="animate-fade-up-d2 w-full max-w-2xl px-1"
         >
-          <div className="relative group search-glow rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl transition-all duration-300 flex items-center gap-3 px-5 py-4 shadow-2xl">
+          <div className="relative group search-glow rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl transition-all duration-300 flex items-center gap-2 sm:gap-3 px-3.5 sm:px-5 py-2.5 sm:py-4 shadow-2xl">
             <Search className="w-5 h-5 text-slate-400 shrink-0 group-focus-within:text-violet-400 transition-colors" />
             <input
               ref={inputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search 300+ tools — AI Humanizer, JSON Formatter, BMI Calculator..."
-              className="flex-1 bg-transparent text-white placeholder-slate-500 text-sm sm:text-base outline-none font-light"
+              placeholder="Search 300+ tools — AI Humanizer, JSON Formatter..."
+              className="flex-1 min-w-0 bg-transparent text-white placeholder-slate-500 text-sm sm:text-base outline-none font-light"
             />
             <button
               type="submit"
-              className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold text-white flex items-center gap-2 shrink-0"
+              className="btn-primary px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white flex items-center gap-1.5 sm:gap-2 shrink-0"
             >
-              Search <ArrowRight className="w-4 h-4" />
+              Search <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
-          <p className="mt-2.5 text-xs text-slate-500 text-center">
-            Popular: &nbsp;
+          <p className="mt-2.5 text-xs text-slate-500 text-center flex flex-wrap items-center justify-center gap-1">
+            <span>Popular:</span>
             {["AI Humanizer", "QR Generator", "JSON Formatter", "BMI Calculator"].map((t, i) => (
               <button
                 key={t}
@@ -188,24 +188,24 @@ export function AnimatedHero() {
                 onClick={() => { setQuery(t); router.push(`/tools?search=${encodeURIComponent(t)}`); }}
                 className="text-slate-400 hover:text-violet-400 transition-colors underline-offset-2 hover:underline"
               >
-                {t}{i < 3 ? " · " : ""}
+                {t}{i < 3 ? " ·" : ""}
               </button>
             ))}
           </p>
         </form>
 
         {/* CTA Buttons */}
-        <div className="animate-fade-up-d3 flex flex-wrap items-center justify-center gap-4">
+        <div className="animate-fade-up-d3 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0">
           <Link
             href="/tools"
-            className="btn-primary px-7 py-3.5 rounded-2xl text-sm font-bold text-white flex items-center gap-2.5 shadow-xl"
+            className="btn-primary w-full sm:w-auto px-7 py-3.5 rounded-2xl text-sm font-bold text-white flex items-center justify-center gap-2.5 shadow-xl"
           >
             <Zap className="w-4 h-4" />
             Explore All Tools
           </Link>
           <Link
             href="#categories"
-            className="btn-secondary px-7 py-3.5 rounded-2xl text-sm font-semibold text-slate-200 flex items-center gap-2"
+            className="btn-secondary w-full sm:w-auto px-7 py-3.5 rounded-2xl text-sm font-semibold text-slate-200 flex items-center justify-center gap-2"
           >
             Browse Categories
           </Link>

@@ -49,7 +49,7 @@ export function ToolWrapper({
     <>
       <JsonLd data={[softwareSchema, faqSchema, howToSchema, breadcrumbSchema]} />
 
-      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="min-h-screen py-6 sm:py-8 px-3.5 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <Breadcrumb items={breadcrumbs} />
 
         {/* Header Info */}
@@ -158,11 +158,11 @@ export function ToolWrapper({
 
         {/* Main Content Area */}
         {activeTab === "tool" ? (
-          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl mb-12">
+          <div className="p-4 sm:p-6 md:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl mb-12">
             {children}
           </div>
         ) : (
-          <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 text-slate-200 border border-slate-800 shadow-xl mb-12 space-y-4 font-mono text-xs sm:text-sm">
+          <div className="p-4 sm:p-6 md:p-8 rounded-3xl bg-slate-950 text-slate-200 border border-slate-800 shadow-xl mb-12 space-y-4 font-mono text-xs sm:text-sm">
             <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
               <Code className="w-4 h-4 text-brand-400" /> Programmatic API Endpoint
             </h3>
@@ -186,7 +186,7 @@ export function ToolWrapper({
         {/* Educational SEO & Guide Content */}
         <div className="mt-12 space-y-12">
           {/* How to use */}
-          <section className="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <section className="p-4 sm:p-6 md:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-amber-500" /> How to Use {tool.name}
             </h2>
