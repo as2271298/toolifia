@@ -520,10 +520,18 @@ export async function POST(req: NextRequest) {
 
       if (inputImage) {
         agnesPayload.mode = "reference";
-        agnesPayload.images = [inputImage];
+        // Agnes requires raw base64 (no data: prefix) or a public HTTPS URL
+        const cleanImage = inputImage.startsWith("data:")
+          ? inputImage.split(",")[1]
+          : inputImage;
+        agnesPayload.images = [cleanImage];
       } else if (inputVideo) {
         agnesPayload.mode = "reference";
-        agnesPayload.videos = [inputVideo];
+        // Agnes requires raw base64 (no data: prefix) or a public HTTPS URL
+        const cleanVideo = inputVideo.startsWith("data:")
+          ? inputVideo.split(",")[1]
+          : inputVideo;
+        agnesPayload.videos = [cleanVideo];
       } else {
         agnesPayload.mode = "text";
       }
