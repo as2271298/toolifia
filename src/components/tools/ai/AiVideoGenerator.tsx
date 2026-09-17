@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Video, Film, Sparkles, Download, RefreshCw,
   Check, Copy, Wand2, Dices, AlertCircle, Image as ImageIcon,
-  Upload, X, Play
+  Upload, X, Play, Clock, AlertTriangle
 } from "lucide-react";
 
 const INSPIRATION_PROMPTS = [
@@ -36,6 +36,30 @@ export function AiVideoGenerator() {
   const [statusMessage, setStatusMessage] = useState("");
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Upstream Error Diagnostics & Auto-retry
+  const [errorInfo, setErrorInfo] = useState<{
+    type?: "QUEUE_FULL" | "RATE_LIMITED" | "AGNES_ERROR" | "GENERAL";
+    title: string;
+    details?: string;
+    retryAfter?: number;
+  } | null>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+    };
+  }, []);
+
+  const cancelCountdown = () => {
+    if (countdownTimerRef.current) {
+      clearInterval(countdownTimerRef.current);
+      countdownTimerRef.current = null;
+    }
+    setCountdown(null);
+  };
 
   // Generated Real Video URL
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
@@ -114,14 +138,35 @@ export function AiVideoGenerator() {
     setIsEnhancing(false);
   };
 
+  const startCountdown = (seconds: number) => {
+    cancelCountdown();
+    setCountdown(seconds);
+    countdownTimerRef.current = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === null || prev <= 1) {
+          if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+          countdownTimerRef.current = null;
+          startGeneration();
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
   const startGeneration = async () => {
+    cancelCountdown();
+    setErrorInfo(null);
+    setErrorMessage(null);
+
     if (!prompt.trim() && !attachedImage && !attachedVideo) {
-      setErrorMessage("Please enter a scene prompt or upload an image/video to animate.");
+      const msg = "Please enter a scene prompt or upload an image/video to animate.";
+      setErrorMessage(msg);
+      setErrorInfo({ type: "GENERAL", title: msg });
       return;
     }
 
     setStatus("generating");
-    setErrorMessage(null);
     setProgress(15);
     setStatusMessage(
       attachedImage
@@ -166,7 +211,22 @@ export function AiVideoGenerator() {
       if (!res.ok || !data.success) {
         clearInterval(progressInterval);
         setStatus("error");
-        setErrorMessage(data.error || "Failed to start video generation. Please try again.");
+        const errType = data.errorType || "GENERAL";
+        const errTitle = data.error || "Failed to start video generation. Please try again.";
+        const errDetails = data.details || "";
+        const retrySec = data.retryAfter || (errType === "QUEUE_FULL" ? 15 : null);
+
+        setErrorInfo({
+          type: errType,
+          title: errTitle,
+          details: errDetails,
+          retryAfter: retrySec || undefined,
+        });
+        setErrorMessage(errTitle);
+
+        if (retrySec && errType === "QUEUE_FULL") {
+          startCountdown(retrySec);
+        }
         return;
       }
 
@@ -181,12 +241,16 @@ export function AiVideoGenerator() {
       } else {
         clearInterval(progressInterval);
         setStatus("error");
-        setErrorMessage("Unexpected response from generation engine. Please try again.");
+        const msg = "Unexpected response from generation engine. Please try again.";
+        setErrorInfo({ type: "GENERAL", title: msg });
+        setErrorMessage(msg);
       }
     } catch (err: any) {
       clearInterval(progressInterval);
       setStatus("error");
-      setErrorMessage(err.message || "Network error. Please check your connection and try again.");
+      const msg = err?.message || "Network error. Please check your connection and try again.";
+      setErrorInfo({ type: "GENERAL", title: msg });
+      setErrorMessage(msg);
     }
   };
 
@@ -211,7 +275,13 @@ export function AiVideoGenerator() {
           clearInterval(interval);
           clearInterval(progressInterval);
           setStatus("error");
-          setErrorMessage(pollData.message || "Video rendering encountered an issue. Please try again.");
+          const errMsg = pollData.message || "Video rendering encountered an issue. Please try again.";
+          setErrorInfo({
+            type: "GENERAL",
+            title: errMsg,
+            details: "Upstream video rendering encountered an error. Please retry.",
+          });
+          setErrorMessage(errMsg);
         } else {
           if (typeof pollData.progress === "number" && pollData.progress > 0) {
             setProgress(Math.max(pollData.progress, 20));
@@ -222,7 +292,9 @@ export function AiVideoGenerator() {
           clearInterval(interval);
           clearInterval(progressInterval);
           setStatus("error");
-          setErrorMessage("Video generation timed out. Please try again.");
+          const timeoutMsg = "Video generation timed out. Please try again.";
+          setErrorInfo({ type: "GENERAL", title: timeoutMsg });
+          setErrorMessage(timeoutMsg);
         }
       }
     }, 2500);
@@ -557,11 +629,88 @@ export function AiVideoGenerator() {
             </button>
           </div>
 
-          {/* Error Banner */}
-          {errorMessage && (
-            <div className="p-4 rounded-2xl bg-rose-950/40 border border-rose-800/60 text-rose-200 text-xs flex items-center gap-2.5">
-              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-              <span>{errorMessage}</span>
+          {/* Error Banner with Upstream Diagnostics & Retry */}
+          {errorInfo && (
+            <div
+              className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+                errorInfo.type === "QUEUE_FULL"
+                  ? "bg-amber-950/30 border-amber-500/40 text-amber-200"
+                  : errorInfo.type === "RATE_LIMITED"
+                  ? "bg-orange-950/30 border-orange-500/40 text-orange-200"
+                  : "bg-rose-950/40 border-rose-800/60 text-rose-200"
+              } space-y-3 shadow-lg`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                      errorInfo.type === "QUEUE_FULL"
+                        ? "bg-amber-500/20 text-amber-400"
+                        : errorInfo.type === "RATE_LIMITED"
+                        ? "bg-orange-500/20 text-orange-400"
+                        : "bg-rose-500/20 text-rose-400"
+                    }`}
+                  >
+                    {errorInfo.type === "QUEUE_FULL" ? (
+                      <Clock className="w-4 h-4" />
+                    ) : errorInfo.type === "RATE_LIMITED" ? (
+                      <AlertTriangle className="w-4 h-4" />
+                    ) : (
+                      <AlertCircle className="w-4 h-4" />
+                    )}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="text-xs sm:text-sm font-bold text-white">
+                        {errorInfo.title}
+                      </h4>
+                      {errorInfo.type === "QUEUE_FULL" && (
+                        <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
+                          Agnes GPU Queue Busy
+                        </span>
+                      )}
+                      {errorInfo.type === "RATE_LIMITED" && (
+                        <span className="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 text-[10px] font-mono font-bold border border-orange-500/30">
+                          Free Quota Cooldown
+                        </span>
+                      )}
+                    </div>
+                    {errorInfo.details && (
+                      <p className="text-[11px] sm:text-xs text-slate-300 mt-1 leading-relaxed">
+                        {errorInfo.details}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons & Countdown */}
+              <div className="flex flex-wrap items-center gap-2.5 pt-1 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => startGeneration()}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-white shadow-md active:scale-95 ${
+                    errorInfo.type === "QUEUE_FULL"
+                      ? "bg-amber-600 hover:bg-amber-500"
+                      : errorInfo.type === "RATE_LIMITED"
+                      ? "bg-orange-600 hover:bg-orange-500"
+                      : "bg-rose-600 hover:bg-rose-500"
+                  }`}
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${countdown !== null ? "animate-spin" : ""}`} />
+                  {countdown !== null ? `Retry Now (Auto in ${countdown}s)` : "Retry Generation"}
+                </button>
+
+                {countdown !== null && (
+                  <button
+                    type="button"
+                    onClick={cancelCountdown}
+                    className="px-3 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-semibold border border-slate-800 transition-colors"
+                  >
+                    Cancel Auto-Retry
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>

@@ -477,7 +477,7 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        const agnesRes = await fetch("https://apihub.agnes-ai.com/v1/videos", {
+        let agnesRes = await fetch("https://apihub.agnes-ai.com/v1/videos", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${agnesKey}`,
@@ -485,6 +485,26 @@ export async function POST(req: NextRequest) {
           },
           body: JSON.stringify(agnesPayload),
         });
+
+        // If Agnes returns 503 queue full, do a quick 2.5s automatic retry before giving up
+        if (agnesRes.status === 503) {
+          await new Promise((r) => setTimeout(r, 2500));
+          try {
+            const retryRes = await fetch("https://apihub.agnes-ai.com/v1/videos", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${agnesKey}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(agnesPayload),
+            });
+            if (retryRes.ok) {
+              agnesRes = retryRes;
+            }
+          } catch {
+            // ignore retry fetch error
+          }
+        }
 
         if (agnesRes.ok) {
           const agnesData = await agnesRes.json();
@@ -544,52 +564,98 @@ export async function POST(req: NextRequest) {
               duration,
             });
           }
+        } else {
+          // Parse detailed error from upstream Agnes AI
+          const errJson = await agnesRes.json().catch(() => ({}));
+          const errCode = errJson?.code || errJson?.error?.code || "";
+          const rawMsg = errJson?.message || errJson?.error?.message || "";
+
+          // Fallback to json2video if active key is present
+          const fallbackKey = DEFAULT_JSON2VIDEO_KEY;
+          if (fallbackKey) {
+            const resolutionMap: Record<string, string> = { "16:9": "hd", "9:16": "instagram-story", "1:1": "squared" };
+            const resVal = resolutionMap[aspectRatio] || "hd";
+            const seed = Math.floor(Math.random() * 1000000);
+            const visualPrompt = encodeURIComponent(`${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}`);
+            const dimMap: Record<string, { w: number; h: number }> = { "16:9": { w: 1280, h: 720 }, "9:16": { w: 720, h: 1280 }, "1:1": { w: 1080, h: 1080 } };
+            const dims = dimMap[aspectRatio] || { w: 1280, h: 720 };
+            const imageUrl = inputImage || `https://image.pollinations.ai/prompt/${visualPrompt}?width=${dims.w}&height=${dims.h}&seed=${seed}&nologo=true`;
+            const durNum = Math.min(Math.max(parseInt(duration, 10) || 5, 3), 10);
+
+            const renderRes = await fetch("https://api.json2video.com/v2/movies", {
+              method: "POST",
+              headers: { "x-api-key": fallbackKey, "Content-Type": "application/json" },
+              body: JSON.stringify({
+                resolution: resVal,
+                quality: "high",
+                scenes: [{ duration: durNum, elements: [{ type: "image", src: imageUrl, duration: durNum, zoom: 3, pan: "center" }] }],
+              }),
+            });
+
+            if (renderRes.ok) {
+              const renderData = await renderRes.json();
+              return NextResponse.json({
+                success: true,
+                status: "running",
+                projectId: renderData.project,
+                engine: "json2video",
+                model: "Agnes AI Studio",
+                prompt: cleanPrompt,
+                aspectRatio,
+                duration: durNum,
+              });
+            }
+          }
+
+          if (errCode === "video_queue_full" || agnesRes.status === 503 || rawMsg.includes("queue is full")) {
+            return NextResponse.json(
+              {
+                success: false,
+                errorType: "QUEUE_FULL",
+                error: "Agnes AI GPU queue is currently at maximum capacity.",
+                details: "Agnes AI video generation servers are currently processing heavy traffic. Queues typically free up within 15–30 seconds.",
+                retryAfter: 15,
+              },
+              { status: 503 }
+            );
+          }
+
+          if (errCode === "rate_limit_exceeded" || agnesRes.status === 429 || rawMsg.includes("rate limit")) {
+            return NextResponse.json(
+              {
+                success: false,
+                errorType: "RATE_LIMITED",
+                error: "Agnes AI free-tier generation limit reached.",
+                details: "Your API key has reached its current free generation limit on Agnes AI. Please wait a short moment for the window to reset or upgrade your token plan.",
+                retryAfter: 45,
+              },
+              { status: 429 }
+            );
+          }
+
+          return NextResponse.json(
+            {
+              success: false,
+              errorType: "AGNES_ERROR",
+              error: rawMsg || "Agnes AI video generation could not be completed.",
+              details: "Agnes AI service returned an error. Please check your prompt and retry.",
+              retryAfter: 10,
+            },
+            { status: agnesRes.status || 500 }
+          );
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("[Agnes Video Submit Error]:", err);
       }
 
-      // If Agnes is temporarily busy or rate-limited, fallback seamlessly to JSON2Video
-      console.log("[Agnes Video Fallback]: Falling back to JSON2Video");
-      // Fallback to json2video logic
-      const fallbackKey = DEFAULT_JSON2VIDEO_KEY;
-      if (fallbackKey) {
-        const resolutionMap: Record<string, string> = { "16:9": "hd", "9:16": "instagram-story", "1:1": "squared" };
-        const resVal = resolutionMap[aspectRatio] || "hd";
-        const seed = Math.floor(Math.random() * 1000000);
-        const visualPrompt = encodeURIComponent(`${cleanPrompt}, ${styleModifiers[style] || styleModifiers.cinematic}`);
-        const dimMap: Record<string, { w: number; h: number }> = { "16:9": { w: 1280, h: 720 }, "9:16": { w: 720, h: 1280 }, "1:1": { w: 1080, h: 1080 } };
-        const dims = dimMap[aspectRatio] || { w: 1280, h: 720 };
-        const imageUrl = inputImage || `https://image.pollinations.ai/prompt/${visualPrompt}?width=${dims.w}&height=${dims.h}&seed=${seed}&nologo=true`;
-        const durNum = Math.min(Math.max(parseInt(duration, 10) || 5, 3), 10);
-
-        const renderRes = await fetch("https://api.json2video.com/v2/movies", {
-          method: "POST",
-          headers: { "x-api-key": fallbackKey, "Content-Type": "application/json" },
-          body: JSON.stringify({
-            resolution: resVal,
-            quality: "high",
-            scenes: [{ duration: durNum, elements: [{ type: "image", src: imageUrl, duration: durNum, zoom: 3, pan: "center" }] }],
-          }),
-        });
-
-        if (renderRes.ok) {
-          const renderData = await renderRes.json();
-          return NextResponse.json({
-            success: true,
-            status: "running",
-            projectId: renderData.project,
-            engine: "json2video",
-            model: "Agnes AI Studio",
-            prompt: cleanPrompt,
-            aspectRatio,
-            duration: durNum,
-          });
-        }
-      }
-
       return NextResponse.json(
-        { error: "Video generation is currently processing queue. Please try again in a moment." },
+        {
+          success: false,
+          errorType: "QUEUE_FULL",
+          error: "Agnes AI video queue is currently processing tasks.",
+          details: "Cloud GPU clusters are busy with other renders. Please retry in a few moments.",
+          retryAfter: 15,
+        },
         { status: 503 }
       );
     }
