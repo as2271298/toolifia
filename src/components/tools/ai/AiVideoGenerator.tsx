@@ -179,18 +179,18 @@ export function AiVideoGenerator() {
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev < 40) {
-          setStatusMessage("Synthesizing temporal visual frames...");
-          return prev + 5;
-        } else if (prev < 75) {
-          setStatusMessage("Composing 3D camera trajectory and motion...");
-          return prev + 4;
-        } else if (prev < 92) {
-          setStatusMessage("Encoding final MP4 video stream on cloud CDN...");
+          setStatusMessage("Queued in Agnes GPU cluster (awaiting GPU node)...");
           return prev + 2;
+        } else if (prev < 70) {
+          setStatusMessage("Synthesizing temporal visual motion frames...");
+          return prev + 2;
+        } else if (prev < 92) {
+          setStatusMessage("Encoding final high-definition MP4 stream...");
+          return prev + 1;
         }
         return prev;
       });
-    }, 900);
+    }, 1800);
 
     try {
       const res = await fetch("/api/video/generate", {
@@ -236,7 +236,7 @@ export function AiVideoGenerator() {
         setVideoUrl(data.videoUrl);
         setStatus("done");
       } else if (data.projectId) {
-        setStatusMessage("Rendering high-definition video frames...");
+        setStatusMessage("Video queued on Agnes GPU cluster...");
         await pollVideoStatus(data.projectId, data.engine || "agnes", progressInterval);
       } else {
         clearInterval(progressInterval);
@@ -256,14 +256,28 @@ export function AiVideoGenerator() {
 
   const pollVideoStatus = async (projectId: string, engine: string, progressInterval: NodeJS.Timeout) => {
     let attempts = 0;
-    const maxAttempts = 40;
+    const maxAttempts = 70; // 70 * 5.5s = ~6.4 minutes timeout
 
     const interval = setInterval(async () => {
       attempts++;
+      if (attempts >= maxAttempts) {
+        clearInterval(interval);
+        clearInterval(progressInterval);
+        setStatus("error");
+        const timeoutMsg = "Video generation took longer than 6 minutes. Please try again.";
+        setErrorInfo({ type: "GENERAL", title: timeoutMsg });
+        setErrorMessage(timeoutMsg);
+        return;
+      }
+
       try {
         const queryUrl = `/api/video/generate?project=${encodeURIComponent(projectId)}&engine=${encodeURIComponent(engine)}`;
         const checkRes = await fetch(queryUrl);
         const pollData = await checkRes.json();
+
+        if (pollData.message) {
+          setStatusMessage(pollData.message);
+        }
 
         if (pollData.status === "done" && pollData.videoUrl) {
           clearInterval(interval);
@@ -284,20 +298,13 @@ export function AiVideoGenerator() {
           setErrorMessage(errMsg);
         } else {
           if (typeof pollData.progress === "number" && pollData.progress > 0) {
-            setProgress(Math.max(pollData.progress, 20));
+            setProgress((prev) => Math.max(prev, pollData.progress));
           }
         }
       } catch {
-        if (attempts >= maxAttempts) {
-          clearInterval(interval);
-          clearInterval(progressInterval);
-          setStatus("error");
-          const timeoutMsg = "Video generation timed out. Please try again.";
-          setErrorInfo({ type: "GENERAL", title: timeoutMsg });
-          setErrorMessage(timeoutMsg);
-        }
+        // Network blip, retry on next interval
       }
-    }, 2500);
+    }, 5500);
   };
 
   const handleDownload = () => {

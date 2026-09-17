@@ -21,33 +21,85 @@ export async function GET(req: NextRequest) {
     // ── Agnes AI Video: Poll Status ──────────────────────────────────────────
     if (engine === "agnes") {
       const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
-      const pollRes = await fetch(`https://apihub.agnes-ai.com/agnesapi?video_id=${encodeURIComponent(projectId)}`, {
-        headers: {
-          Authorization: `Bearer ${agnesKey}`,
-        },
-      });
+
+      let pollRes = await fetch(
+        `https://apihub.agnes-ai.com/agnesapi?video_id=${encodeURIComponent(projectId)}&model_name=agnes-video-2.5-flash`,
+        {
+          headers: {
+            Authorization: `Bearer ${agnesKey}`,
+          },
+        }
+      );
+
+      // If status queries are temporarily rate-limited (429: "too many video status queries"),
+      // smoothly report task as still running so the frontend doesn't show a false error!
+      if (pollRes.status === 429) {
+        return NextResponse.json({
+          success: true,
+          status: "running",
+          progress: 40,
+          message: "Video is rendering on Agnes AI GPU cluster...",
+        });
+      }
 
       if (!pollRes.ok) {
-        const err = await pollRes.json().catch(() => ({}));
-        return NextResponse.json(
-          { error: err?.error?.message || err?.message || "Failed to check Agnes video status" },
-          { status: pollRes.status }
+        // Fallback to /v1/videos/{projectId}
+        const fallbackRes = await fetch(
+          `https://apihub.agnes-ai.com/v1/videos/${encodeURIComponent(projectId)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${agnesKey}`,
+            },
+          }
         );
+        if (fallbackRes.ok) {
+          pollRes = fallbackRes;
+        } else {
+          const err = await pollRes.json().catch(() => ({}));
+          return NextResponse.json(
+            { error: err?.error?.message || err?.message || "Failed to check Agnes video status" },
+            { status: pollRes.status }
+          );
+        }
       }
 
       const pollData = await pollRes.json();
-      const taskStatus = pollData.status || "processing";
+      const rawStatus = (pollData.status || pollData.internal_status || "queued").toLowerCase();
       const progress = typeof pollData.progress === "number" ? pollData.progress : 0;
-      const videoUrl = pollData.url || null;
-      const isDone = taskStatus === "completed" || taskStatus === "succeeded" || !!videoUrl;
-      const isError = taskStatus === "failed";
+
+      // Extract URL from all possible Agnes output formats
+      const videoUrl =
+        pollData.url ||
+        pollData.video_url ||
+        pollData.metadata?.url ||
+        pollData.data?.url ||
+        pollData.data?.video_url ||
+        pollData.remixed_from_video_id ||
+        null;
+
+      const isDone =
+        rawStatus === "completed" ||
+        rawStatus === "succeeded" ||
+        (progress === 100 && !!videoUrl) ||
+        !!videoUrl;
+
+      const isError = rawStatus === "failed" || rawStatus === "error";
+
+      let statusMsg = "Rendering neural video frames...";
+      if (rawStatus === "queued" || rawStatus === "pending") {
+        statusMsg = "Queued in Agnes GPU cluster (awaiting GPU node)...";
+      } else if (rawStatus === "in_progress" || rawStatus === "processing") {
+        statusMsg = `Synthesizing video motion (${progress || 40}%)...`;
+      } else if (isDone) {
+        statusMsg = "Video generation completed!";
+      }
 
       return NextResponse.json({
         success: true,
         status: isDone ? "done" : isError ? "error" : "running",
-        progress: isDone ? 100 : progress,
+        progress: isDone ? 100 : progress || (rawStatus === "in_progress" ? 50 : 15),
         videoUrl,
-        message: pollData.error || null,
+        message: isError ? (pollData.error || "Video rendering failed") : statusMsg,
       });
     }
 
@@ -509,7 +561,11 @@ export async function POST(req: NextRequest) {
         if (agnesRes.ok) {
           const agnesData = await agnesRes.json();
           const taskId = agnesData.video_id || agnesData.task_id || agnesData.id;
-          const immediateVideoUrl = agnesData.url || agnesData.video_url;
+          const immediateVideoUrl =
+            agnesData.url ||
+            agnesData.video_url ||
+            agnesData.metadata?.url ||
+            agnesData.data?.url;
 
           if (immediateVideoUrl) {
             return NextResponse.json({
@@ -525,34 +581,6 @@ export async function POST(req: NextRequest) {
           }
 
           if (taskId) {
-            // Quick poll server-side
-            for (let i = 0; i < 2; i++) {
-              await new Promise((r) => setTimeout(r, 2000));
-              try {
-                const pollRes = await fetch(`https://apihub.agnes-ai.com/agnesapi?video_id=${encodeURIComponent(taskId)}`, {
-                  headers: { Authorization: `Bearer ${agnesKey}` },
-                });
-                if (pollRes.ok) {
-                  const pollData = await pollRes.json();
-                  if (pollData.url || pollData.status === "completed" || pollData.status === "succeeded") {
-                    return NextResponse.json({
-                      success: true,
-                      status: "done",
-                      videoUrl: pollData.url,
-                      projectId: taskId,
-                      engine: "agnes",
-                      model: inputVideo ? "Agnes Video 2.5 (Video-to-Video)" : inputImage ? "Agnes Video 2.5 (Image-to-Video)" : "Agnes Video 2.5 Flash",
-                      prompt: cleanPrompt,
-                      aspectRatio: targetRatio,
-                      duration,
-                    });
-                  }
-                }
-              } catch {
-                // ignore
-              }
-            }
-
             return NextResponse.json({
               success: true,
               status: "running",
