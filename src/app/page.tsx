@@ -232,8 +232,8 @@ export default function HomePage() {
                   <th className="text-center p-5 font-bold text-white bg-violet-500/10 text-xs uppercase tracking-wide">
                     <span className="text-violet-300">Toolifia</span> ✅
                   </th>
-                  <th className="text-center p-5 font-medium text-slate-500 text-xs uppercase tracking-wide">Toolify ❌</th>
-                  <th className="text-center p-5 font-medium text-slate-500 text-xs uppercase tracking-wide">Futurepedia ❌</th>
+                  <th className="text-center p-5 font-medium text-slate-400 text-xs uppercase tracking-wide">Toolify ❌</th>
+                  <th className="text-center p-5 font-medium text-slate-400 text-xs uppercase tracking-wide">Futurepedia ❌</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.05]">
@@ -249,8 +249,8 @@ export default function HomePage() {
                   <tr key={i} className="compare-row transition-colors">
                     <td className="p-5 font-medium text-slate-300 text-sm">{feature}</td>
                     <td className="p-5 text-center font-bold text-emerald-400 bg-violet-500/[0.03]">{us}</td>
-                    <td className="p-5 text-center text-slate-500">{toolify}</td>
-                    <td className="p-5 text-center text-slate-500">{future}</td>
+                    <td className="p-5 text-center text-slate-400">{toolify}</td>
+                    <td className="p-5 text-center text-slate-400">{future}</td>
                   </tr>
                 ))}
               </tbody>
