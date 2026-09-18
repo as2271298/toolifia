@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -9,6 +10,20 @@ import { CookieConsent } from "@/components/common/CookieConsent";
 import { constructMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site.config";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -81,24 +96,28 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" className={`dark ${outfit.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <meta name="trustpilot-one-time-domain-verification-id" content="c7d56998-6f55-46a8-97d5-b09dfc212854" />
         <meta name="keywords" content="free online tools, ai humanizer free, ai detector free, toolify alternative, free ai tools no signup, seo tools free, meta tag generator, keyword density checker, json formatter, word counter free, pdf converter online, text tools online, developer tools free, free calculator online, unit converter free, ai text humanizer, bypass ai detection, free prompt generator, schema markup generator, online tools no account" />
 
-        {/* Google AdSense Site Verification & Ad Script */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7118968206723457"
-          crossOrigin="anonymous"
-        />
+        {/* Google AdSense Site Verification & Ad Script — only load when active to protect Mobile PageSpeed */}
+        {siteConfig.monetization.enableAds && (
+          <Script
+            id="adsbygoogle-init"
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.monetization.adsensePublisherId}`}
+            strategy="lazyOnload"
+            crossOrigin="anonymous"
+          />
+        )}
 
-        {/* Google Analytics 4 */}
+        {/* Google Analytics 4 — lazyOnload to eliminate Total Blocking Time (TBT) */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="ga4-init" strategy="afterInteractive">
+        <Script id="ga4-init" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -116,12 +135,6 @@ export default function RootLayout({
 
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
 
         {/* Structured Data */}
         <JsonLd data={[orgSchema, websiteSchema, appSchema]} />

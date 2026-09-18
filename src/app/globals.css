@@ -6,8 +6,6 @@
    TOOLIFIA — COSMIC PREMIUM DESIGN SYSTEM
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
-
 /* ─── CSS VARIABLES ─── */
 @layer base {
   :root {
@@ -36,7 +34,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg-base);
   color: var(--text-1);
-  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-outfit), 'Outfit', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
@@ -139,6 +137,15 @@ body {
   border-radius: 50%;
   filter: blur(80px);
   mix-blend-mode: screen;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .mesh-orb {
+    filter: blur(40px);
+    animation: none !important;
+  }
 }
 
 .mesh-orb-violet {
