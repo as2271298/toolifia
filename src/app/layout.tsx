@@ -35,7 +35,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = constructMetadata();
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-TOOLIFIA01";
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+const hasValidGA = Boolean(GA_ID && GA_ID !== "G-TOOLIFIA01" && GA_ID.startsWith("G-"));
 
 export default function RootLayout({
   children,
@@ -112,26 +113,23 @@ export default function RootLayout({
           />
         )}
 
-        {/* Google Analytics 4 — lazyOnload to eliminate Total Blocking Time (TBT) */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="lazyOnload"
-        />
-        <Script id="ga4-init" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_ID}', { page_path: window.location.pathname });
-          `}
-        </Script>
-
-        {/* TrustBox script — loaded lazily to preserve Mobile PageSpeed */}
-        <Script
-          type="text/javascript"
-          src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-          strategy="lazyOnload"
-        />
+        {/* Google Analytics 4 — only load if valid GA_ID configured */}
+        {hasValidGA && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="lazyOnload"
+            />
+            <Script id="ga4-init" strategy="lazyOnload">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', { page_path: window.location.pathname });
+              `}
+            </Script>
+          </>
+        )}
 
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/manifest.json" />

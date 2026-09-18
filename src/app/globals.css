@@ -146,6 +146,18 @@ body {
     filter: blur(40px);
     animation: none !important;
   }
+  .star {
+    display: none !important;
+  }
+  .animate-fade-up,
+  .animate-fade-up-d1,
+  .animate-fade-up-d2,
+  .animate-fade-up-d3,
+  .animate-fade-up-d4 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 .mesh-orb-violet {

@@ -40,7 +40,7 @@ const STATS = [
 
 export function AnimatedHero() {
   const [wordIndex, setWordIndex] = useState(0);
-  const [displayText, setDisplayText] = useState("");
+  const [displayText, setDisplayText] = useState(ROTATING_WORDS[0].word);
   const [isDeleting, setIsDeleting] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
@@ -84,31 +84,32 @@ export function AnimatedHero() {
         <div className="mesh-orb mesh-orb-violet" />
         <div className="mesh-orb mesh-orb-cyan" />
         <div className="mesh-orb mesh-orb-indigo" />
-        {/* Star field */}
-        {/* Star field — positions are DETERMINISTIC (no Math.random) to avoid hydration mismatch & CLS */}
-        {[...Array(24)].map((_, i) => {
-          // Pseudo-random but deterministic values seeded by index
-          const seed1 = ((i * 7919 + 31) % 97) / 97;
-          const seed2 = ((i * 6271 + 17) % 83) / 83;
-          const seed3 = ((i * 5381 + 11) % 71) / 71;
-          const seed4 = ((i * 4099 + 7)  % 61) / 61;
-          const seed5 = ((i * 3571 + 3)  % 53) / 53;
-          const seed6 = ((i * 2999 + 13) % 47) / 47;
-          return (
-            <div
-              key={i}
-              className="star"
-              style={{
-                width:             seed1 * 2 + 1 + "px",
-                height:            seed2 * 2 + 1 + "px",
-                top:               seed3 * 100 + "%",
-                left:              seed4 * 100 + "%",
-                animationDelay:    seed5 * 4 + "s",
-                animationDuration: seed6 * 3 + 2 + "s",
-              }}
-            />
-          );
-        })}
+        {/* Star field — hidden on mobile to eliminate animation overhead */}
+        <div className="hidden md:block">
+          {[...Array(24)].map((_, i) => {
+            // Pseudo-random but deterministic values seeded by index
+            const seed1 = ((i * 7919 + 31) % 97) / 97;
+            const seed2 = ((i * 6271 + 17) % 83) / 83;
+            const seed3 = ((i * 5381 + 11) % 71) / 71;
+            const seed4 = ((i * 4099 + 7)  % 61) / 61;
+            const seed5 = ((i * 3571 + 3)  % 53) / 53;
+            const seed6 = ((i * 2999 + 13) % 47) / 47;
+            return (
+              <div
+                key={i}
+                className="star"
+                style={{
+                  width:             seed1 * 2 + 1 + "px",
+                  height:            seed2 * 2 + 1 + "px",
+                  top:               seed3 * 100 + "%",
+                  left:              seed4 * 100 + "%",
+                  animationDelay:    seed5 * 4 + "s",
+                  animationDuration: seed6 * 3 + 2 + "s",
+                }}
+              />
+            );
+          })}
+        </div>
 
       </div>
 

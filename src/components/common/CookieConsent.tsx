@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -13,7 +13,7 @@ export function CookieConsent() {
       if (!consent) {
         const timer = setTimeout(() => {
           setIsVisible(true);
-        }, 800);
+        }, 3500);
         return () => clearTimeout(timer);
       }
     } catch {

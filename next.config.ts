@@ -88,7 +88,7 @@ const nextConfig: NextConfig = {
             value: [
               "default-src 'self'",
               // Scripts: self + inline (Next.js needs unsafe-inline) + trusted CDNs
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://widget.trustpilot.com https://cdn.trustpilot.net https://apis.google.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://widget.trustpilot.com https://cdn.trustpilot.net https://apis.google.com",
               // Styles: self + inline (Tailwind inlines styles)
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               // Fonts
@@ -96,7 +96,7 @@ const nextConfig: NextConfig = {
               // Images: self + data URIs + known CDNs
               "img-src 'self' data: blob: https: http:",
               // Connections (fetch/XHR)
-              "connect-src 'self' https://formspree.io https://api.openai.com https://openrouter.ai https://generativelanguage.googleapis.com https://api.indexnow.org https://www.bing.com https://*.vercel.app https://vitals.vercel-insights.com",
+              "connect-src 'self' https://formspree.io https://api.openai.com https://openrouter.ai https://generativelanguage.googleapis.com https://api.indexnow.org https://www.bing.com https://*.vercel.app https://vitals.vercel-insights.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com https://widget.trustpilot.com",
               // Frames: AdSense + Trustpilot
               "frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net https://widget.trustpilot.com https://www.youtube.com",
               // Workers
