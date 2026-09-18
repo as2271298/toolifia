@@ -2,37 +2,33 @@ import { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site.config";
 
 export default function robots(): MetadataRoute.Robots {
+  const hostName = siteConfig.url.replace(/^https?:\/\//, "");
+
   return {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/tool/", "/category/", "/blog/", "/tools", "/contact", "/privacy", "/terms", "/llms.txt"],
+        allow: ["/", "/tool/", "/category/", "/blog/", "/tools", "/contact", "/privacy", "/terms", "/llms.txt", "/_next/static/"],
         disallow: [
           "/admin",
           "/admin/",
           "/api/",
-          "/_next/",
-          "/static/",
-          "/*?*search=",
-          "/*?*filter=",
-          "/*?*sort=",
-          "/*?*page=",
         ],
       },
       {
+        userAgent: "Googlebot",
+        allow: ["/", "/_next/static/"],
+        disallow: ["/admin/", "/api/"],
+      },
+      {
         userAgent: "Bingbot",
-        allow: "/",
-        disallow: ["/admin/", "/api/", "/_next/"],
+        allow: ["/", "/_next/static/"],
+        disallow: ["/admin/", "/api/"],
       },
       {
         userAgent: "msnbot",
-        allow: "/",
-        disallow: ["/admin/", "/api/", "/_next/"],
-      },
-      {
-        userAgent: "Googlebot",
-        allow: "/",
-        disallow: ["/admin/", "/api/", "/_next/"],
+        allow: ["/", "/_next/static/"],
+        disallow: ["/admin/", "/api/"],
       },
       {
         userAgent: [
@@ -47,12 +43,12 @@ export default function robots(): MetadataRoute.Robots {
           "Bytespider",
           "Applebot",
         ],
-        allow: "/",
+        allow: ["/", "/_next/static/"],
         disallow: ["/admin/", "/api/"],
       },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,
-    host: siteConfig.url,
+    host: hostName,
   };
 }
 

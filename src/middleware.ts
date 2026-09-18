@@ -53,13 +53,36 @@ const SEARCH_ENGINE_BOTS = [
   /Mediapartners-Google/i,
   /AdsBot-Google/i,
   /bingbot/i,
+  /msnbot/i,
   /Slurp/i,
   /DuckDuckBot/i,
   /Baiduspider/i,
   /Yandex/i,
+  /Sogou/i,
+  /Exabot/i,
+  /facebot/i,
+  /facebookexternalhit/i,
+  /Twitterbot/i,
+  /LinkedInBot/i,
+  /WhatsApp/i,
+  /TelegramBot/i,
+  /Discordbot/i,
+  /Pinterestbot/i,
+  /Applebot/i,
+  /GPTBot/i,
+  /ChatGPT-User/i,
+  /ClaudeBot/i,
+  /Claude-Web/i,
+  /PerplexityBot/i,
+  /Google-Extended/i,
+  /CCBot/i,
+  /cohere-ai/i,
+  /Bytespider/i,
   /Screaming Frog/i,
   /AhrefsBot/i,
   /SemrushBot/i,
+  /DotBot/i,
+  /MJ12bot/i,
 ];
 
 function isSearchBot(ua: string): boolean {
@@ -74,8 +97,13 @@ export function middleware(request: NextRequest) {
     request.headers.get("x-real-ip") ||
     "unknown";
 
-  // Always allow search engine crawlers and AdSense verification bots
-  if (isSearchBot(ua)) {
+  // Always allow robots.txt, sitemaps, and search/AI/social bots immediately
+  if (
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname.endsWith(".xml") ||
+    isSearchBot(ua)
+  ) {
     return NextResponse.next();
   }
 
