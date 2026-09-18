@@ -25,16 +25,19 @@ export const TOOLS: ToolDef[] = [
   // ── AI TOOLS ─────────────────────────────────────────────────────────────
   {
     slug: "ai-image-generator",
-    name: "Free AI Image Generator — Text & Image to Image Online (No Signup)",
+    name: "Free Unlimited AI Image Generator — Text & Image to Image Online (No Signup)",
     category: "ai-tools",
-    description: "Generate high-definition AI images from text prompts or upload reference photos for Image-to-Image transformation. 100% free, unlimited, no signup required.",
+    description: "Generate high-definition AI images from text prompts or upload reference photos for Image-to-Image transformation. 100% free unlimited AI image generator with no watermark, no credits, and no signup required.",
     icon: "Image",
     featured: true,
     trending: true,
     rating: 4.9,
     reviewsCount: 8940,
     keywords: [
+      "free unlimited ai image generator",
       "ai image generator free",
+      "unlimited ai image generator no watermark",
+      "free ai art generator",
       "image to image ai free",
       "text to image online",
       "free ai photo generator",
@@ -47,13 +50,15 @@ export const TOOLS: ToolDef[] = [
     ],
     features: [
       "High-definition AI image synthesis powered by Agnes AI 2.5 Flash",
+      "Unlimited free daily image creations with zero registration and zero paywalls",
       "Image-to-Image mode (+ Add Reference Image) — upload photos to guide style, composition, or subject",
       "Multi-aspect ratio support: Square (1:1), Landscape (16:9), and Portrait / Reel (9:16)",
       "Inspiration ideas & random prompt generator for instant creative sparks",
       "Fast cloud GPU generation with instant high-resolution PNG export",
-      "100% free with unlimited generations and zero registration"
+      "100% free with no watermarks, no credits, and zero login required"
     ],
     benefits: [
+      "Create unlimited AI artwork, photo concepts, and social graphics without subscription fees",
       "Transform real photos into illustrations, 3D concepts, and artistic renders",
       "Generate custom graphics, blog thumbnails, and social media assets in seconds",
       "Iterate quickly without design or illustration software experience",
@@ -73,35 +78,41 @@ export const TOOLS: ToolDef[] = [
     ],
     faqs: [
       {
-        question: "Is the AI Image Generator completely free without sign up?",
-        answer: "Yes. Toolifia provides 100% free image generation with no login, no credits, and no subscriptions."
+        question: "Is this really an unlimited free AI image generator without sign up?",
+        answer: "Yes! Toolifia provides a completely free unlimited AI image generator. There are no credit systems, no daily tokens, no paywalls, and no account registration required."
       },
       {
         question: "How does Image-to-Image (Reference Image) work?",
         answer: "Upload any image using '+ Add Reference Image' and provide a prompt describing your desired transformation. The AI uses your image's composition and features as a structural guide while applying the new aesthetic."
       },
       {
-        question: "Can I use the generated images commercially?",
-        answer: "Yes. All images created on Toolifia are royalty-free and can be used in commercial ads, websites, merchandise, and social media without attribution."
+        question: "Can I use the generated images commercially without watermarks?",
+        answer: "Yes. All images created on Toolifia are watermark-free, royalty-free, and can be used in commercial ads, websites, merchandise, YouTube thumbnails, and social media without attribution."
       },
       {
         question: "What image formats and resolutions are provided?",
         answer: "Images are rendered in high-definition resolution (1024x1024 for 1:1, 1280x720 for 16:9, and 720x1280 for 9:16) and saved in standard PNG format."
+      },
+      {
+        question: "How does this compare to Midjourney or DALL-E?",
+        answer: "Unlike Midjourney and DALL-E which require paid subscriptions or Discord accounts, Toolifia provides an instant web-based AI image generation studio powered by Agnes AI 2.5 Flash at zero cost."
       }
     ]
   },
   {
     slug: "ai-video-generator",
-    name: "Free AI Video Generator — Text & Image to Video Online (No Signup)",
+    name: "Free Unlimited AI Video Generator — Text & Image to Video Online (No Signup)",
     category: "ai-tools",
-    description: "Generate real AI videos from text prompts, animate photos into videos (Image-to-Video), or remix clips (Video-to-Video) for free. Professional camera motion, MP4 download, zero signup required. Powered by Agnes AI Video 2.5.",
+    description: "Generate real AI videos from text prompts, animate photos into videos (Image-to-Video), or remix clips (Video-to-Video) for free. 100% free unlimited AI video generator with professional camera motion, MP4 download, and zero signup required. Powered by Agnes AI Video 2.5.",
     icon: "Video",
     featured: true,
     trending: true,
     rating: 4.9,
     reviewsCount: 9840,
     keywords: [
+      "free unlimited ai video generator",
       "ai video generator free",
+      "unlimited ai video generator no watermark",
       "image to video ai free",
       "video to video ai free",
       "text to video AI free",
@@ -118,6 +129,7 @@ export const TOOLS: ToolDef[] = [
       "photo to video AI no watermark"
     ],
     features: [
+      "100% free unlimited AI video generator with zero subscription or token limits",
       "Text-to-Video generation: create moving scenes from natural text prompts",
       "Image-to-Video (+ Add Image): animate still photos into cinematic moving videos",
       "Video-to-Video (+ Add Video): restyle, remix, and transform existing video footage",
@@ -126,14 +138,13 @@ export const TOOLS: ToolDef[] = [
       "Adjustable duration options: 5 seconds and 10 seconds",
       "AI Prompt Enhancer for cinematic lighting and camera trajectory directions",
       "Built-in HTML5 video player with fullscreen, play/pause, and looping controls",
-      "Direct MP4 file download with zero watermarks",
-      "100% free with zero registration, no credits, and no credit card required"
+      "Direct MP4 file download with zero watermarks"
     ],
     benefits: [
-      "Turn static portraits and landscape photos into viral moving video clips",
+      "Turn static portraits and landscape photos into viral moving video clips without paying monthly fees",
       "Create ready-to-post Instagram Reels, TikTok videos, and YouTube Shorts in seconds",
       "Remix existing video footage with new cinematic visuals without video editing skills",
-      "Save hundreds of dollars on video production crews, stock footage, and software",
+      "Save hundreds of dollars on video production crews, stock footage, and expensive AI tools",
       "Produce watermark-free, commercially usable MP4 clips for marketing and content creation",
       "Generate unlimited video concepts directly in your browser with zero signup"
     ],
@@ -153,16 +164,24 @@ export const TOOLS: ToolDef[] = [
     ],
     faqs: [
       {
-        question: "Is this AI video generator really free without an account?",
-        answer: "Yes. Toolifia's AI Video Generator is 100% free with zero signup, no credit card, and no subscription. You can generate and download videos right in your browser."
+        question: "Is this really a free unlimited AI video generator without an account?",
+        answer: "Yes! Toolifia's AI Video Generator is 100% free with zero signup, no credit card, and no subscription. You can create unlimited AI video renders directly from your browser."
       },
       {
-        question: "How does Image-to-Video animation work?",
+        question: "Can I download the generated AI videos without watermarks?",
+        answer: "Yes. Every video generated on Toolifia is exported as a clean, watermark-free MP4 file ready for download and posting to YouTube, TikTok, Instagram, and commercial websites."
+      },
+      {
+        question: "How does Image-to-Video photo animation work?",
         answer: "Click '+ Add Image' and select any photo or artwork from your device. The AI analyzes the subject and background, applying smooth camera motion and organic movement to animate your photo into a cinematic MP4 video."
       },
       {
         question: "How does Video-to-Video transformation work?",
         answer: "Click '+ Add Video' and upload a video clip. Type a prompt describing how you want the video transformed (e.g., 'cyberpunk city aesthetic' or 'cinematic lighting'), and the AI re-renders the motion with the new style."
+      },
+      {
+        question: "What is the maximum video length supported?",
+        answer: "You can generate 5-second or 10-second cinematic clips in 720p HD resolution with your choice of 16:9, 9:16, or 1:1 aspect ratios."
       },
       {
         question: "Are there watermarks on downloaded videos?",
@@ -607,21 +626,71 @@ export const TOOLS: ToolDef[] = [
   // ── TEXT TOOLS ───────────────────────────────────────────────────────────
   {
     slug: "word-counter",
-    name: "Word & Character Counter",
+    name: "Word & Character Counter — Free Online Word Count Tool",
     category: "text-tools",
-    description: "Count words, characters (with & without spaces), sentences, paragraphs, and estimated reading time.",
+    description: "Free online word and character counter. Count words, characters (with & without spaces), sentences, paragraphs, reading time, and social media limits in real-time.",
     icon: "Hash",
     featured: true,
     trending: true,
     rating: 4.9,
     reviewsCount: 3100,
-    keywords: ["word counter", "character counter", "sentence counter", "reading time calculator"],
-    features: ["Real-time instant counting", "Speaking and reading duration metric", "Longest word detector", "Clear text action"],
-    benefits: ["Stay within essay & social character limits", "Track writing productivity", "Optimize content length"],
-    howTo: ["Type or paste text directly into the live counter box.", "View statistics instantly updated below."],
-    commonMistakes: ["Forgetting that spaces count towards character limits on Twitter/X."],
+    keywords: [
+      "word counter",
+      "word counter online free",
+      "character counter",
+      "sentence counter",
+      "paragraph counter",
+      "reading time calculator",
+      "word count tool",
+      "free word counter online",
+      "character counter without spaces",
+      "essay word counter"
+    ],
+    features: [
+      "Real-time instant counting for words, characters, sentences, and paragraphs",
+      "Character counting with spaces and without spaces for exact publishing specs",
+      "Estimated reading time and speaking duration metrics (based on 200–250 WPM)",
+      "Longest word detector and word frequency analysis",
+      "100% private in-browser counting with zero text saved on servers",
+      "One-click clear and copy actions"
+    ],
+    benefits: [
+      "Hit exact word and character limits for essays, research papers, and manuscripts",
+      "Optimize social media posts for Twitter/X, Instagram, and LinkedIn character limits",
+      "Track daily writing productivity and content reading time",
+      "Improve sentence length and paragraph structure"
+    ],
+    howTo: [
+      "Type or paste your text directly into the live counter input box.",
+      "Instantly view total words, characters, sentences, paragraphs, and reading time.",
+      "Adjust text length as needed to hit your publishing target.",
+      "Use 'Clear Text' to reset or copy your refined content."
+    ],
+    commonMistakes: [
+      "Forgetting that spaces count towards character limits on Twitter/X (280 characters).",
+      "Assuming hyphens always separate words — standard counters count hyphenated compounds as one word."
+    ],
     faqs: [
-      { question: "How is reading time calculated?", answer: "Based on an average adult reading speed of 200 to 250 words per minute." }
+      {
+        question: "How do you count words and characters online?",
+        answer: "Simply paste or type your text into the Toolifia counter. The tool uses whitespace boundary algorithms to calculate exact words, character counts (with and without spaces), sentences, and paragraphs in real time."
+      },
+      {
+        question: "What counts as a word in this counter?",
+        answer: "Any sequence of non-whitespace characters separated by spaces or punctuation is counted as a word. Hyphenated words (e.g., 'state-of-the-art') are counted as single words."
+      },
+      {
+        question: "How is the estimated reading time calculated?",
+        answer: "Reading time is calculated using the standard cognitive average of 200 to 250 words per minute (WPM) for adult readers. Speaking time is calculated at 130 to 150 WPM."
+      },
+      {
+        question: "Does this word counter also count sentences and paragraphs?",
+        answer: "Yes! In addition to words and characters, the live metrics bar displays exact sentence counts (based on period, exclamation, and question mark delimiters) and paragraph counts (based on line breaks)."
+      },
+      {
+        question: "Is my text private and secure when using Toolifia?",
+        answer: "100% yes. The Toolifia Word Counter runs entirely client-side in your web browser. No text is ever uploaded, logged, or stored on any server."
+      }
     ]
   },
   {
@@ -1161,21 +1230,67 @@ export const TOOLS: ToolDef[] = [
   // ── IMAGE TOOLS ──────────────────────────────────────────────────────────
   {
     slug: "qr-generator",
-    name: "Custom QR Code Generator",
+    name: "Free QR Code Generator — Websites, Wi-Fi, vCard, & Text",
     category: "image-tools",
-    description: "Generate high-resolution QR codes for websites, Wi-Fi passwords, vCards, or text with download options.",
+    description: "Generate free custom QR codes for websites, Wi-Fi logins, vCard digital business cards, email, and plain text. 100% free with no expiration, high error correction, and instant PNG download.",
     icon: "QrCode",
     featured: true,
     trending: true,
     rating: 4.9,
     reviewsCount: 3890,
-    keywords: ["qr code generator", "free qr maker", "custom qr code", "wifi qr code generator"],
-    features: ["URL, Text, WiFi, & Email payload modes", "Custom foreground & background colors", "Download as PNG", "High error correction"],
-    benefits: ["Direct offline users to online links instantly", "Create print-ready QR graphics"],
-    howTo: ["Select content type (URL, Text, WiFi).", "Enter details and pick colors.", "Click 'Download PNG' to save your QR code."],
-    commonMistakes: ["Creating dark QR codes on dark backgrounds that cameras cannot scan."],
+    keywords: [
+      "qr code generator free",
+      "free qr code generator",
+      "wifi qr code generator",
+      "vcard qr code generator",
+      "custom qr code generator",
+      "free qr maker",
+      "qr code without expiration",
+      "qr code maker online",
+      "generate qr code for website",
+      "qr code creator no signup"
+    ],
+    features: [
+      "URL, Plain Text, Wi-Fi Credentials, Email, and vCard payload support",
+      "Custom foreground and background color styling",
+      "High Reed-Solomon error correction for reliable real-world scanning",
+      "Instant high-resolution PNG image download",
+      "100% free static QR codes that never expire or break",
+      "Zero account registration required"
+    ],
+    benefits: [
+      "Share Wi-Fi access effortlessly without typing complex passwords",
+      "Print digital contact cards (vCards) on physical business cards",
+      "Direct offline flyers, posters, and menus to mobile websites and menus",
+      "Generate scan-friendly QR codes with guaranteed 100% uptime"
+    ],
+    howTo: [
+      "Select your QR code type: Website URL, Wi-Fi Network, vCard, or Plain Text.",
+      "Enter the target URL, Wi-Fi SSID/password, or contact details.",
+      "Customize colors or keep high-contrast default dark on light.",
+      "Click 'Download PNG' to save your high-resolution QR graphic."
+    ],
+    commonMistakes: [
+      "Using low contrast colors (e.g., light gray on white) which cameras struggle to scan.",
+      "Printing QR codes smaller than 2cm x 2cm (0.8in x 0.8in) on physical paper."
+    ],
     faqs: [
-      { question: "Do generated QR codes expire?", answer: "No, static QR codes never expire." }
+      {
+        question: "Do generated QR codes ever expire?",
+        answer: "No! All QR codes generated by Toolifia are static QR codes. The encoded data is permanently baked into the pixel pattern, meaning they will work forever with zero expiration."
+      },
+      {
+        question: "How do I create a Wi-Fi QR code that connects automatically?",
+        answer: "Select the Wi-Fi option, enter your network name (SSID), password, and encryption type (WPA/WPA2). When guests scan the QR code with their phone camera, they will connect to your Wi-Fi automatically without typing a password."
+      },
+      {
+        question: "Can I generate a vCard QR code for business cards?",
+        answer: "Yes! Choose vCard mode, enter your name, phone number, email, and company details. Scanning the QR code prompts the scanner's phone to add your complete contact info directly into their address book."
+      },
+      {
+        question: "Is there any limit on how many scans a QR code can have?",
+        answer: "There are zero scan limits. Because the codes are static and client-side, they can be scanned an unlimited number of times by millions of users with no fees."
+      }
     ]
   },
   {
@@ -2887,6 +3002,216 @@ export const TOOLS: ToolDef[] = [
       { question: "Can I regenerate the post if I don't like the result?", answer: "Yes, click the regenerate button (circular arrow icon) to generate a fresh variation with a different hook and caption angle instantly." }
     ]
   },
+  {
+    slug: "sentence-counter",
+    name: "Sentence Counter — Free Online Sentence Count Tool",
+    category: "text-tools",
+    description: "Free online sentence counter. Accurately count the number of sentences, average sentence length, words, characters, and readability scores in your text. No signup required.",
+    icon: "AlignLeft",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 2420,
+    keywords: [
+      "sentence counter",
+      "sentence counter online",
+      "count sentences in text",
+      "how many sentences",
+      "sentence length checker",
+      "free sentence counter",
+      "online sentence counter free",
+      "essay sentence counter"
+    ],
+    features: [
+      "Instant real-time sentence counting with terminal punctuation analysis",
+      "Word count, character count, and paragraph counts displayed simultaneously",
+      "Average sentence length metric for readability optimization",
+      "100% in-browser client-side computation with zero data tracking",
+      "One-click copy and clear text capabilities"
+    ],
+    benefits: [
+      "Check essay requirements and avoid overly dense, run-on sentences",
+      "Analyze sentence diversity for copywriting and blog publishing",
+      "Improve Hemingway readability scores by keeping sentences concise"
+    ],
+    howTo: [
+      "Paste or type your draft into the sentence counter box.",
+      "Check the live 'Sentences' card at the top to see the exact count.",
+      "Review the word and character counts to ensure compliance with writing guidelines.",
+      "Edit long sentences in place until you hit your ideal structure."
+    ],
+    commonMistakes: [
+      "Using multiple exclamation points (!!!) or ellipses (...) which can affect naive sentence splitters.",
+      "Overlooking run-on sentences connected only with commas instead of proper periods."
+    ],
+    faqs: [
+      {
+        question: "What is considered a sentence in this counter?",
+        answer: "A sentence is identified by terminal punctuation marks — periods (.), question marks (?), and exclamation points (!) — followed by whitespace or the end of the text."
+      },
+      {
+        question: "What is the recommended average sentence length?",
+        answer: "For clear online reading and high SEO engagement, aim for an average sentence length of 14 to 18 words. Sentences over 25 words become difficult for readers to process."
+      },
+      {
+        question: "Is there a limit on text length I can check?",
+        answer: "No. You can paste entire essays, dissertation chapters, or blog articles with thousands of sentences. The calculation happens instantly in your browser."
+      }
+    ]
+  },
+  {
+    slug: "paragraph-counter",
+    name: "Paragraph Counter — Free Online Paragraph Count Tool",
+    category: "text-tools",
+    description: "Free online paragraph counter. Count paragraphs, line breaks, word distribution, and content structure for blogs, essays, and manuscripts in real time.",
+    icon: "FileText",
+    featured: false,
+    trending: true,
+    rating: 4.8,
+    reviewsCount: 1750,
+    keywords: [
+      "paragraph counter",
+      "paragraph counter online",
+      "count paragraphs in text",
+      "paragraph tracker",
+      "how many paragraphs",
+      "essay paragraph checker",
+      "free paragraph counter online"
+    ],
+    features: [
+      "Real-time paragraph detection across single and double newline breaks",
+      "Simultaneous sentence, word, and character metrics",
+      "Reading duration and speaking time estimates",
+      "Zero server uploads — runs completely private in your browser"
+    ],
+    benefits: [
+      "Ensure academic essays meet structural requirements (e.g., 5-paragraph essays)",
+      "Break up massive text walls to improve mobile user experience and SEO dwell time",
+      "Format press releases, speech drafts, and email newsletters effectively"
+    ],
+    howTo: [
+      "Enter or paste your content into the text area.",
+      "View the live 'Paragraphs' counter badge immediately.",
+      "Add line breaks to separate long sections into clean, digestible reading chunks."
+    ],
+    commonMistakes: [
+      "Using single space line breaks instead of proper Enter/Return paragraphs.",
+      "Writing paragraphs longer than 5 sentences for mobile web readers."
+    ],
+    faqs: [
+      {
+        question: "How does the paragraph counter define a paragraph?",
+        answer: "A paragraph is counted whenever text is separated by one or more newline (Enter/Return) line breaks. Empty lines and trailing spaces are automatically disregarded."
+      },
+      {
+        question: "How many paragraphs should a standard blog post or essay have?",
+        answer: "A classic academic essay often has 5 paragraphs. For online web articles, paragraphs should be kept short (2 to 4 sentences) to maintain mobile readability."
+      }
+    ]
+  },
+  {
+    slug: "base64-decoder",
+    name: "Base64 Decoder Online Free — Decode Base64 to Plain Text",
+    category: "developer-tools",
+    description: "Free online Base64 decoder tool. Safely decode Base64 strings, hashes, data URIs, and binary strings back to human-readable plain text or code in real-time. 100% client-side security.",
+    icon: "Binary",
+    featured: true,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 2890,
+    keywords: [
+      "base64 decoder",
+      "base64 decoder online free",
+      "decode base64",
+      "base64 to text converter",
+      "base64 string decoder",
+      "unbase64 online",
+      "base64 decode tool"
+    ],
+    features: [
+      "Instant real-time Base64 decoding to UTF-8 text",
+      "One-click mode toggle between Base64 Decode and Base64 Encode",
+      "Automatic error detection for invalid Base64 padding or illegal characters",
+      "100% private in-browser decoding with zero server transmission"
+    ],
+    benefits: [
+      "Inspect encoded API responses and authentication tokens",
+      "Recover plain text from obfuscated scripts or email payloads",
+      "Debug web development strings without installing command-line tools"
+    ],
+    howTo: [
+      "Paste your Base64 encoded string into the input field.",
+      "Click 'Decode Base64' (or let live decode process it).",
+      "View and copy the decoded plain text result."
+    ],
+    commonMistakes: [
+      "Pasting corrupted strings missing the required trailing '=' padding.",
+      "Confusing URL-safe Base64 (using '-' and '_') with standard Base64 ('+' and '/')."
+    ],
+    faqs: [
+      {
+        question: "How do I decode Base64 to plain text?",
+        answer: "Paste your Base64 string into the input box on Toolifia. The tool decodes the 6-bit ASCII chunks back into 8-bit UTF-8 text characters instantly."
+      },
+      {
+        question: "Why do some Base64 strings end in '='?",
+        answer: "The '=' character is used as padding to ensure the encoded data length is an exact multiple of 4 characters."
+      },
+      {
+        question: "Is it safe to decode private tokens here?",
+        answer: "Yes. Toolifia executes decoding 100% inside your client browser using JavaScript. No tokens or text are ever transmitted to our servers."
+      }
+    ]
+  },
+  {
+    slug: "url-decoder",
+    name: "URL Decoder Online Free — Percent-Encoding to Plain Text Tool",
+    category: "developer-tools",
+    description: "Free online URL decoder tool. Convert percent-encoded URLs, query string parameters (%20, %26, etc.), and escaped strings back to human-readable plain text instantly in your browser.",
+    icon: "Link2",
+    featured: false,
+    trending: true,
+    rating: 4.9,
+    reviewsCount: 1980,
+    keywords: [
+      "url decoder",
+      "url decoder online free",
+      "decode url string",
+      "percent decode online",
+      "unescape url parameters",
+      "url decode tool",
+      "url decoder and encoder"
+    ],
+    features: [
+      "Decode standard percent-encoded characters (e.g. %20 to space, %3A to colon)",
+      "Instant toggle between Decode and Encode modes",
+      "Handles deep nested query strings and UTF-8 encoded international characters",
+      "100% in-browser processing with zero server logging"
+    ],
+    benefits: [
+      "Read messy URL parameters and analytics tracking links clearly",
+      "Debug webhook payloads and API redirects",
+      "Extract original redirect destinations from masked URLs"
+    ],
+    howTo: [
+      "Paste your encoded URL or string into the input field.",
+      "Ensure 'Decode' mode is active.",
+      "Click 'Copy' to copy the human-readable decoded URL."
+    ],
+    commonMistakes: [
+      "Decoding an already decoded string containing literal '%' signs which can cause URI malformed errors."
+    ],
+    faqs: [
+      {
+        question: "What is URL percent-decoding?",
+        answer: "Percent-decoding translates triplets starting with '%' followed by two hexadecimal digits back into their original characters (such as %20 turning back into a space)."
+      },
+      {
+        question: "Can this decode full URLs as well as single query parameters?",
+        answer: "Yes. You can paste complete web URLs (e.g. with query strings, UTM tags, and hash fragments) or standalone parameter values."
+      }
+    ]
+  }
 ];
 
 

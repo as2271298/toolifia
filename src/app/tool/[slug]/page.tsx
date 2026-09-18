@@ -166,14 +166,14 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
   },
 
   "ai-video-generator": {
-    title: "Free AI Video Generator — Text & Image to Video Online | Toolifia",
-    description: "Create AI videos from text prompts, animate photos into videos (Image-to-Video), or remix clips (Video-to-Video) for free. No signup, no watermark. Download MP4.",
-    keywords: "ai video generator free, image to video ai free, video to video ai free, text to video AI free, animate photo to video, free ai video generator no watermark, kling ai free, make ai video online"
+    title: "Free Unlimited AI Video Generator Online — Text & Image to Video | Toolifia",
+    description: "Free unlimited AI video generator online with no watermark and no signup. Generate cinematic AI videos from text prompts, animate photos (Image-to-Video), or remix clips into MP4.",
+    keywords: "free unlimited ai video generator, ai video generator free, unlimited ai video generator no watermark, free ai video maker no signup, text to video ai free, image to video ai free, animate photo to video, ai video generator unlimited free, kling ai free online alternative"
   },
   "ai-image-generator": {
-    title: "Free AI Image Generator — Text & Image to Image Online | Toolifia",
-    description: "Generate high-definition AI images from text prompts or upload reference photos for Image-to-Image transformation. 100% free, no signup, powered by Agnes AI.",
-    keywords: "ai image generator free, image to image ai free, text to image AI, reference image ai generator, midjourney alternative free, stable diffusion online free, ai art generator"
+    title: "Free Unlimited AI Image Generator Online — Text & Image to Image | Toolifia",
+    description: "Free unlimited AI image generator online. Create high-resolution AI art and realistic photos from text prompts or reference photos with no watermark, no signup, and unlimited renders on Toolifia.",
+    keywords: "free unlimited ai image generator, ai image generator free, unlimited ai image generator no watermark, free ai art generator, text to image ai free, image to image ai free, midjourney alternative free, free unlimited ai photo generator"
   },
   "ai-humanizer": {
     title: "AI Humanizer Free No Sign Up — Humanize AI Text Online | Toolifia",
@@ -185,15 +185,95 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     description: "Free online AI content detector and humanizer. Analyze text for AI probability, perplexity, and phrasing patterns instantly. Accurate and 100% free with no signup.",
     keywords: "ai content detector free online, ai content detector and humanizer free, what is the best free ai content detector, ai content detector free no sign up, ai content detector tools free"
   },
+  "word-counter": {
+    title: "Word & Character Counter — Free Online Word Count Tool | Toolifia",
+    description: "Free online word and character counter. Count words, characters (with and without spaces), sentences, paragraphs, reading time, and social media limits in real-time. 100% free with no signup.",
+    keywords: "word counter, character counter, sentence counter, paragraph counter, reading time calculator, word count tool online, free word counter, count characters online"
+  },
+  "sentence-counter": {
+    title: "Sentence Counter Online Free — Count Sentences in Text | Toolifia",
+    description: "Free online sentence counter tool. Quickly count the exact number of sentences, average sentence length, words, and readability in your essays and articles. No signup needed.",
+    keywords: "sentence counter, sentence counter online, count sentences, how many sentences, sentence length checker, essay sentence counter, sentence counter free online"
+  },
+  "paragraph-counter": {
+    title: "Paragraph Counter Online Free — Count Paragraphs in Text | Toolifia",
+    description: "Free online paragraph counter. Accurately count paragraphs, line breaks, word distribution, and content structure for blogs, essays, and manuscripts in real time.",
+    keywords: "paragraph counter, paragraph counter online, count paragraphs in text, paragraph tracker, essay paragraph checker, free paragraph counter online"
+  },
+  "reading-time-calculator": {
+    title: "Reading Time Calculator — Estimate Read Duration & WPM | Toolifia",
+    description: "Free reading time calculator for writers, bloggers, and copywriters. Estimate read duration based on 200–250 WPM, speaking time, word count, and paragraph metrics.",
+    keywords: "reading time calculator, calculate reading time, estimate reading time, reading time for blog post, speech time calculator, how long to read"
+  },
   "json-formatter": {
-    title: "JSON Formatter Online Free — Pretty Print & Beautify JSON | Toolifia",
-    description: "Free online JSON formatter, beautifier, and validator with no login required. Format, pretty-print, validate, and minify JSON code instantly in your browser.",
-    keywords: "json formatter online free, json formatter free online, json formatter online free no login, how to json format in notepad ++, json beautifier free online"
+    title: "JSON Formatter Online Free — Beautify, Validate & Minify JSON | Toolifia",
+    description: "Free online JSON formatter, beautifier, and validator with no login required. Format, pretty-print, validate syntax, fix errors, and minify JSON code instantly in your browser.",
+    keywords: "json formatter online free, json validator, json beautifier online, json formatter, validate json online, pretty print json free, json formatting tool"
+  },
+  "uuid-generator": {
+    title: "Free UUID v4 Generator — Bulk GUID & Unique ID Creator | Toolifia",
+    description: "Generate RFC 4122 compliant UUID v4 and GUIDs online for free. Single or bulk UUID generation with instant copy, hyphen options, uppercase/lowercase, and zero tracking.",
+    keywords: "uuid generator, guid generator, free uuid v4 generator, random uuid generator, bulk uuid generator, online guid maker, uuid maker free"
+  },
+  "regex-tester": {
+    title: "Online Regex Tester & Debugger — Real-Time Regular Expression Tool | Toolifia",
+    description: "Free online regular expression (regex) tester and debugger with real-time match highlighting, regex cheat sheet, flag toggles (g, i, m), and instant capture group inspection.",
+    keywords: "regex tester online, regex debugger, regular expression tester, online regex validator, test regex online free, regex pattern checker"
+  },
+  "cron-expression-generator": {
+    title: "Cron Expression Generator & Explainer — Free Crontab Schedule Tool | Toolifia",
+    description: "Free online cron expression generator and schedule explainer. Build, test, and convert crontab syntax into plain English schedules. Supports standard 5-part Linux cron format.",
+    keywords: "cron expression generator, crontab generator online, cron schedule maker, cron parser online, linux cron generator, cron syntax explainer"
+  },
+  "jwt-decoder": {
+    title: "JWT Decoder Online Free — Decode JSON Web Tokens In-Browser | Toolifia",
+    description: "Free online JWT decoder tool. Safely decode JSON Web Token headers, payloads, claims, and expiration dates in real-time. 100% client-side security with zero data transmission.",
+    keywords: "jwt decoder, json web token decoder, jwt decode online free, jwt payload inspector, decode jwt token client side, jwt viewer online"
+  },
+  "base64-encoder": {
+    title: "Base64 Encoder Online Free — Text & File to Base64 Tool | Toolifia",
+    description: "Free online Base64 encoder. Convert plain text, code, and binary data into Base64 format instantly with zero latency. 100% client-side security and privacy.",
+    keywords: "base64 encoder online free, base64 encode text, encode to base64, string to base64 online, base64 converter, base64 maker"
+  },
+  "base64-decoder": {
+    title: "Base64 Decoder Online Free — Decode Base64 to Plain Text | Toolifia",
+    description: "Free online Base64 decoder. Instantly decode Base64 strings, hashes, and data into readable plain text or raw code. Runs 100% in your browser with no data uploaded.",
+    keywords: "base64 decoder online free, decode base64, base64 to text converter, base64 string decoder, unbase64 online, decode base64 string free"
+  },
+  "url-encoder": {
+    title: "URL Encoder Online Free — Percent-Encoding Query & Path Tool | Toolifia",
+    description: "Free online URL encoder. Convert URLs, query strings, and special characters into standard percent-encoded format (RFC 3986) instantly in your browser.",
+    keywords: "url encoder online free, percent encoding tool, url encode string, encode url online, uri component encoder"
+  },
+  "url-decoder": {
+    title: "URL Decoder Online Free — Convert Percent-Encoded URLs to Text | Toolifia",
+    description: "Free online URL decoder. Decode percent-encoded URLs, query parameters (%20, %26, etc.), and escaped strings back to human-readable plain text instantly.",
+    keywords: "url decoder online free, decode url string, percent decode online, unescape url parameters, url decode tool"
+  },
+  "qr-generator": {
+    title: "Free QR Code Generator — Websites, Wi-Fi, vCard & Text | Toolifia",
+    description: "Free custom QR code generator with no expiration. Create high-resolution QR codes for websites, Wi-Fi network logins, vCard digital business cards, and email. Download PNG/SVG.",
+    keywords: "qr code generator free, wifi qr code generator, vcard qr code generator, custom qr code maker, free qr code with logo, qr code generator no signup"
+  },
+  "case-converter": {
+    title: "Case Converter Online — UPPER, lower, Title Case, camelCase & snake_case | Toolifia",
+    description: "Free online text case converter. Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, and kebab-case instantly.",
+    keywords: "case converter online, title case converter, uppercase to lowercase, sentence case tool, camelcase converter, snake case converter"
+  },
+  "slug-generator": {
+    title: "URL Slug Generator — Create SEO-Friendly Clean URL Slugs | Toolifia",
+    description: "Free online URL slug generator. Convert titles and headings into SEO-friendly, clean, readable URL slugs with lowercase formatting and custom hyphens.",
+    keywords: "url slug generator, seo slug generator, slugify online, make url slug, clean url slug generator free"
   },
   "meta-tag-generator": {
-    title: "Meta Description & Title Checker Free — SEO Tag Generator | Toolifia",
-    description: "Free meta title and description checker & generator. Build HTML meta tags, Open Graph cards, and preview search snippets. 100% free SEO tool.",
-    keywords: "meta description length checker free, meta title and description checker free, meta description checker free, title tag and meta description length tools, meta description checker online"
+    title: "Meta Tag Generator — Create SEO Title, Description & Open Graph Tags | Toolifia",
+    description: "Free online meta tag generator for SEO. Create Google search snippet tags, meta titles, descriptions, viewport tags, and Open Graph social cards with live preview.",
+    keywords: "meta tag generator, seo meta tag generator, google snippet generator, meta title and description generator, html meta tags creator"
+  },
+  "schema-generator": {
+    title: "JSON-LD Schema Generator — Build Schema.org Rich Snippet Markup | Toolifia",
+    description: "Free online JSON-LD schema markup generator. Build valid Schema.org structured data for Articles, FAQs, Local Businesses, Products, and How-To guides for Google rich snippets.",
+    keywords: "json-ld schema generator, schema markup generator, schema.org generator, structured data generator, faq schema generator, google rich snippet schema"
   },
   "meta-title-length-checker": {
     title: "Meta Title Length Checker Online Free — SERP Character & Pixel Tool | Toolifia",
@@ -210,11 +290,6 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     description: "Free online subdomain finder and scanner. Discover active subdomains, IP addresses, and public DNS records instantly for any domain. 100% free with no signup.",
     keywords: "subdomain finder online free, subdomain finder free api, how does a subdomain finder work, free subdomain scanner, subdomain lookup free, subdomain scanner online free"
   },
-  "base64-encoder": {
-    title: "Base64 Encoder Online Free — Text & Image to Base64 Tool | Toolifia",
-    description: "Free online Base64 encoder and decoder. Encode text, images, and files into Base64 format instantly. 100% client-side with zero data uploads.",
-    keywords: "base64 encoder online free, base64 image encoder free, base64 encoder and decoder online, how to base64 encode a string, base64 encoder free"
-  },
   "open-graph-validator": {
     title: "Open Graph Tag Validator | Toolifia",
     description: "Validate and preview Open Graph meta tags for Facebook, Twitter/X, LinkedIn, and Discord. Free social snippet debugger.",
@@ -230,11 +305,6 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     description: "Generate creative story plots, characters, twists, and novel chapters using free AI. Best free plot generator.",
     keywords: "ai plot generator, story plot generator ai, storyline generator, ai story plot, ai story generator free"
   },
-  "regex-tester": {
-    title: "Regex Tester & Debugger | Toolifia",
-    description: "Test and debug regular expressions in real-time with instant match highlighting and explanation cheat sheet.",
-    keywords: "regex tester online free, regex validator, test regex online, regular expression checker, regex pattern tester"
-  },
   "htpasswd-generator": {
     title: "Htpasswd Generator Online | Toolifia",
     description: "Generate secure htpasswd passwords using Bcrypt, MD5, and SHA-1 for Apache and Nginx HTTP basic authentication.",
@@ -249,26 +319,6 @@ const CUSTOM_METADATA: Record<string, { title: string; description: string; keyw
     title: "BMI Calculator Online Free — Body Mass Index by Age & Gender | Toolifia",
     description: "Free online BMI calculator for men, women, and kids. Calculate body mass index by age, gender, height (kg/cm or lbs/inches) instantly.",
     keywords: "bmi calculator online free, bmi calculator by age and gender, is bmi calculator free, which bmi calculator is most accurate, bmi calculator in kg and cm, bmi calculator app free"
-  },
-  "word-counter": {
-    title: "Word & Character Counter | Toolifia",
-    description: "Count words, characters, sentences, paragraphs, reading time, and Twitter/X character limits in real-time.",
-    keywords: "word counter online free, character counter, twitter counter, tweet character counter, word count tool"
-  },
-  "qr-generator": {
-    title: "Free QR Code Generator | Toolifia",
-    description: "Generate QR codes for URLs, text, email, and phone numbers instantly for free. Download as PNG or SVG.",
-    keywords: "qr code generator free, qr code maker online, free qr code, generate qr code, qr code creator"
-  },
-  "uuid-generator": {
-    title: "UUID & GUID Generator Online | Toolifia",
-    description: "Generate UUID v4 identifiers instantly for free. Bulk generate multiple UUIDs and copy to clipboard.",
-    keywords: "uuid generator free, guid generator online, uuid v4 generator, random uuid, bulk uuid generator"
-  },
-  "schema-generator": {
-    title: "JSON-LD Schema Generator | Toolifia",
-    description: "Generate valid JSON-LD structured data schemas for free. Build Schema.org markup for Articles, FAQs, Products & more.",
-    keywords: "json-ld generator, json-ld schema generator, ld json schema generator, schema generator free, schema markup generator"
   },
   "resume-builder": {
     title: "Free AI Resume Builder | Toolifia",
@@ -433,6 +483,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<{ tool?: any }>> = {
   "htpasswd-generator": HtpasswdGenerator,
   "user-agent-parser": UserAgentParser,
   "dns-lookup-tool": DnsLookupTool,
+  "sentence-counter": WordCounter,
+  "paragraph-counter": WordCounter,
+  "base64-decoder": Base64Encoder,
+  "url-decoder": UrlEncoder,
   "subdomain-finder": SubdomainFinder,
   "ip-lookup": IpLookup,
 };
@@ -449,7 +503,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
   return (
     <ToolWrapper tool={tool}>
-      {SpecificComponent ? <SpecificComponent /> : <UniversalToolRunner tool={tool} />}
+      {SpecificComponent ? <SpecificComponent tool={tool} /> : <UniversalToolRunner tool={tool} />}
     </ToolWrapper>
   );
 }

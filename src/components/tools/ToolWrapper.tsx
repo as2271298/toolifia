@@ -33,9 +33,38 @@ export function ToolWrapper({
     { name: tool.name, url: `/tool/${tool.slug}` },
   ];
 
-  const relatedTools = getToolsForCategory(tool.category, TOOLS)
-    .filter((t) => t.slug !== tool.slug)
-    .slice(0, 3);
+  const COMPANION_TOOLS_MAP: Record<string, string[]> = {
+    "word-counter": ["sentence-counter", "paragraph-counter", "reading-time-calculator", "case-converter"],
+    "sentence-counter": ["word-counter", "paragraph-counter", "reading-time-calculator", "text-rewriter"],
+    "paragraph-counter": ["word-counter", "sentence-counter", "reading-time-calculator", "slug-generator"],
+    "reading-time-calculator": ["word-counter", "sentence-counter", "paragraph-counter", "ai-summarizer"],
+    "json-formatter": ["schema-generator", "base64-encoder", "base64-decoder", "json-to-csv"],
+    "base64-encoder": ["base64-decoder", "url-encoder", "url-decoder", "hash-generator"],
+    "base64-decoder": ["base64-encoder", "url-encoder", "url-decoder", "jwt-decoder"],
+    "url-encoder": ["url-decoder", "base64-encoder", "slug-generator", "qr-generator"],
+    "url-decoder": ["url-encoder", "base64-decoder", "slug-generator", "jwt-decoder"],
+    "qr-generator": ["barcode-generator", "image-resizer", "url-encoder", "color-picker"],
+    "ai-video-generator": ["ai-image-generator", "ai-humanizer", "prompt-generator", "ai-story-generator"],
+    "ai-image-generator": ["ai-video-generator", "ai-humanizer", "prompt-generator", "image-resizer"],
+    "uuid-generator": ["hash-generator", "password-generator", "base64-encoder", "json-formatter"],
+    "regex-tester": ["regex-pattern-library", "cron-expression-generator", "json-formatter", "url-encoder"],
+    "cron-expression-generator": ["cron-job-parser", "regex-tester", "uuid-generator", "time-zone-converter"],
+    "jwt-decoder": ["base64-decoder", "hash-generator", "password-generator", "json-formatter"],
+    "case-converter": ["word-counter", "slug-generator", "text-rewriter", "lorem-ipsum-generator"],
+    "slug-generator": ["url-encoder", "case-converter", "word-counter", "meta-tag-generator"],
+    "meta-tag-generator": ["schema-generator", "meta-title-length-checker", "open-graph-generator", "keyword-density-checker"],
+    "schema-generator": ["meta-tag-generator", "json-formatter", "open-graph-validator", "aeo-generator"],
+  };
+
+  const companionSlugs = COMPANION_TOOLS_MAP[tool.slug] || [];
+  const companionTools = companionSlugs
+    .map((slug) => TOOLS.find((t) => t.slug === slug))
+    .filter((t): t is ToolDef => !!t);
+
+  const fallbackRelated = getToolsForCategory(tool.category, TOOLS)
+    .filter((t) => t.slug !== tool.slug && !companionSlugs.includes(t.slug));
+
+  const relatedTools = [...companionTools, ...fallbackRelated].slice(0, 4);
 
   const softwareSchema = generateSoftwareApplicationSchema(tool);
   const faqSchema = generateFaqSchema(tool.faqs);
@@ -288,13 +317,18 @@ export function ToolWrapper({
             </div>
           </section>
 
-          {/* Related Tools */}
+          {/* Related & Companion Tools (Internal Link Mesh) */}
           {relatedTools.length > 0 && (
             <section className="pt-8 border-t border-slate-200 dark:border-slate-800">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-                Related {tool.category.replace("-", " ")}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-brand-500" /> Frequently Used Together & Related Tools
+                </h2>
+                <a href="/tools" className="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline">
+                  Browse All 100+ Tools →
+                </a>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {relatedTools.map((rel) => (
                   <ToolCard key={rel.slug} tool={rel} />
                 ))}

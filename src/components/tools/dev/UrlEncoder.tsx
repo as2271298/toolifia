@@ -1,12 +1,13 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Copy, Trash2 } from 'lucide-react';
 
-export function UrlEncoder() {
-  const [input, setInput] = useState('');
+export function UrlEncoder({ tool }: { tool?: any } = {}) {
+  const isDecoder = tool?.slug === "url-decoder";
+  const [input, setInput] = useState(isDecoder ? 'https%3A%2F%2Ftoolifia.com%2Fsearch%3Fq%3Dfree%20tools' : '');
   const [output, setOutput] = useState('');
-  const [mode, setMode] = useState<'encode' | 'decode'>('encode');
+  const [mode, setMode] = useState<'encode' | 'decode'>(isDecoder ? 'decode' : 'encode');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {

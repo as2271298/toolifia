@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { Copy, Check, Binary } from "lucide-react";
 
-export function Base64Encoder() {
-  const [mode, setMode] = useState<"encode" | "decode">("encode");
-  const [input, setInput] = useState("Hello World!");
+export function Base64Encoder({ tool }: { tool?: any } = {}) {
+  const isDecoder = tool?.slug === "base64-decoder";
+  const [mode, setMode] = useState<"encode" | "decode">(isDecoder ? "decode" : "encode");
+  const [input, setInput] = useState(isDecoder ? "SGVsbG8gV29ybGQh" : "Hello World!");
   const [copied, setCopied] = useState(false);
 
   let output = "";
