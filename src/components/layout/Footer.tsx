@@ -71,9 +71,9 @@ export function Footer() {
 
           {/* Popular Categories */}
           <div>
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <p className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Top Categories
-            </h4>
+            </p>
             <ul className="space-y-2.5 text-sm">
               {CATEGORIES.slice(0, 6).map((cat) => (
                 <li key={cat.slug}>
@@ -90,9 +90,9 @@ export function Footer() {
 
           {/* Featured Tools */}
           <div>
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <p className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Featured Tools
-            </h4>
+            </p>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/tool/ai-humanizer" className="hover:text-brand-400 transition-colors">
@@ -124,9 +124,9 @@ export function Footer() {
 
           {/* Legal & Platform Links */}
           <div>
-            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Company & Legal
-            </h4>
+            <p className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+              Company &amp; Legal
+            </p>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/about" className="hover:text-brand-400 transition-colors font-medium">

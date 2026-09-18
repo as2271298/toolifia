@@ -98,7 +98,7 @@ export function ToolCard({ tool }: { tool: ToolDef }) {
 
         {/* Footer */}
         <div className="relative z-10 flex items-center justify-between pt-3.5 mt-4 border-t border-white/[0.06]">
-          <span className="text-[10px] font-mono text-slate-500 tracking-wide">
+          <span className="text-[10px] font-mono text-slate-400 tracking-wide">
             Free Online · No Account
           </span>
           <span className="sr-only">. </span>
