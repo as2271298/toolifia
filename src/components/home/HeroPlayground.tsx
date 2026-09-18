@@ -1,11 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { Video, Sparkles, ShieldCheck, Image as ImageIcon, Terminal, Code2 } from "lucide-react";
-import { AiHumanizer } from "../tools/ai/AiHumanizer";
-import { AiDetector } from "../tools/ai/AiDetector";
-import { AiImageGenerator } from "../tools/ai/AiImageGenerator";
-import { AiVideoGenerator } from "../tools/ai/AiVideoGenerator";
+
+const AiHumanizer = dynamic(() => import("../tools/ai/AiHumanizer").then((m) => m.AiHumanizer), {
+  ssr: false,
+  loading: () => <div className="h-64 flex items-center justify-center text-xs text-slate-400">Loading tool...</div>,
+});
+const AiDetector = dynamic(() => import("../tools/ai/AiDetector").then((m) => m.AiDetector), {
+  ssr: false,
+  loading: () => <div className="h-64 flex items-center justify-center text-xs text-slate-400">Loading tool...</div>,
+});
+const AiImageGenerator = dynamic(() => import("../tools/ai/AiImageGenerator").then((m) => m.AiImageGenerator), {
+  ssr: false,
+  loading: () => <div className="h-64 flex items-center justify-center text-xs text-slate-400">Loading tool...</div>,
+});
+const AiVideoGenerator = dynamic(() => import("../tools/ai/AiVideoGenerator").then((m) => m.AiVideoGenerator), {
+  ssr: false,
+  loading: () => <div className="h-64 flex items-center justify-center text-xs text-slate-400">Loading tool...</div>,
+});
 
 export function HeroPlayground() {
   const [activeTab, setActiveTab] = useState<"video" | "humanizer" | "detector" | "image">("video");
@@ -22,7 +36,7 @@ export function HeroPlayground() {
       {/* Top Header / Tab Switcher Bar */}
       <div className="flex items-center justify-between px-4 py-3 bg-[#111318] border-b border-white/[0.07] overflow-x-auto gap-2 scrollbar-none">
         <div className="flex items-center gap-2 shrink-0">
-          <Terminal className="w-3.5 h-3.5 text-slate-500" />
+          <Terminal className="w-3.5 h-3.5 text-slate-400" />
           <span className="text-[11px] font-mono text-slate-400">toolifia / live-playground</span>
         </div>
 
@@ -62,7 +76,7 @@ export function HeroPlayground() {
               Interactive Execution Mode — No Registration
             </span>
           </div>
-          <span className="text-[10px] font-mono text-slate-500">Instant Client-Side Run</span>
+          <span className="text-[10px] font-mono text-slate-400">Instant Client-Side Run</span>
         </div>
 
         {activeTab === "video" && <AiVideoGenerator />}

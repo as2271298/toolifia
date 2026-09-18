@@ -186,7 +186,7 @@ export function Footer() {
         <TrustBoxWidget />
 
         {/* Bottom copyright */}
-        <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
           <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
           <div className="flex items-center gap-1">
             <span>Built with speed & precision for web creators worldwide</span>

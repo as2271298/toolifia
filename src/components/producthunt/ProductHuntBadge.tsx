@@ -10,6 +10,14 @@ interface ProductHuntBadgeProps {
 
 export function ProductHuntBadge({ variant = "header", className = "" }: ProductHuntBadgeProps) {
   const phUrl = "https://www.producthunt.com/products/toolifia/reviews/new";
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 3500);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (variant === "floating" && !mounted) return null;
 
   if (variant === "header") {
     return (
@@ -95,9 +103,9 @@ export function ProductHuntBadge({ variant = "header", className = "" }: Product
             href={phUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#ff6154] hover:bg-[#e04f43] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-[#ff6154]/30 hover:scale-[1.03] active:scale-95 shrink-0"
+            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#ff6154] hover:bg-[#e04f43] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-[#ff6154]/30 hover:scale-[1.03] active:scale-95 shrink-0"
           >
-            Review on Product Hunt <ExternalLink className="w-3.5 h-3.5" />
+            Review on Product Hunt <ExternalLink className="w-3.5 h-3.5 text-slate-950" />
           </a>
         </div>
       </div>

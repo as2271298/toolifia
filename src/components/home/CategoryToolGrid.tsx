@@ -44,7 +44,7 @@ export function CategoryToolGrid() {
             >
               {tab.name}
               {tab.count && (
-                <span className={`ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-white/[0.06] text-slate-500"}`}>
+                <span className={`ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-white/[0.06] text-slate-400"}`}>
                   {total}+
                 </span>
               )}

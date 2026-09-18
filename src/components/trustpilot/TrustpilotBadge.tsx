@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Star, ExternalLink, ShieldCheck } from "lucide-react";
 
 interface TrustpilotBadgeProps {
@@ -9,6 +10,14 @@ interface TrustpilotBadgeProps {
 
 export function TrustpilotBadge({ variant = "header", className = "" }: TrustpilotBadgeProps) {
   const reviewUrl = "https://www.trustpilot.com/review/toolifia.vercel.app";
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 3500);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (variant === "floating" && !mounted) return null;
 
   if (variant === "header") {
     return (
