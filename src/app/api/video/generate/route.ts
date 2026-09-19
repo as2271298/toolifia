@@ -20,45 +20,65 @@ export async function GET(req: NextRequest) {
 
     // â”€â”€ Agnes AI Video: Poll Status â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (engine === "agnes") {
-      const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
+      const authHeader = req.headers.get("authorization") || "";
+      const bearerKey = authHeader.toLowerCase().startsWith("bearer ") ? authHeader.slice(7).trim() : "";
+      const agnesKey = apiKey.trim() || bearerKey || DEFAULT_AGNES_KEY;
+      const model = searchParams.get("model") || "agnes-video-v2.0";
+      const modelParam = model && model !== "agnes-video-v2.0" ? `&model_name=${encodeURIComponent(model)}` : "";
 
-      let pollRes = await fetch(
-        `https://apihub.agnes-ai.com/agnesapi?video_id=${encodeURIComponent(projectId)}&model_name=agnes-video-2.5-flash`,
-        {
-          headers: {
-            Authorization: `Bearer ${agnesKey}`,
-          },
+      const hosts = ["https://apihub.agnes-ai.cn", "https://apihub.agnes-ai.com"];
+      let pollRes: Response | null = null;
+
+      for (const host of hosts) {
+        try {
+          const res = await fetch(`${host}/agnesapi?video_id=${encodeURIComponent(projectId)}${modelParam}`, {
+            headers: {
+              Authorization: `Bearer ${agnesKey}`,
+            },
+          });
+          if (res.ok || res.status === 429) {
+            pollRes = res;
+            break;
+          }
+        } catch {
+          // try next host
         }
-      );
+      }
 
       // If status queries are temporarily rate-limited (429: "too many video status queries"),
       // smoothly report task as still running so the frontend doesn't show a false error!
-      if (pollRes.status === 429) {
+      if (pollRes && pollRes.status === 429) {
         return NextResponse.json({
           success: true,
           status: "running",
-          progress: 40,
+          progress: 45,
           message: "Video is rendering on Agnes AI GPU cluster...",
         });
       }
 
-      if (!pollRes.ok) {
-        // Fallback to /v1/videos/{projectId}
-        const fallbackRes = await fetch(
-          `https://apihub.agnes-ai.com/v1/videos/${encodeURIComponent(projectId)}`,
-          {
-            headers: {
-              Authorization: `Bearer ${agnesKey}`,
-            },
+      if (!pollRes || !pollRes.ok) {
+        // Fallback to /v1/videos/{projectId} across hosts
+        for (const host of hosts) {
+          try {
+            const fallbackRes = await fetch(`${host}/v1/videos/${encodeURIComponent(projectId)}`, {
+              headers: {
+                Authorization: `Bearer ${agnesKey}`,
+              },
+            });
+            if (fallbackRes.ok) {
+              pollRes = fallbackRes;
+              break;
+            }
+          } catch {
+            // try next
           }
-        );
-        if (fallbackRes.ok) {
-          pollRes = fallbackRes;
-        } else {
-          const err = await pollRes.json().catch(() => ({}));
+        }
+
+        if (!pollRes || !pollRes.ok) {
+          const err = pollRes ? await pollRes.json().catch(() => ({})) : {};
           return NextResponse.json(
             { error: err?.error?.message || err?.message || "Failed to check Agnes video status" },
-            { status: pollRes.status }
+            { status: pollRes?.status || 502 }
           );
         }
       }
@@ -144,7 +164,8 @@ export async function POST(req: NextRequest) {
     const {
       prompt = "",
       action,
-      engine = "agnes", // "agnes" (Agnes AI 2.5 Flash) | "json2video" | "google-veo" | "fal-ai"
+      engine = "agnes", // "agnes" (Agnes AI Video) | "json2video" | "google-veo" | "fal-ai"
+      model = "agnes-video-v2.0", // "agnes-video-v2.0" (High Quota & Reliable) | "agnes-video-2.5-flash"
       style = "cinematic",
       motion = "slow-zoom",
       aspectRatio = "16:9",
@@ -502,52 +523,70 @@ export async function POST(req: NextRequest) {
 
     // â”€â”€ Engine 4: Agnes AI Video (Agnes Video 2.5 Flash) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (engine === "agnes") {
-      const agnesKey = apiKey.trim() || DEFAULT_AGNES_KEY;
+      const authHeader = req.headers.get("authorization") || "";
+      const bearerKey = authHeader.toLowerCase().startsWith("bearer ") ? authHeader.slice(7).trim() : "";
+      const agnesKey = apiKey.trim() || bearerKey || DEFAULT_AGNES_KEY;
 
       const validAspectRatios = ["16:9", "9:16", "1:1"];
       const targetRatio = validAspectRatios.includes(aspectRatio) ? aspectRatio : "16:9";
+      const durNum = Math.min(Math.max(parseInt(duration, 10) || 5, 4), 12);
+      const isV25 = model === "agnes-video-2.5" || model === "agnes-video-2.5-flash";
 
-      const agnesPayload: any = {
-        model: inputVideo ? "agnes-video-2.5" : "agnes-video-2.5-flash",
-        prompt: cleanPrompt,
-        aspect_ratio: targetRatio,
-        seconds: String(Math.min(Math.max(parseInt(duration, 10) || 5, 4), 12)),
-        size: "720P",
-      };
+      let agnesPayload: any;
 
-      if (inputImage) {
-        agnesPayload.mode = "reference";
-        // Agnes requires raw base64 (no data: prefix) or a public HTTPS URL
-        const cleanImage = inputImage.startsWith("data:")
-          ? inputImage.split(",")[1]
-          : inputImage;
-        agnesPayload.images = [cleanImage];
-      } else if (inputVideo) {
-        agnesPayload.mode = "reference";
-        // Agnes requires raw base64 (no data: prefix) or a public HTTPS URL
-        const cleanVideo = inputVideo.startsWith("data:")
-          ? inputVideo.split(",")[1]
-          : inputVideo;
-        agnesPayload.videos = [cleanVideo];
+      if (isV25) {
+        agnesPayload = {
+          model: inputVideo ? "agnes-video-2.5" : "agnes-video-2.5-flash",
+          prompt: cleanPrompt,
+          aspect_ratio: targetRatio,
+          seconds: String(durNum),
+          size: "720P",
+          mode: inputImage ? "reference" : inputVideo ? "reference" : "text",
+        };
+        if (inputImage) {
+          const cleanImage = inputImage.startsWith("data:") ? inputImage.split(",")[1] : inputImage;
+          agnesPayload.images = [cleanImage];
+        } else if (inputVideo) {
+          const cleanVideo = inputVideo.startsWith("data:") ? inputVideo.split(",")[1] : inputVideo;
+          agnesPayload.videos = [cleanVideo];
+        }
       } else {
-        agnesPayload.mode = "text";
+        // agnes-video-v2.0: High quota, stable production model (same architecture as video.lichuanyang.top)
+        const ratioDims: Record<string, { w: number; h: number; num_frames: number; frame_rate: number }> = {
+          "16:9": { w: 1152, h: 768, num_frames: 121, frame_rate: 24 },
+          "9:16": { w: 768, h: 1360, num_frames: 121, frame_rate: 24 },
+          "1:1": { w: 1024, h: 1024, num_frames: 121, frame_rate: 24 },
+        };
+        const config = ratioDims[targetRatio] || ratioDims["16:9"];
+        const numFrames = durNum >= 10 ? 241 : config.num_frames;
+
+        agnesPayload = {
+          model: "agnes-video-v2.0",
+          prompt: cleanPrompt,
+          width: config.w,
+          height: config.h,
+          num_frames: numFrames,
+          frame_rate: config.frame_rate,
+        };
+
+        if (inputImage) {
+          agnesPayload.mode = "ti2vid";
+          agnesPayload.image = inputImage.startsWith("data:") ? inputImage.split(",")[1] : inputImage;
+        } else if (inputVideo) {
+          agnesPayload.mode = "reference";
+          agnesPayload.videos = [inputVideo.startsWith("data:") ? inputVideo.split(",")[1] : inputVideo];
+        }
       }
 
       try {
-        let agnesRes = await fetch("https://apihub.agnes-ai.com/v1/videos", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${agnesKey}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(agnesPayload),
-        });
+        // Try CN endpoint first (closest to GPU clusters, highest reliability), fallback to COM
+        const hosts = ["https://apihub.agnes-ai.cn", "https://apihub.agnes-ai.com"];
+        let agnesRes: Response | null = null;
+        let lastErrRes: Response | null = null;
 
-        // If Agnes returns 503 queue full, do a quick 2.5s automatic retry before giving up
-        if (agnesRes.status === 503) {
-          await new Promise((r) => setTimeout(r, 2500));
+        for (const host of hosts) {
           try {
-            const retryRes = await fetch("https://apihub.agnes-ai.com/v1/videos", {
+            const res = await fetch(`${host}/v1/videos`, {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${agnesKey}`,
@@ -555,15 +594,44 @@ export async function POST(req: NextRequest) {
               },
               body: JSON.stringify(agnesPayload),
             });
-            if (retryRes.ok) {
-              agnesRes = retryRes;
+
+            // If 503 queue full, retry once after 2.5s on this host before falling back
+            if (res.status === 503) {
+              await new Promise((r) => setTimeout(r, 2500));
+              try {
+                const retryRes = await fetch(`${host}/v1/videos`, {
+                  method: "POST",
+                  headers: {
+                    Authorization: `Bearer ${agnesKey}`,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(agnesPayload),
+                });
+                if (retryRes.ok) {
+                  agnesRes = retryRes;
+                  break;
+                }
+              } catch {
+                // ignore retry fetch error
+              }
+            }
+
+            if (res.ok) {
+              agnesRes = res;
+              break;
+            } else {
+              lastErrRes = res;
             }
           } catch {
-            // ignore retry fetch error
+            // network error on this host, try next
           }
         }
 
-        if (agnesRes.ok) {
+        if (!agnesRes && lastErrRes) {
+          agnesRes = lastErrRes;
+        }
+
+        if (agnesRes && agnesRes.ok) {
           const agnesData = await agnesRes.json();
           const taskId = agnesData.video_id || agnesData.task_id || agnesData.id;
           const immediateVideoUrl =
@@ -578,10 +646,10 @@ export async function POST(req: NextRequest) {
               status: "done",
               videoUrl: immediateVideoUrl,
               engine: "agnes",
-              model: inputVideo ? "Agnes Video 2.5 (Video-to-Video)" : inputImage ? "Agnes Video 2.5 (Image-to-Video)" : "Agnes Video 2.5 Flash",
+              model: isV25 ? "Agnes Video 2.5 Flash" : "Agnes Video 2.0",
               prompt: cleanPrompt,
               aspectRatio: targetRatio,
-              duration,
+              duration: durNum,
             });
           }
 
@@ -591,13 +659,13 @@ export async function POST(req: NextRequest) {
               status: "running",
               projectId: taskId,
               engine: "agnes",
-              model: inputVideo ? "Agnes Video 2.5 (Video-to-Video)" : inputImage ? "Agnes Video 2.5 (Image-to-Video)" : "Agnes Video 2.5 Flash",
+              model: isV25 ? "Agnes Video 2.5 Flash" : "Agnes Video 2.0",
               prompt: cleanPrompt,
               aspectRatio: targetRatio,
-              duration,
+              duration: durNum,
             });
           }
-        } else {
+        } else if (agnesRes) {
           // Parse detailed error from upstream Agnes AI
           const errJson = await agnesRes.json().catch(() => ({}));
           const errCode = errJson?.code || errJson?.error?.code || "";
