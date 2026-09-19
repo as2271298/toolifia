@@ -4,8 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   Video, Film, Sparkles, Download, RefreshCw,
   Check, Copy, Wand2, Dices, AlertCircle, Image as ImageIcon,
-  Upload, X, Play, Clock, AlertTriangle, Key, Eye, EyeOff,
-  ShieldCheck, ChevronDown, ChevronUp
+  Upload, X, Play, Clock, AlertTriangle
 } from "lucide-react";
 
 const INSPIRATION_PROMPTS = [
@@ -401,17 +400,11 @@ export function AiVideoGenerator() {
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-sm font-bold text-white">AI Video Generator Studio</h2>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold">
-                ● Agnes AI {selectedModel === "agnes-video-v2.0" ? "v2.0 Active (Fast)" : "2.5 Flash Active"}
+                ● Agnes AI v2.0 Active
               </span>
-              {apiKey ? (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-semibold">
-                  <Key className="w-2.5 h-2.5" /> Custom Key
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[10px] font-medium">
-                  Toolifia Free Pool
-                </span>
-              )}
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[10px] font-medium">
+                100% Free · No Signup
+              </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
               Generate from text, animate photos into video, or restyle clips in high definition MP4.
@@ -422,19 +415,6 @@ export function AiVideoGenerator() {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setShowKeyInput((prev) => !prev)}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium border transition-colors ${
-              showKeyInput || apiKey
-                ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200"
-                : "bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700"
-            }`}
-          >
-            <Key className="w-3.5 h-3.5 text-indigo-400" />
-            <span>{apiKey ? "API Key & Model" : "Settings / Key"}</span>
-            {showKeyInput ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-          </button>
-          <button
-            type="button"
             onClick={handleRandomPrompt}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors"
           >
@@ -442,122 +422,6 @@ export function AiVideoGenerator() {
           </button>
         </div>
       </div>
-
-      {/* API Key & Model Settings Panel (Collapsible) */}
-      {showKeyInput && (
-        <div className="p-5 rounded-3xl bg-slate-900/90 border border-indigo-500/30 shadow-2xl space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Key className="w-4 h-4 text-indigo-400" />
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider">
-                Agnes AI Engine & Custom Key Configuration
-              </h3>
-            </div>
-            <span className="text-[11px] text-slate-400 flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              Saved locally in your browser only
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-            {/* Model Selector */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">
-                Agnes AI Model:
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setSelectedModel("agnes-video-v2.0")}
-                  className={`p-3 rounded-xl border text-left transition-all ${
-                    selectedModel === "agnes-video-v2.0"
-                      ? "bg-indigo-600/20 border-indigo-500 text-white"
-                      : "bg-slate-800/60 border-slate-700/60 text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  <div className="text-xs font-bold flex items-center justify-between">
-                    agnes-video-v2.0
-                    <span className="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-mono">
-                      Fast / No Limits
-                    </span>
-                  </div>
-                  <p className="text-[10px] text-slate-400 mt-1">
-                    Direct domestic GPU cluster. Instant start, zero queuing limits.
-                  </p>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedModel("agnes-video-2.5-flash")}
-                  className={`p-3 rounded-xl border text-left transition-all ${
-                    selectedModel === "agnes-video-2.5-flash"
-                      ? "bg-indigo-600/20 border-indigo-500 text-white"
-                      : "bg-slate-800/60 border-slate-700/60 text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  <div className="text-xs font-bold flex items-center justify-between">
-                    agnes-video-2.5-flash
-                    <span className="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-mono">
-                      Strict Quota
-                    </span>
-                  </div>
-                  <p className="text-[10px] text-slate-400 mt-1">
-                    International flash model (1 request/minute free tier limit).
-                  </p>
-                </button>
-              </div>
-            </div>
-
-            {/* API Key Input */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-slate-300">
-                  Agnes API Key:
-                </label>
-                <a
-                  href="https://agnes-ai.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[10px] text-indigo-400 hover:underline"
-                >
-                  Get free key on agnes-ai.com ↗
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <input
-                    type={showKeySecret ? "text" : "password"}
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder="e.g. sk-agnes-... (Optional; leave empty for shared cloud)"
-                    className="w-full pl-3 pr-9 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowKeySecret((p) => !p)}
-                    className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-200"
-                    title={showKeySecret ? "Hide key" : "Show key"}
-                  >
-                    {showKeySecret ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleSaveKey}
-                  className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-colors shrink-0 shadow"
-                >
-                  Save
-                </button>
-              </div>
-              {keySavedMessage && (
-                <p className="text-[11px] text-emerald-400 font-medium">
-                  ✓ {keySavedMessage}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 3 Simple Creation Modes Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
