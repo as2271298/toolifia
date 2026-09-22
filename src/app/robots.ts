@@ -8,26 +8,24 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/tool/", "/category/", "/blog/", "/tools", "/contact", "/privacy", "/terms", "/llms.txt", "/_next/static/"],
-        disallow: [
-          "/admin",
-          "/admin/",
-          "/api/",
+        allow: ["/"],
+        disallow: ["/admin", "/admin/", "/api/"],
+      },
+      {
+        userAgent: [
+          "Googlebot",
+          "Googlebot-Image",
+          "Googlebot-Video",
+          "Mediapartners-Google",
+          "AdsBot-Google",
+          "Bingbot",
+          "msnbot",
+          "Slurp",
+          "DuckDuckBot",
+          "Baiduspider",
+          "YandexBot",
         ],
-      },
-      {
-        userAgent: "Googlebot",
-        allow: ["/", "/_next/static/"],
-        disallow: ["/admin/", "/api/"],
-      },
-      {
-        userAgent: "Bingbot",
-        allow: ["/", "/_next/static/"],
-        disallow: ["/admin/", "/api/"],
-      },
-      {
-        userAgent: "msnbot",
-        allow: ["/", "/_next/static/"],
+        allow: ["/"],
         disallow: ["/admin/", "/api/"],
       },
       {
@@ -48,7 +46,7 @@ export default function robots(): MetadataRoute.Robots {
           "facebookexternalhit",
           "Twitterbot",
         ],
-        allow: ["/", "/tool/", "/category/", "/blog/", "/tools", "/llms.txt", "/_next/static/"],
+        allow: ["/"],
         disallow: ["/admin/", "/api/"],
       },
     ],
