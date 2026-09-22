@@ -18,6 +18,7 @@ const SEO_PRIORITY_SLUGS = [
   "challenges-building-cross-platform-markdown-editor",
   "ai-resume-builder-challenges-for-mis-students",
   "best-toolify-ai-alternative-2026",
+  "best-free-ai-image-generator-no-watermark-2026",
   "best-free-ai-humanizer-no-signup-2026",
   "best-free-ai-video-generator-higgsfield-alternative-2025",
   "how-to-make-ai-videos-for-free-tiktok-reels-shorts",

@@ -38,6 +38,7 @@ const urlList = [
   `${SITE_URL}/blog/mastering-json-ld-schema-engineering-for-google-rich-snippets`,
   `${SITE_URL}/blog/how-to-bypass-ai-detectors-naturally`,
   `${SITE_URL}/blog/best-toolify-ai-alternative-2026`,
+  `${SITE_URL}/blog/best-free-ai-image-generator-no-watermark-2026`,
   `${SITE_URL}/blog/best-free-ai-humanizer-no-signup-2026`,
   `${SITE_URL}/blog/best-free-seo-tools-online-2026`,
   `${SITE_URL}/blog/ai-content-detector-vs-humanizer-guide-2026`,

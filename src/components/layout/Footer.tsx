@@ -95,6 +95,16 @@ export function Footer() {
             </p>
             <ul className="space-y-2.5 text-sm">
               <li>
+                <Link href="/tool/ai-image-generator" className="hover:text-brand-400 transition-colors font-medium">
+                  AI Image Generator
+                </Link>
+              </li>
+              <li>
+                <Link href="/tool/ai-video-generator" className="hover:text-brand-400 transition-colors font-medium">
+                  AI Video Generator
+                </Link>
+              </li>
+              <li>
                 <Link href="/tool/ai-humanizer" className="hover:text-brand-400 transition-colors">
                   AI Text Humanizer
                 </Link>

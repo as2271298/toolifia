@@ -155,14 +155,14 @@ export function AnimatedHero() {
           </div>
           <p className="mt-2.5 text-xs text-slate-400 text-center flex flex-wrap items-center justify-center gap-1">
             <span>Popular:</span>
-            {["AI Humanizer", "QR Generator", "JSON Formatter", "BMI Calculator"].map((t, i) => (
+            {["AI Image Generator", "AI Video Generator", "AI Humanizer", "JSON Formatter", "QR Generator"].map((t, i) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => { setQuery(t); router.push(`/tools?search=${encodeURIComponent(t)}`); }}
                 className="text-slate-400 hover:text-violet-400 transition-colors underline-offset-2 hover:underline"
               >
-                {t}{i < 3 ? " ·" : ""}
+                {t}{i < 4 ? " ·" : ""}
               </button>
             ))}
           </p>

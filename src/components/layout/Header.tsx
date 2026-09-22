@@ -57,6 +57,20 @@ export function Header() {
             <Zap className="w-3.5 h-3.5" />
             All Tools (133+)
           </Link>
+
+          {/* Core AI Tools Direct Links */}
+          <Link
+            href="/tool/ai-image-generator"
+            className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all duration-200"
+          >
+            <span>AI Image</span>
+          </Link>
+          <Link
+            href="/tool/ai-video-generator"
+            className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all duration-200"
+          >
+            <span>AI Video</span>
+          </Link>
         </div>
 
         {/* ── Right: Nav Links + Mobile ── */}
