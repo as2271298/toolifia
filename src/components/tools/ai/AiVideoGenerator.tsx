@@ -16,6 +16,41 @@ const INSPIRATION_PROMPTS = [
   "A cinematic drone shot sweeping across sunny tropical ocean beach waves at sunset"
 ];
 
+function compressImage(file: File, maxDim = 1280, quality = 0.85): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(e.target?.result as string);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = () => resolve(e.target?.result as string);
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 export function AiVideoGenerator() {
   const [prompt, setPrompt] = useState("");
   const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16" | "1:1">("16:9");
@@ -106,29 +141,35 @@ export function AiVideoGenerator() {
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 15 * 1024 * 1024) {
-      setErrorMessage("Image size must be under 15MB");
+    if (file.size > 20 * 1024 * 1024) {
+      setErrorMessage("Image size must be under 20MB");
       return;
     }
     setImageName(file.name);
     setAttachedVideo(null); // Mutually exclusive reference
     setVideoName("");
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAttachedImage(reader.result as string);
+    try {
+      const compressed = await compressImage(file, 1280, 0.85);
+      setAttachedImage(compressed);
       setErrorMessage(null);
-    };
-    reader.readAsDataURL(file);
+    } catch {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAttachedImage(reader.result as string);
+        setErrorMessage(null);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 25 * 1024 * 1024) {
-      setErrorMessage("Video size must be under 25MB");
+    if (file.size > 3.5 * 1024 * 1024) {
+      setErrorMessage("Source video must be under 3.5MB for browser processing. Please trim or upload a shorter clip.");
       return;
     }
     setVideoName(file.name);
@@ -168,8 +209,9 @@ export function AiVideoGenerator() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "enhance", prompt }),
       });
-      const data = await res.json();
-      if (data.enhancedPrompt) {
+      const text = await res.text();
+      const data = JSON.parse(text);
+      if (data?.enhancedPrompt) {
         setPrompt(data.enhancedPrompt);
       }
     } catch {
@@ -258,7 +300,35 @@ export function AiVideoGenerator() {
         }),
       });
 
-      const data = await res.json();
+      let data: any = null;
+      const responseText = await res.text();
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        clearInterval(progressInterval);
+        if (timerRef.current) clearInterval(timerRef.current);
+        setStatus("error");
+
+        let friendlyTitle = "Failed to start video generation. Please try again.";
+        let errType: "QUEUE_FULL" | "RATE_LIMITED" | "AGNES_ERROR" | "GENERAL" = "GENERAL";
+
+        if (res.status === 413 || responseText.toLowerCase().includes("request entity too large")) {
+          friendlyTitle = "Uploaded file is too large (maximum 4MB). Please use a smaller image/video or enter a text prompt.";
+        } else if (res.status === 504 || res.status === 502) {
+          friendlyTitle = "Agnes AI GPU cluster is currently busy. Please wait a moment and retry.";
+          errType = "QUEUE_FULL";
+        }
+
+        setErrorInfo({
+          type: errType,
+          title: friendlyTitle,
+          details: `Server returned HTTP ${res.status}: ${responseText.slice(0, 100)}`,
+          retryAfter: 15,
+        });
+        setErrorMessage(friendlyTitle);
+        startCountdown(15);
+        return;
+      }
 
       if (!res.ok || !data.success) {
         clearInterval(progressInterval);
@@ -333,7 +403,14 @@ export function AiVideoGenerator() {
         const modelParam = `&model=${encodeURIComponent(selectedModel)}`;
         const queryUrl = `/api/video/generate?project=${encodeURIComponent(projectId)}&engine=${encodeURIComponent(engine)}${keyParam}${modelParam}`;
         const checkRes = await fetch(queryUrl);
-        const pollData = await checkRes.json();
+        const pollText = await checkRes.text();
+        let pollData: any = null;
+        try {
+          pollData = JSON.parse(pollText);
+        } catch {
+          // Temporary network / proxy blip during long poll — ignore and retry next interval
+          return;
+        }
 
         if (pollData.message) {
           setStatusMessage(pollData.message);

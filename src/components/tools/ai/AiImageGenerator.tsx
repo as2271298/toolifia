@@ -21,6 +21,41 @@ const INSPIRATIONS = [
   "A glass bottle floating on calm turquoise ocean waves containing a miniature galaxy inside"
 ];
 
+function compressImage(file: File, maxDim = 1280, quality = 0.85): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(e.target?.result as string);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = () => resolve(e.target?.result as string);
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 export function AiImageGenerator() {
   const [prompt, setPrompt] = useState("");
   const [aspectRatio, setAspectRatio] = useState("1:1");
@@ -35,20 +70,26 @@ export function AiImageGenerator() {
   const [imageName, setImageName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 15 * 1024 * 1024) {
-      setErrorMessage("Image size must be under 15MB");
+    if (file.size > 20 * 1024 * 1024) {
+      setErrorMessage("Image size must be under 20MB");
       return;
     }
     setImageName(file.name);
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAttachedImage(reader.result as string);
+    try {
+      const compressed = await compressImage(file, 1280, 0.85);
+      setAttachedImage(compressed);
       setErrorMessage(null);
-    };
-    reader.readAsDataURL(file);
+    } catch {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAttachedImage(reader.result as string);
+        setErrorMessage(null);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const removeImage = () => {
@@ -86,10 +127,17 @@ export function AiImageGenerator() {
         }),
       });
 
-      const data = await res.json();
-      if (data.success && data.imageUrl) {
+      const responseText = await res.text();
+      let data: any = null;
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error(res.status === 413 ? "Image file is too large" : "Service busy");
+      }
+
+      if (data && data.success && data.imageUrl) {
         // Preload image
-        const img = new Image();
+        const img = new window.Image();
         img.src = data.imageUrl;
         img.onload = () => {
           setGeneratedImage(data.imageUrl);
@@ -100,9 +148,9 @@ export function AiImageGenerator() {
           setIsGenerating(false);
         };
       } else {
-        throw new Error(data.error || "Generation failed");
+        throw new Error(data?.error || "Generation failed");
       }
-    } catch (err: any) {
+    } catch {
       // Automatic fallback
       const fullPrompt = encodeURIComponent(prompt.trim() || "cinematic high definition photography");
       const fallbackUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=1024&height=1024&seed=${newSeed}&nologo=true`;
