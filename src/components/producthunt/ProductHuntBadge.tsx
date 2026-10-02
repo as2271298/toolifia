@@ -75,42 +75,48 @@ export function ProductHuntBadge({ variant = "header", className = "" }: Product
 
   if (variant === "footer") {
     return (
-      <div className={`w-full max-w-2xl mx-auto my-6 p-6 rounded-3xl bg-gradient-to-r from-slate-900/95 via-slate-900 to-slate-900/95 border border-[#ff6154]/40 shadow-2xl backdrop-blur-xl transition-all ${className}`}>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center sm:text-left">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#ff6154] text-white font-black text-sm shadow-md">
-                P
-              </span>
-              <h3 className="text-base font-bold text-white tracking-tight flex items-center gap-1.5">
-                Featured on Product Hunt
-              </h3>
-            </div>
-
-            <p className="text-xs text-slate-400 max-w-md">
-              Help us grow by leaving an honest review on Product Hunt! Share your experience with Toolifia.
-            </p>
-
-            <div className="flex items-center justify-center sm:justify-start gap-1 text-[#ff6154] pt-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-[#ff6154] stroke-none" />
-              ))}
-              <span className="text-xs font-bold text-slate-300 ml-2">FEATURED PRODUCT</span>
+      <a
+        href={phUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`group flex flex-col justify-between w-full h-full min-h-[160px] p-5 rounded-2xl bg-slate-900/80 border border-white/[0.06] hover:border-[#ff6154]/50 shadow-lg hover:shadow-[#ff6154]/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 ${className}`}
+      >
+        {/* Top row: logo + label */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#ff6154] text-white font-black text-sm shadow-md shrink-0">
+              P
+            </span>
+            <div>
+              <p className="text-[11px] font-semibold text-[#ff6154] uppercase tracking-widest leading-none">Product Hunt</p>
+              <p className="text-sm font-bold text-white mt-0.5">Featured Product</p>
             </div>
           </div>
-
-          <a
-            href={phUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#ff6154] hover:bg-[#e04f43] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-[#ff6154]/30 hover:scale-[1.03] active:scale-95 shrink-0"
-          >
-            Review on Product Hunt <ExternalLink className="w-3.5 h-3.5 text-slate-950" />
-          </a>
+          <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-[#ff6154] transition-colors mt-0.5 shrink-0" />
         </div>
-      </div>
+
+        {/* Stars */}
+        <div className="flex items-center gap-1 mt-3">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} className="w-3.5 h-3.5 fill-[#ff6154] stroke-none" />
+          ))}
+          <span className="text-xs font-bold text-slate-300 ml-1.5">5.0</span>
+        </div>
+
+        {/* Description */}
+        <p className="text-xs text-slate-400 leading-relaxed mt-2 line-clamp-2">
+          Help us grow by leaving an honest review on Product Hunt.
+        </p>
+
+        {/* CTA */}
+        <div className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#ff6154] group-hover:gap-2.5 transition-all">
+          Review on Product Hunt
+          <ExternalLink className="w-3 h-3" />
+        </div>
+      </a>
     );
   }
+
 
   // Floating button
   return (

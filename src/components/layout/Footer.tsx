@@ -189,11 +189,17 @@ export function Footer() {
         </div>
 
         {/* Trust & Review Banners */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
-          <ProductHuntBadge variant="footer" className="my-0" />
-          <TrustpilotBadge variant="footer" className="my-0" />
-          <MyWotBadge className="my-0" />
+        <div className="my-8">
+          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest text-center mb-4">
+            Trusted &amp; Verified Across Platforms
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+            <ProductHuntBadge variant="footer" className="my-0 h-full" />
+            <TrustpilotBadge variant="footer" className="my-0 h-full" />
+            <MyWotBadge className="my-0 h-full" />
+          </div>
         </div>
+
 
         {/* TrustBox widget - Review Collector (lazy loaded on scroll) */}
         <TrustBoxWidget />

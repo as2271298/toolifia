@@ -82,42 +82,51 @@ export function TrustpilotBadge({ variant = "header", className = "" }: Trustpil
 
   if (variant === "footer") {
     return (
-      <div className={`w-full max-w-2xl mx-auto my-8 p-6 rounded-3xl bg-gradient-to-r from-slate-900/95 via-slate-900 to-slate-900/95 border border-[#00b67a]/40 shadow-2xl backdrop-blur-xl transition-all ${className}`}>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center sm:text-left">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded bg-[#00b67a] text-slate-950 font-black text-sm">
-                ★
-              </span>
-              <h3 className="text-base font-bold text-white tracking-tight flex items-center gap-1.5">
-                Official Trustpilot Partner <ShieldCheck className="w-4 h-4 text-[#00b67a]" />
-              </h3>
-            </div>
-
-            <p className="text-xs text-slate-400 max-w-md">
-              Read community reviews, user ratings, and feedback for Toolifia&apos;s 130+ free online tools.
-            </p>
-
-            <div className="flex items-center justify-center sm:justify-start gap-1 text-[#00b67a] pt-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-[#00b67a] stroke-none" />
-              ))}
-              <span className="text-xs font-bold text-slate-300 ml-2">EXCELLENT</span>
+      <a
+        href={reviewUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`group flex flex-col justify-between w-full h-full min-h-[160px] p-5 rounded-2xl bg-slate-900/80 border border-white/[0.06] hover:border-[#00b67a]/50 shadow-lg hover:shadow-[#00b67a]/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 ${className}`}
+      >
+        {/* Top row: logo + label */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#00b67a] text-slate-950 font-black text-sm shadow-md shrink-0">
+              ★
+            </span>
+            <div>
+              <p className="text-[11px] font-semibold text-[#00b67a] uppercase tracking-widest leading-none">Trustpilot</p>
+              <p className="text-sm font-bold text-white mt-0.5">Official Partner</p>
             </div>
           </div>
-
-          <a
-            href={reviewUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#00b67a] hover:bg-[#009e6a] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-[#00b67a]/30 hover:scale-[1.03] active:scale-95 shrink-0"
-          >
-            Review Us on Trustpilot <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <div className="flex items-center gap-1 shrink-0">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#00b67a]" />
+            <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-[#00b67a] transition-colors" />
+          </div>
         </div>
-      </div>
+
+        {/* Stars */}
+        <div className="flex items-center gap-1 mt-3">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} className="w-3.5 h-3.5 fill-[#00b67a] stroke-none" />
+          ))}
+          <span className="text-xs font-bold text-slate-300 ml-1.5">4.9 · Excellent</span>
+        </div>
+
+        {/* Description */}
+        <p className="text-xs text-slate-400 leading-relaxed mt-2 line-clamp-2">
+          Read community reviews and ratings for Toolifia's 300+ free online tools.
+        </p>
+
+        {/* CTA */}
+        <div className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#00b67a] group-hover:gap-2.5 transition-all">
+          Review Us on Trustpilot
+          <ExternalLink className="w-3 h-3" />
+        </div>
+      </a>
     );
   }
+
 
   // Floating review button
   return (
