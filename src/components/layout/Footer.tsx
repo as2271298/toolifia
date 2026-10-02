@@ -5,7 +5,9 @@ import { Logo } from "../common/Logo";
 import { TrustpilotBadge } from "../trustpilot/TrustpilotBadge";
 import { TrustBoxWidget } from "../trustpilot/TrustBoxWidget";
 import { ProductHuntBadge } from "../producthunt/ProductHuntBadge";
+import { MyWotBadge } from "../mywot/MyWotBadge";
 import { Github, Twitter, Linkedin, Heart, ShieldCheck, Facebook, Instagram, Youtube, Mail } from "lucide-react";
+
 
 export function Footer() {
   return (
@@ -187,9 +189,10 @@ export function Footer() {
         </div>
 
         {/* Trust & Review Banners */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
           <ProductHuntBadge variant="footer" className="my-0" />
           <TrustpilotBadge variant="footer" className="my-0" />
+          <MyWotBadge className="my-0" />
         </div>
 
         {/* TrustBox widget - Review Collector (lazy loaded on scroll) */}
